@@ -1,0 +1,5 @@
+# RP-iRBM
+A new training strategy to the infinite RBMs.
+The key idea of the proposed training strategy is randomly regrouping the hidden units before each gradient descent step. 
+Potentially, a mixing of infinite many iRBMs with different permutations of the hidden units can be achieved by this learning method. 
+The original iRBM is also modified to be capable of carrying out discriminative training(Discriminative iRBM).
