@@ -6,7 +6,7 @@
 if restart ==1
     restart=0;
     %%%%%% 超参数/hyper parameters%%%%%
-    beta0 = 1.01;WH = 0;  
+    beta0 = 1.01;WH = 0/beta0;  
     epW      = 1;   % Learning rate for weights (old ,now useless, same below)
     epvb     = 1;   % Learning rate for biases of visible units 
     ephb     = 1;   % Learning rate for biases of hidden units 
