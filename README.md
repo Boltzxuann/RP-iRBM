@@ -12,8 +12,8 @@ The original iRBM is also modified to be capable of carrying out discriminative 
 
 ## Usage
 
-Run initiate.m to set up the environment.
+Run `initiate.m` to set up the environment.
 
-Run demo_iRBM_density_estimation_MNIST.m to train an iRBM using RP on the MNIST.
+Run `demo_iRBM_density_estimation_MNIST.m` to train an iRBM using RP on the MNIST.
 
-Run demo_Dis_iRBM_classification_MNIST.m to train a Dis-iRBM using RP on the MNIST.
+Run `demo_Dis_iRBM_classification_MNIST.m` to train a Dis-iRBM using RP on the MNIST.
