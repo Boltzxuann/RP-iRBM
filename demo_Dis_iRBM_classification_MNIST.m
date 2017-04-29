@@ -12,7 +12,7 @@ close all
 addpath('...\...\models')
 addpath('...\...\core_modules');
 addpath('...\...\evaluation');
-addpath('...\...\code_AIS');
+addpath('...\...\AIS_RBM');
 addpath('...\...\AIS_iRBM');
 
 load BinaryDataMNIST
