@@ -41,7 +41,7 @@ end
 
 %%% maxnorm 
 %Constraining weights in a sphere.
-maxnorm = 20;
+maxnorm = 10;
 %     maxnorm = gpuArray(maxnorm);
 hidvis1 = hid_visMax(1:J,:);
 norm_hidvis = sqrt(  sum (hidvis1.^2, 2)  ) ;
