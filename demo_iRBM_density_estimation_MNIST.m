@@ -1,9 +1,9 @@
 
 % 
-% ±àĞ´ÈË£ºÅíĞù/ Programmed by Xuan Peng
-% ÔÚMNISTÉÏÑµÁ·Dis-iRBMµÄÊ¾Àı£¬²ÉÓÃ»ìºÏÄ¿±êº¯Êı/A illustration of training Dis-iRBM with
+% ç¼–å†™äººï¼šå½­è½©/ Programmed by Xuan Peng
+% åœ¨MNISTä¸Šè®­ç»ƒDis-iRBMçš„ç¤ºä¾‹ï¼Œé‡‡ç”¨æ··åˆç›®æ ‡å‡½æ•°/A illustration of training Dis-iRBM with
 %                                            /hybrid ojective on MNIST
-% ²ÉÓÃRPÑµÁ··½·¨¼ÓËÙÑ§Ï°¹ı³Ì/Using RP to speed up learning and achieve better
+% é‡‡ç”¨RPè®­ç»ƒæ–¹æ³•åŠ é€Ÿå­¦ä¹ è¿‡ç¨‹/Using RP to speed up learning and achieve better
 %                         /generalization
 % 2016-2017
 
@@ -17,8 +17,8 @@ addpath('...\...\AIS_iRBM');
 
 load BinaryDataMNIST
 %load caltech101_silhouettes_28_split1
-maxepoch= 1000; %%% Total epochs of training. It takes about 100 ~ 150 epochs to get the best result.
-numclasses= 10;%%×Ü¹²ÓĞ10ÀàÊı¾İ
+maxepoch= 100; %%% Total epochs of training. It takes about 100 ~ 150 epochs to get the best result.
+numclasses= 10;%%æ€»å…±æœ‰10ç±»æ•°æ®
 Maxnumhid= 100;%%Initial capacity of oRBM
 learning_rate = 1;%%%Ignore it!
 use_valid = 1; %%% Use validation set for training 
@@ -29,7 +29,7 @@ global use_gpu
 use_gpu = gpuDeviceCount; 
 iRBM; %%%Main code of learning an iRBM.
 
-%%%AISµÄ´úÂë
+%%%AISçš„ä»£ç 
 
 
 
