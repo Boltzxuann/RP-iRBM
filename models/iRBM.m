@@ -5,13 +5,13 @@
 
 if restart ==1
     restart=0;
-    %%%%%% ³¬²ÎÊý/hyper parameters%%%%%
+    %%%%%% è¶…å‚æ•°/hyper parameters%%%%%
     beta0 = 1.01;WH = 0;  
     epW      = 1;   % Learning rate for weights (old ,now useless, same below)
     epvb     = 1;   % Learning rate for biases of visible units 
     ephb     = 1;   % Learning rate for biases of hidden units 
     
-    regularization = 'L1'; %%Ê¹ÓÃÄÄÖÖÕýÔò»¯Ô¼Êø/which regularization is chosen
+    regularization = 'L1'; %%ä½¿ç”¨å“ªç§æ­£åˆ™åŒ–çº¦æŸ/which regularization is chosen
     WC  = 0.0001;
     use_RP = 1;
     h = 1e-10;
@@ -20,11 +20,11 @@ if restart ==1
     CD= 10;  
     
     global_lr = 0.05;
-    Num_inter_initial_lr = 0; %%°´ÕÕ³õÊ¼Ñ§Ï°ÂÊµü´úµÄ´ÎÊý¡£
+    Num_inter_initial_lr = 0; %%æŒ‰ç…§åˆå§‹å­¦ä¹ çŽ‡è¿­ä»£çš„æ¬¡æ•°ã€‚
     initial = Num_inter_initial_lr*ones(1,Maxnumhid);
-    start = 0;
+    start = 1;
     
-    lr_normal = 0; %%Ê¹ÓÃÄÄÖÖÑ§Ï°ÂÊ
+    lr_normal = 0; %%ä½¿ç”¨å“ªç§å­¦ä¹ çŽ‡
     lr_adaptive=1; adagrad = 1;
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
@@ -37,7 +37,7 @@ if restart ==1
        batchdata = gpuArray(batchdata);
     end
     
-    Maxnumhid = 100;%%%³õÊ¼ÈÝÁ¿/initial capacity of oRBM
+    Maxnumhid = 100;%%%åˆå§‹å®¹é‡/initial capacity of oRBM
     order = 0;
     label = 0;
     discard=0;random=1;  
@@ -82,15 +82,15 @@ if restart ==1
 % Initializing symmetric weights and biases. 
     if use_gpu
         %numclasses =10;
-        visbiases     = zeros(1,numdims,'gpuArray');%%%%vµÄÆ«ÖÃ
-        %ybiases      = zeros(1,numclasses ,'gpuArray');            %%%±êÇ©yµÄÆ«ÖÃ£¬ÕâÀïyµÄÎ¬ÊýÎª10
+        visbiases     = zeros(1,numdims,'gpuArray');%%%%vçš„åç½®
+        %ybiases      = zeros(1,numclasses ,'gpuArray');            %%%æ ‡ç­¾yçš„åç½®ï¼Œè¿™é‡Œyçš„ç»´æ•°ä¸º10
    
-        hid_visMax    = zeros(Maxnumhid,numdims ,'gpuArray');       %%%×î´óµÄW¾ØÕó,ÁÐÊýÎªMaxnumhid
-       % hid_yMax      = zeros(Maxnumhid,numclasses ,'gpuArray');    %%%×î´óµÄU¾ØÕó£¬ÁÐÊýÎªMaxnumhid
-        hidbiasesMax  = -0*ones(1,Maxnumhid ,'gpuArray');           %%%hµÄÆ«ÖÃ³õÊ¼»¯  
+        hid_visMax    = zeros(Maxnumhid,numdims ,'gpuArray');       %%%æœ€å¤§çš„WçŸ©é˜µ,åˆ—æ•°ä¸ºMaxnumhid
+       % hid_yMax      = zeros(Maxnumhid,numclasses ,'gpuArray');    %%%æœ€å¤§çš„UçŸ©é˜µï¼Œåˆ—æ•°ä¸ºMaxnumhid
+        hidbiasesMax  = -0*ones(1,Maxnumhid ,'gpuArray');           %%%hçš„åç½®åˆå§‹åŒ–  
        
-        poshidprobs = zeros(numcases,Maxnumhid ,'gpuArray');%%%Õý½×¶ÎhµÄÆÚÍû£¬Ò»´Î¼ÆËãÒ»¸öbatch¡£
-        neghidprobs = zeros(numcases,Maxnumhid ,'gpuArray');%%%¸º½×¶ÎhµÄÆÚÍû£¬Ò»´Î¼ÆËãÒ»¸öbatch¡£
+        poshidprobs = zeros(numcases,Maxnumhid ,'gpuArray');%%%æ­£é˜¶æ®µhçš„æœŸæœ›ï¼Œä¸€æ¬¡è®¡ç®—ä¸€ä¸ªbatchã€‚
+        neghidprobs = zeros(numcases,Maxnumhid ,'gpuArray');%%%è´Ÿé˜¶æ®µhçš„æœŸæœ›ï¼Œä¸€æ¬¡è®¡ç®—ä¸€ä¸ªbatchã€‚
         posprods    = zeros(numdims,Maxnumhid ,'gpuArray');
         negprods    = zeros(numdims,Maxnumhid ,'gpuArray');
   
@@ -121,15 +121,15 @@ if restart ==1
         end
     else
         %numclasses =10;
-        visbiases     = zeros(1,numdims);%%%%vµÄÆ«ÖÃ
-        %ybiases      = zeros(1,numclasses);            %%%±êÇ©yµÄÆ«ÖÃ£¬ÕâÀïyµÄÎ¬ÊýÎª10
+        visbiases     = zeros(1,numdims);%%%%vçš„åç½®
+        %ybiases      = zeros(1,numclasses);            %%%æ ‡ç­¾yçš„åç½®ï¼Œè¿™é‡Œyçš„ç»´æ•°ä¸º10
    
-        hid_visMax    = zeros(Maxnumhid,numdims);       %%%×î´óµÄW¾ØÕó,ÁÐÊýÎªMaxnumhid
-       % hid_yMax      = zeros(Maxnumhid,numclasses);    %%%×î´óµÄU¾ØÕó£¬ÁÐÊýÎªMaxnumhid
-        hidbiasesMax  = -0*ones(1,Maxnumhid);           %%%hµÄÆ«ÖÃ³õÊ¼»¯  
+        hid_visMax    = zeros(Maxnumhid,numdims);       %%%æœ€å¤§çš„WçŸ©é˜µ,åˆ—æ•°ä¸ºMaxnumhid
+       % hid_yMax      = zeros(Maxnumhid,numclasses);    %%%æœ€å¤§çš„UçŸ©é˜µï¼Œåˆ—æ•°ä¸ºMaxnumhid
+        hidbiasesMax  = -0*ones(1,Maxnumhid);           %%%hçš„åç½®åˆå§‹åŒ–  
        
-        poshidprobs = zeros(numcases,Maxnumhid);%%%Õý½×¶ÎhµÄÆÚÍû£¬Ò»´Î¼ÆËãÒ»¸öbatch¡£
-        neghidprobs = zeros(numcases,Maxnumhid);%%%¸º½×¶ÎhµÄÆÚÍû£¬Ò»´Î¼ÆËãÒ»¸öbatch¡£
+        poshidprobs = zeros(numcases,Maxnumhid);%%%æ­£é˜¶æ®µhçš„æœŸæœ›ï¼Œä¸€æ¬¡è®¡ç®—ä¸€ä¸ªbatchã€‚
+        neghidprobs = zeros(numcases,Maxnumhid);%%%è´Ÿé˜¶æ®µhçš„æœŸæœ›ï¼Œä¸€æ¬¡è®¡ç®—ä¸€ä¸ªbatchã€‚
         posprods    = zeros(numdims,Maxnumhid);
         negprods    = zeros(numdims,Maxnumhid);
   
@@ -145,18 +145,18 @@ if restart ==1
            grad_yb_history = zeros(1, numclasses);
            grad_U_history = zeros(Maxnumhid, numclasses);
            grad_vb_history = zeros(1, numdims);
-           initial_lr = 0*h;
+           %initial_lr = 0*h;
            W_in_history = zeros(Maxnumhid , numdims);
            hb_in_history = zeros(1,Maxnumhid);
            yb_in_history = zeros(1, numclasses);
            vb_in_history =zeros(1,numdims);
            U_in_history = zeros(Maxnumhid, numclasses);
        
-           W_in_history(:,:)  = initial_lr^2;
-           U_in_history(:,:)  = initial_lr^2;       
-           hb_in_history(:) = initial_lr^2;
-           yb_in_history(:) = initial_lr^2;
-           vb_in_history(:) = initial_lr^2;
+           %W_in_history(:,:)  = initial_lr^2;
+           %U_in_history(:,:)  = initial_lr^2;       
+           %hb_in_history(:) = initial_lr^2;
+           %yb_in_history(:) = initial_lr^2;
+           %vb_in_history(:) = initial_lr^2;
         end
         
     end
@@ -183,7 +183,7 @@ if restart ==1
     end
 end
 
-
+ 
 for epoch = epoch:maxepoch
        
      makebatches_mnist; 
@@ -199,10 +199,10 @@ for epoch = epoch:maxepoch
         learning_rate = 0.5/( epoch/50+1 );
         learning_rate = max( learning_rate , 0.001);
         epW      = learning_rate;   % Learning rate for weights 
-        ephy      =  learning_rate;   %yÓëhÈ¨Öµ¾ØÕóµÄÑ§Ï°ÂÊ
+        ephy      =  learning_rate;   %yä¸Žhæƒå€¼çŸ©é˜µçš„å­¦ä¹ çŽ‡
 
         ephb       = learning_rate;   % Learning rate for biases of hidden units 
-        epyb       = learning_rate;   %±êÇ©yµÄÆ«ÖÃµÄÑ§Ï°ÂÊ
+        epyb       = learning_rate;   %æ ‡ç­¾yçš„åç½®çš„å­¦ä¹ çŽ‡
         epvb       = learning_rate;
     
      end
@@ -211,24 +211,24 @@ for epoch = epoch:maxepoch
 %          train =1; discard = 1;
 %          discard_hids;
 
- Maxnegnumhid = zeros(1,numbatches);
- Meannegnumhid = zeros(1,numbatches); 
- Maxposnumhid = zeros(1,numbatches);
- Minposnumhid = zeros(1,numbatches);
+     Maxnegnumhid = zeros(1,numbatches);
+     Meannegnumhid = zeros(1,numbatches); 
+     Maxposnumhid = zeros(1,numbatches);
+     Minposnumhid = zeros(1,numbatches);
 
 
- for batch = 1:numbatches
+  for batch = 1:numbatches
      
         %train =1;
         %discard_hids;
         
-     if J >= Maxnumhid -1   %%%%Ôö´ó¡°ÈÝÁ¿¡±/grow the "capacity" of oRBM if necessary
+     if J >= Maxnumhid -1   %%%%å¢žå¤§â€œå®¹é‡â€/grow the "capacity" of oRBM if necessary
         Maxnumhid = Maxnumhid + 100;
         
         
-        hid_visMax(J+1:Maxnumhid,:)    = 0.0; 
-        hid_yMax (J+1:Maxnumhid,:)      = 0.0;
-        hidbiasesMax(J+1:Maxnumhid)   = -0;  
+        hid_visMax(J+1:Maxnumhid,:)      = 0; 
+        hid_yMax (J+1:Maxnumhid,:)       = 0;
+        hidbiasesMax(J+1:Maxnumhid)      = 0;  
         hid_visMax_inc(J+1:Maxnumhid,:)  = 0;
         hid_yMax_inc(J+1:Maxnumhid,:)    = 0;
         hidbiasesMaxinc(J+1:Maxnumhid)   = 0;
@@ -286,9 +286,9 @@ for epoch = epoch:maxepoch
        end
 
      epsilonW     = epW .* repmat( lr ,1, numdims );   % Learning rate for weights 
-   %  epsilon_hy     =  ephy.* repmat( lr ,1,numclasses );   %yÓëhÈ¨Öµ¾ØÕóµÄÑ§Ï°ÂÊ
+   %  epsilon_hy     =  ephy.* repmat( lr ,1,numclasses );   %yä¸Žhæƒå€¼çŸ©é˜µçš„å­¦ä¹ çŽ‡
      epsilonhb       = ephb.* lr';   % Learning rate for biases of hidden units 
-   %  epsilonyb       =epyb;   %±êÇ©yµÄÆ«ÖÃµÄÑ§Ï°ÂÊ
+   %  epsilonyb       =epyb;   %æ ‡ç­¾yçš„åç½®çš„å­¦ä¹ çŽ‡
      epsilonvb       = epvb;
      weightcost(1:J,:) =  WC* repmat( lwc ,1, numdims );
      hycost(1:J,:) =  WC* repmat( lwc , 1, numclasses );
@@ -301,13 +301,9 @@ for epoch = epoch:maxepoch
 
 %   data = data > rand(numcases,numdims,'gpuArray');  
     data = ( batchdata(:,:,batch));
- %%%%%%%%~~~~2016.09.19~~~~%%%%%%%%%
-    %targets_0 = batchtargets(:,:,batch);%%%È¡³ö-¸öbatchµÄtargetsÏòÁ¿¡£
-  %%%Õý¹ý³Ì£¬´Óp(z|v)ÖÐ²ÉÑùµÃµ½z£¬Èôz>J0=10,z=J0+1;%%% ×¢Òâ£¡È¨ÖµÒª³Ë2ÒÔ²¹³¥ÉÏ²ãÏòÏÂµÄÈ¨Öµ£¡
+  %%%æ­£è¿‡ç¨‹ï¼Œä»Žp(z|v)ä¸­é‡‡æ ·å¾—åˆ°zï¼Œè‹¥z>J0=10,z=J0+1;%%% æ³¨æ„ï¼æƒå€¼è¦ä¹˜2ä»¥è¡¥å¿ä¸Šå±‚å‘ä¸‹çš„æƒå€¼ï¼
     hidbias = 1*hidbiasesMax;
-    beta = beta0 *bt.* soft_plus(WH * hidbias );
-%    [~,y_0] = max(targets_0,[],2);
-    
+    beta = beta0 *bt.* soft_plus(WH * hidbias );  
     P_z_on_v = P_z( data , hid_visMax ,hidbiasesMax , J , beta ,beta0 ,numcases ); %%%compute P(z|v) 
     sum_P_z_on_v = cumsum(P_z_on_v);
     [Pos_numhid_mask, Pos_numhid_1hot ] = Sample_z (P_z_on_v,numcases,J); %%% sample z from P(z|v)
@@ -320,7 +316,7 @@ for epoch = epoch:maxepoch
     [~,M_Pnhs] = max(P_z_on_v);
     M_Pnh = max(M_Pnhs);
    %M_Pnh = max(Pos_numhid_gen);
-   %%%²ÉÑùÍê±Ï%%%
+   %%%é‡‡æ ·å®Œæ¯•%%%
     if use_gpu
         S_PzOnvy = zeros(Maxnumhid,numcases,'gpuArray');
         Pos_MaxNh =zeros(Maxnumhid,numcases,'gpuArray');
@@ -353,13 +349,12 @@ for epoch = epoch:maxepoch
 %    posprods    = pagefun(@mtimes, poshidprobs , data ); 
   %  poshidact   = sum(poshidprobsMinusDbeta , 2).';
     %posprods    = pagefun(@mtimes, poshidprobs.*( 1-  S_PzOnvy ) , data ); 
-    posprods    = poshidprobs.*( 1-  S_PzOnvy ) * data   ; %%%ÓÃGPUÊ±¿ÉÄÜ»á±¨´í
+    posprods    = poshidprobs.*( 1-  S_PzOnvy ) * data   ; %%%ç”¨GPUæ—¶å¯èƒ½ä¼šæŠ¥é”™
     poshidact   = sum(poshidprobsMinusDbeta.*( 1-  S_PzOnvy ) , 2).'; 
     posvisact = sum(data);
 %    posvisact = gpuArray(posvisact);
-  
-  %%%%%%%%~~~~2016.09.19~~~~%%%%%%%%%
-%%%%%%%%% END OF POSITIVE PHASE  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   
+%%%%%%%%% END OF POSITIVE PHASE  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %negdata = batchdata(:,:,batch);
 %%%%% START NEGATIVE PHASE  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     for cditer=1:CD
@@ -382,7 +377,7 @@ for epoch = epoch:maxepoch
            neg_numhid4 =zeros(Maxnumhid,numcases);
        end
        neg_numhid4(1:J+1,:)= Neg_numhidmask;
-       neghidprobs = 1./(  1 + exp( bsxfun(@minus, -1* hid_visMax* negdata' , hidbias' ) )  ); %%%ÓÃGPUÊ±¿ÉÄÜ»á±¨´í   
+       neghidprobs = 1./(  1 + exp( bsxfun(@minus, -1* hid_visMax* negdata' , hidbias' ) )  ); %%%ç”¨GPUæ—¶å¯èƒ½ä¼šæŠ¥é”™   
        %neghidprobs =  1./(   1 + exp( bsxfun( @minus, pagefun( @mtimes, -1*hid_visMax , negdata' ) , hidbias') )  );
   
        neghidprobs = neghidprobs.* neg_numhid4;
@@ -394,8 +389,8 @@ for epoch = epoch:maxepoch
        neghidstates = round(neghidstates);
        %neghidstates = gather(neghidstates);
        
-   %%%%%%% v~p(v|h,z)%%%%%%%%%%%%% È¨Öµ²»ÓÃ³Ë2ÁË£¬È¥µôÁËºÍ±êÇ©ÓÐ¹ØµÄÏî
-       negvisprobs =   1./(   1 + exp( bsxfun(@minus,- hid_visMax'* neghidstates , visbiases' ) )  ); %%%ÓÃGPUÊ±¿ÉÄÜ»á±¨´í        
+   %%%%%%% v~p(v|h,z)%%%%%%%%%%%%% æƒå€¼ä¸ç”¨ä¹˜2äº†ï¼ŒåŽ»æŽ‰äº†å’Œæ ‡ç­¾æœ‰å…³çš„é¡¹
+       negvisprobs =   1./(   1 + exp( bsxfun(@minus,- hid_visMax'* neghidstates , visbiases' ) )  ); %%%ç”¨GPUæ—¶å¯èƒ½ä¼šæŠ¥é”™        
        %negvisprobs =   1./(1 + exp(  pagefun(@mtimes, - hid_visMax', neghidstates ) - repmat( visbiases',1,numcases ))   );   
        if use_gpu
            negdata = negvisprobs > rand(numdims , numcases, 'gpuArray');
@@ -403,7 +398,7 @@ for epoch = epoch:maxepoch
            negdata = negvisprobs > rand(numdims , numcases);
        end
        negdata = negdata.';
-       negdata = round(negdata);%%%GPU²»ÈÏÂß¼­±äÁ¿£¡
+       negdata = round(negdata);%%%GPUä¸è®¤é€»è¾‘å˜é‡ï¼
 
     end
     if use_gpu
@@ -417,7 +412,7 @@ for epoch = epoch:maxepoch
     neg_MaxNh(1:J,:)= 1;
     s_negPzONvy(1:J,:) = sum_P_z_on_v_neg(1:J,:);
 %    negdata = gather(negdata); 
-    neghidprobs = 1./(   1 + exp( bsxfun(@minus, -1* hid_visMax* negdata' , hidbias') )   );   %%%ÓÃGPUÊ±¿ÉÄÜ»á±¨´í   
+    neghidprobs = 1./(   1 + exp( bsxfun(@minus, -1* hid_visMax* negdata' , hidbias') )   );   %%%ç”¨GPUæ—¶å¯èƒ½ä¼šæŠ¥é”™   
     %neghidprobs =  1./(   1 + exp( bsxfun( @minus, pagefun( @mtimes, -1*hid_visMax , negdata' ) , hidbias') )  );
    
    
@@ -442,7 +437,7 @@ for epoch = epoch:maxepoch
   %  negvisact = gpuArray(negvisact);
   
     %negprods  = pagefun(@mtimes, neghidprobs.*( 1- s_negPzONvy ) , negdata );
-    negprods  = neghidprobs.*( 1- s_negPzONvy ) * negdata;%%%%%%ÓÃGPUÊ±¿ÉÄÜ»á±¨´í  
+    negprods  = neghidprobs.*( 1- s_negPzONvy ) * negdata;%%%%%%ç”¨GPUæ—¶å¯èƒ½ä¼šæŠ¥é”™  
     neghidact =  sum(neghidprobsMinusDbeta.*( 1- s_negPzONvy ) ,2).';
  %  negvisact = sum(negdata); 
   
@@ -463,7 +458,7 @@ for epoch = epoch:maxepoch
     start = 0;
 %     %if M_Pnh ==J+1;
        %if length(find(Pos_numhid_gen==J+1))>numcases/5
-       if ~isempty(find(Pos_numhid_gen==J+1, 1))
+       if ~isempty( find( (Pos_numhid_gen==J+1).*(neg_numhid_gen==J+1), 1 ) )
           J = J+1;
 
        end
@@ -471,61 +466,60 @@ for epoch = epoch:maxepoch
 
 
 %%%%%%%%%%%%%%%% END OF UPDATES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-    if batch == round(numbatches/2)
+     if batch == round(numbatches/2)
        figure(3);   
        imagesc(hid_visMax(1:J,:));    
        figure(4); 
        dispims(negdata',28,28);
        drawnow
-    end
-    neg_numhid_gen = gather(neg_numhid_gen);
-    Maxposnumhid(batch) = gather( M_Pnh );
-    Maxnegnumhid(batch) = max(neg_numhid_gen);
-    Meannegnumhid(batch) = mean(neg_numhid_gen);
-    Minposnumhid(batch) = gather( min(Pos_numhid_gen) );
+     end
+     neg_numhid_gen = gather(neg_numhid_gen);
+     Maxposnumhid(batch) = gather( M_Pnh );
+     Maxnegnumhid(batch) = max(neg_numhid_gen);
+     Meannegnumhid(batch) = mean(neg_numhid_gen);
+     Minposnumhid(batch) = gather( min(Pos_numhid_gen) );
      
       
- end
- mean_Mnegnumhid(epoch) = mean(Maxnegnumhid);%%%±ÆËÀÇ¿ÆÈÖ¢
- Max_mean_new = max(Meannegnumhid);
- mean_mean_epoch(epoch) = mean(Meannegnumhid);
- mean_Mposnumhid(epoch) = mean(Maxposnumhid);
- mean_minposnumhid(epoch) = mean(Minposnumhid); 
- mean_maxPN_epoch = round( mean_Mposnumhid(epoch) ); 
- min_maxPN_epoch = min(Maxposnumhid); 
+   end
+   mean_Mnegnumhid(epoch) = mean(Maxnegnumhid);%%%é€¼æ­»å¼ºè¿«ç—‡
+   Max_mean_new = max(Meannegnumhid);
+   mean_mean_epoch(epoch) = mean(Meannegnumhid);
+   mean_Mposnumhid(epoch) = mean(Maxposnumhid);
+   mean_minposnumhid(epoch) = mean(Minposnumhid); 
+   mean_maxPN_epoch = round( mean_Mposnumhid(epoch) ); 
+   min_maxPN_epoch = min(Maxposnumhid); 
 
- fprintf(1, 'epoch %4i error %6.1f  \n', epoch, errsum); 
+   fprintf(1, 'epoch %4i error %6.1f  \n', epoch, errsum); 
 
- if rem (epoch,50)==0
-     %numhid = round(  min( mean_Mnegnumhid(epoch-9:epoch) ) ); 
-     %numhid = round(  min( mean_Mposnumhid(epoch-9:epoch) ) ); 
-    numh = gather (round(  mean_Mposnumhid(epoch) )) ;
-    vh = gather( hid_visMax(1:numh , :).'); 
-    hb = gather( hidbiasesMax(1:numh));  
-    vb = gather(visbiases);
-%          train = 0;
-%          discard_hids
-    save fullmnistvh vh vb hb epoch numh errsum J_r beta0
-    if use_gpu==0
-        batchdata = gather(batchdata);
-    end
-         
-    rbm_AIS_estimate %%% Convert the model into an RBM, and compute the LL on the validation set. 
-    %iRBM_AIS_estimate
-    vh = gather( vh ); 
-    hb = gather( hb );  
-    vb = gather( vb );
-    if loglik_test_est > M_LL
-       M_LL = gather(loglik_test_est);
-       errs = gather(errsum);
-       save best_iRBM vh vb hb epoch numh errs M_LL J_r beta0
-     end
-     LL_history(1,tt) = loglik_test_est;
-     LL_history(2,tt) = numh;
-     tt = tt+1;
- end
+   if rem (epoch,50)==0
+       %numhid = round(  min( mean_Mnegnumhid(epoch-9:epoch) ) ); 
+       %numhid = round(  min( mean_Mposnumhid(epoch-9:epoch) ) ); 
+       numh = gather (round(  mean_Mposnumhid(epoch) )) ;
+       vh = gather( hid_visMax(1:numh , :).'); 
+       hb = gather( hidbiasesMax(1:numh));  
+       vb = gather(visbiases);
+%      train = 0;
+%      discard_hids
+       save fullmnistvh vh vb hb epoch numh errsum J_r beta0
+       if use_gpu==0
+           batchdata = gather(batchdata);
+       end      
+       rbm_AIS_estimate %%% Convert the model into an RBM, and compute the LL on the validation set. 
+       %iRBM_AIS_estimate
+       vh = gather( vh ); 
+       hb = gather( hb );  
+       vb = gather( vb );
+       if loglik_test_est > M_LL
+          M_LL = gather(loglik_test_est);
+          errs = gather(errsum);
+          save best_iRBM vh vb hb epoch numh errs M_LL J_r beta0
+       end
+       LL_history(1,tt) = loglik_test_est;
+       LL_history(2,tt) = numh;
+       tt = tt+1;
+   end
       
-%  if rem(epoch,101)==0
+%  if rem(epoch,100)==0
 %     save parameters_midtime_irbm
 %  end
 
