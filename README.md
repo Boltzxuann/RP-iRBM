@@ -10,7 +10,7 @@ Potentially, a mixing of infinite many iRBMs with different permutations of the 
 The original iRBM is also modified to be capable of carrying out discriminative training(Discriminative iRBM).
 
 
-##Usage
+## Usage
 
 Run initiate.m to set up the environment.
 
