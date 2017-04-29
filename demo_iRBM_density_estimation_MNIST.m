@@ -1,5 +1,4 @@
-
-% 
+ 
 % 编写人：彭轩/ Programmed by Xuan Peng
 % 在MNIST上训练Dis-iRBM的示例，采用混合目标函数/A illustration of training Dis-iRBM with
 %                                            /hybrid ojective on MNIST
@@ -12,7 +11,7 @@ close all
 addpath('...\...\models')
 addpath('...\...\core_modules');
 addpath('...\...\evaluation');
-addpath('...\...\code_AIS');
+addpath('...\...\AIS_RBM');
 addpath('...\...\AIS_iRBM');
 
 load BinaryDataMNIST
