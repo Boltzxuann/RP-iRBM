@@ -1,9 +1,9 @@
 
 % 
-% ±àĞ´ÈË£ºÅíĞù/ Programmed by Xuan Peng
-% ÔÚMNISTÉÏÑµÁ·Dis-iRBMµÄÊ¾Àı£¬²ÉÓÃ»ìºÏÄ¿±êº¯Êı/A illustration of training Dis-iRBM with
+% ç¼–å†™äººï¼šå½­è½©/ Programmed by Xuan Peng
+% åœ¨MNISTä¸Šè®­ç»ƒDis-iRBMçš„ç¤ºä¾‹ï¼Œé‡‡ç”¨æ··åˆç›®æ ‡å‡½æ•°/A illustration of training Dis-iRBM with
 %                                            /hybrid ojective on MNIST
-% ²ÉÓÃRPÑµÁ··½·¨¼ÓËÙÑ§Ï°¹ı³Ì/Using RP to speed up learning and achieve better
+% é‡‡ç”¨RPè®­ç»ƒæ–¹æ³•åŠ é€Ÿå­¦ä¹ è¿‡ç¨‹/Using RP to speed up learning and achieve better
 %                         /generalization
 % 2016-2017
 
@@ -16,9 +16,9 @@ addpath('...\...\code_AIS');
 addpath('...\...\AIS_iRBM');
 
 load BinaryDataMNIST
-maxepoch= 300; %%% Total epochs of training. It takes about 100 ~ 150 epochs to get the best result.
-stopepochs = 50; %%The epochs to look ahead for early stopping
-numclasses= 10;%%×Ü¹²ÓĞ10ÀàÊı¾İ
+maxepoch= 300; %%% Total epochs of training. It takes about 150 ~ 200 epochs to get the best result.
+stopepochs = 50; %%The epochs to look ahead for stopping
+numclasses= 10;%%æ€»å…±æœ‰10ç±»æ•°æ®
 Maxnumhid= 100;%%Initial capacity of oRBM
 learning_rate = 1;%%%Ignore it!
 use_valid = 1; %%% Use validation set for training 
