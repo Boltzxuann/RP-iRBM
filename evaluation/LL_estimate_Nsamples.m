@@ -2,7 +2,7 @@
 clear
 close all
 load BinaryDataMNIST
-load best_vh
+load best_iRBM
 global use_gpu
 use_gpu = gpuDeviceCount;
 ll_sample = zeros(1,5);
