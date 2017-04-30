@@ -1,7 +1,7 @@
 clear
 close all
 load BinaryDataMNIST
-load best_vh
+load best_iRBM
 data = Bdata_test;
 numcases = size(data,1);
 beta = beta0 * soft_plus(0*hb);
