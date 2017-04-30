@@ -442,7 +442,8 @@ for epoch = epoch:maxepoch
     start = 0;
 %     %if M_Pnh ==J+1;
        %if length(find(Pos_numhid_gen==J+1))>numcases/5
-       if ~isempty( find( (Pos_numhid_gen==J+1).*(neg_numhid_gen==J+1), 1 ) )
+       if ~isempty(find(Pos_numhid_gen==J+1, 1))
+       %if ~isempty( find( (Pos_numhid_gen==J+1).*(neg_numhid_gen==J+1), 1 ) )
           J = J+1;
 
        end
