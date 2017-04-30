@@ -1,7 +1,7 @@
 
 %%% Draw samples from the model using Gibbs sampling.
 
-load best_vh 
+load best_iRBM 
 %load fullmnistvh
 vh = gather(vh);
 hb = gather(hb);
