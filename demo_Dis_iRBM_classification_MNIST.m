@@ -16,7 +16,7 @@ addpath('...\...\AIS_RBM');
 addpath('...\...\AIS_iRBM');
 
 load BinaryDataMNIST
-maxepoch= 300; %%% Total epochs of training. It takes about 150 ~ 200 epochs to get the best result.
+maxepoch= 300; %%% Total epochs of training. It takes about 100 ~ 150 epochs to get the best result.
 stopepochs = 50; %%The epochs to look ahead for stopping
 numclasses= 10;%%总共有10类数据
 Maxnumhid= 100;%%Initial capacity of oRBM
