@@ -31,7 +31,7 @@ if  epoch == 11 && batch == 1
 
 end
 
-
+%%Set the regrouping rate M_t
     if epoch < 1
         J_r = 1;
     else
