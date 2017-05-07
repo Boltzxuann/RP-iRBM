@@ -36,7 +36,7 @@ end
         J_r = 1;
     else
         if epoch < 11
-            J_r = round(0.7*J);
+            J_r = round(0.8*J);
             %J_r = round(  mean( mean_mean_epoch(epoch-1) ) );
         else
             if epoch < 12
