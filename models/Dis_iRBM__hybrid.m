@@ -649,14 +649,14 @@ for epoch = epoch:maxepoch
           
    else
        break
- end
+   end
     
-        figure (4);
-        plot(test_epoch(1,1:epoch));
-        xlabel('epoch');
-        ylabel('validation accuracy');
-      fprintf(1, 'epoch %4i , maximum number of z %4i , \n test accuracy %6.4f  \n', epoch, J ,TestAccuracy);
-      pause(2);
+    figure (4);
+    plot(test_epoch(1,1:epoch));
+    xlabel('epoch');
+    ylabel('validation accuracy');
+    fprintf(1, 'epoch %4i , maximum number of z %4i , \n test accuracy %6.4f  \n', epoch, J ,TestAccuracy);
+    pause(2);
  
 end;
 
