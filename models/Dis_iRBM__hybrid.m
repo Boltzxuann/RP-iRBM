@@ -1,5 +1,5 @@
-% ±¾³ÌĞòÓÃÓÚÑµÁ· Dis-iRBM£¬Ä¿±êº¯ÊıÊÇÅĞ±ğÓëÉú³ÉµÄ»ìºÏÄ¿±êº¯Êı£¬²ÉÓÃµÄ·½·¨ÊÇ(P)CDËã·¨¡£
-% ±àÕß£ºÅíĞù
+% æœ¬ç¨‹åºç”¨äºè®­ç»ƒ Dis-iRBMï¼Œç›®æ ‡å‡½æ•°æ˜¯åˆ¤åˆ«ä¸ç”Ÿæˆçš„æ··åˆç›®æ ‡å‡½æ•°ï¼Œé‡‡ç”¨çš„æ–¹æ³•æ˜¯(P)CDç®—æ³•ã€‚
+% ç¼–è€…ï¼šå½­è½©
 % 2016-2017
 
 
@@ -8,7 +8,7 @@ if restart ==1,
   epoch=1;
   M_epoch=1;
   
-  %%%%%%³¬²ÎÊı%%%%%%%%%
+  %%%%%%è¶…å‚æ•°%%%%%%%%%
   beta0= 1.01;
   WH = 0/beta0;
   
@@ -16,17 +16,17 @@ if restart ==1,
   p = 1;
   start_lr = 0.1;
   global_lr = 0.1;
-  a = 0.01; %%%¿ØÖÆÁ½²¿·ÖÌİ¶ÈµÄ±ÈÖØ¡£
+  a = 0.01; %%%æ§åˆ¶ä¸¤éƒ¨åˆ†æ¢¯åº¦çš„æ¯”é‡ã€‚/ Propotion of the generative part
   gen_uselabel= 1;% use labels for the generative part or not
-  regularization = 'L2'; %%Ê¹ÓÃÄÄÖÖÕıÔò»¯Ô¼Êø/which regularization is chosen
-  WC  = 0.00005;  %%%weight decay ²ÎÊı
+  regularization = 'L1'; %%ä½¿ç”¨å“ªç§æ­£åˆ™åŒ–çº¦æŸ/which regularization is chosen: 'no','L1' or 'L2'.
+  WC  = 0.00005;  %%%weight decay å‚æ•°
   use_RP = 1;  %%% whether use RP training or not
   
-  %%%²ÎÊıµÄÑ§Ï°ÂÊ
+  %%%å‚æ•°çš„å­¦ä¹ ç‡
   epW      = learning_rate;   % Learning rate for weights 
-  ephy      =  learning_rate;   %yÓëhÈ¨Öµ¾ØÕóµÄÑ§Ï°ÂÊ
+  ephy      =  learning_rate;   %yä¸hæƒå€¼çŸ©é˜µçš„å­¦ä¹ ç‡
   ephb       = learning_rate;   % Learning rate for biases of hidden units 
-  epyb       = learning_rate;   %±êÇ©yµÄÆ«ÖÃµÄÑ§Ï°ÂÊ
+  epyb       = learning_rate;   %æ ‡ç­¾yçš„åç½®çš„å­¦ä¹ ç‡
   epvb       = learning_rate;
   use_mom = 1; %%% whether using momentum or not
   initialmomentum  = 0.5;  
@@ -35,9 +35,9 @@ if restart ==1,
   CD = 1;
   label = 1;
   order= 0;discard=0;random=1;
-  lr_normal = 0; %%Ê¹ÓÃÄÄÖÖÑ§Ï°ÂÊ
+  lr_normal = 0; %%ä½¿ç”¨å“ªç§å­¦ä¹ ç‡
   lr_adaptive=1; adagrad = 1;
-  num_ini = 0;%%°´ÕÕ³õÊ¼Ñ§Ï°ÂÊµü´ú¼¸´Î
+  num_ini = 0;%%æŒ‰ç…§åˆå§‹å­¦ä¹ ç‡è¿­ä»£å‡ æ¬¡
   initial = ones(1,Maxnumhid) * num_ini;
   start = 0;
   
@@ -45,7 +45,7 @@ if restart ==1,
   [numcases, numdims, numbatches]=size(batchdata);
 
   
-%%%% ³õÊ¼»¯²ÎÊı %%%%
+%%%% åˆå§‹åŒ–å‚æ•° %%%%
   max_TstAccy = 0;
   test_epoch = zeros( 2,maxepoch );
   
@@ -81,17 +81,17 @@ if restart ==1,
       LzHb  = zeros(1,Maxnumhid);
       
   end
-  J             = 2;%%%Òşµ¥Ô­µÄÆğÊ¼×î´ó¸öÊı¡£
+  J             = 2;%%%éšå•åŸçš„èµ·å§‹æœ€å¤§ä¸ªæ•°ã€‚
   J_r = 1;
   Max_J_r = 1;
   mean_maxPN_epoch = J; 
   numhid = 0;
   if use_gpu
-      visbiases     = zeros(1,numdims, 'gpuArray');%%%%vµÄÆ«ÖÃ
-      ybiases      = zeros(1,numclasses, 'gpuArray');            %%%±êÇ©yµÄÆ«ÖÃ£¬ÕâÀïyµÄÎ¬ÊıÎª10   
+      visbiases     = zeros(1,numdims, 'gpuArray');%%%%vçš„åç½®
+      ybiases      = zeros(1,numclasses, 'gpuArray');            %%%æ ‡ç­¾yçš„åç½®ï¼Œè¿™é‡Œyçš„ç»´æ•°ä¸º10   
       hid_visMax    = 0.0*randn(Maxnumhid,numdims, 'gpuArray');      
       hid_yMax      = 0.0*randn(Maxnumhid,numclasses, 'gpuArray');   
-      hidbiasesMax  = 0* ones(1,Maxnumhid, 'gpuArray');           %%%hµÄÆ«ÖÃ³õÊ¼»¯  
+      hidbiasesMax  = 0* ones(1,Maxnumhid, 'gpuArray');           %%%hçš„åç½®åˆå§‹åŒ–  
       
       hid_visMax_inc  = zeros(Maxnumhid,numdims, 'gpuArray');
       hid_yMax_inc    = zeros(Maxnumhid,numclasses, 'gpuArray');
@@ -100,8 +100,8 @@ if restart ==1,
       ybiases_inc    = zeros(1,numclasses, 'gpuArray');
       visbiases_inc  = zeros(1,numdims, 'gpuArray');
       
-      poshidprobs = zeros(numcases,Maxnumhid, 'gpuArray');%%%Õı½×¶ÎhµÄÆÚÍû£¬Ò»´Î¼ÆËãÒ»¸öbatch¡£
-      neghidprobs = zeros(numcases,Maxnumhid, 'gpuArray');%%%¸º½×¶ÎhµÄÆÚÍû£¬Ò»´Î¼ÆËãÒ»¸öbatch¡£
+      poshidprobs = zeros(numcases,Maxnumhid, 'gpuArray');%%%æ­£é˜¶æ®µhçš„æœŸæœ›ï¼Œä¸€æ¬¡è®¡ç®—ä¸€ä¸ªbatchã€‚
+      neghidprobs = zeros(numcases,Maxnumhid, 'gpuArray');%%%è´Ÿé˜¶æ®µhçš„æœŸæœ›ï¼Œä¸€æ¬¡è®¡ç®—ä¸€ä¸ªbatchã€‚
       posprods    = zeros(numdims,Maxnumhid, 'gpuArray');
       negprods    = zeros(numdims,Maxnumhid, 'gpuArray');
       
@@ -118,11 +118,11 @@ if restart ==1,
       vb_in_history = zeros(1, numdims, 'gpuArray');
   else
       
-      visbiases     = zeros(1,numdims);%%%%vµÄÆ«ÖÃ
-      ybiases      = zeros(1,numclasses);            %%%±êÇ©yµÄÆ«ÖÃ£¬ÕâÀïyµÄÎ¬ÊıÎª10   
-      hid_visMax    = zeros(Maxnumhid,numdims);       %%%×î´óµÄW¾ØÕó,ÁĞÊıÎªMaxnumhid
-      hid_yMax      = zeros(Maxnumhid,numclasses);    %%%×î´óµÄU¾ØÕó£¬ÁĞÊıÎªMaxnumhid
-      hidbiasesMax  = zeros(1,Maxnumhid);           %%%hµÄÆ«ÖÃ³õÊ¼»¯
+      visbiases     = zeros(1,numdims);%%%%vçš„åç½®
+      ybiases      = zeros(1,numclasses);            %%%æ ‡ç­¾yçš„åç½®ï¼Œè¿™é‡Œyçš„ç»´æ•°ä¸º10   
+      hid_visMax    = zeros(Maxnumhid,numdims);       %%%æœ€å¤§çš„WçŸ©é˜µ,åˆ—æ•°ä¸ºMaxnumhid
+      hid_yMax      = zeros(Maxnumhid,numclasses);    %%%æœ€å¤§çš„UçŸ©é˜µï¼Œåˆ—æ•°ä¸ºMaxnumhid
+      hidbiasesMax  = zeros(1,Maxnumhid);           %%%hçš„åç½®åˆå§‹åŒ–
       
       hid_visMax_inc  = zeros(Maxnumhid,numdims);
       hid_yMax_inc    = zeros(Maxnumhid,numclasses);
@@ -131,8 +131,8 @@ if restart ==1,
       ybiases_inc    = zeros(1,numclasses);
       visbiases_inc  = zeros(1,numdims);
       
-      poshidprobs = zeros(numcases,Maxnumhid);%%%Õı½×¶ÎhµÄÆÚÍû£¬Ò»´Î¼ÆËãÒ»¸öbatch¡£
-      neghidprobs = zeros(numcases,Maxnumhid);%%%¸º½×¶ÎhµÄÆÚÍû£¬Ò»´Î¼ÆËãÒ»¸öbatch¡£
+      poshidprobs = zeros(numcases,Maxnumhid);%%%æ­£é˜¶æ®µhçš„æœŸæœ›ï¼Œä¸€æ¬¡è®¡ç®—ä¸€ä¸ªbatchã€‚
+      neghidprobs = zeros(numcases,Maxnumhid);%%%è´Ÿé˜¶æ®µhçš„æœŸæœ›ï¼Œä¸€æ¬¡è®¡ç®—ä¸€ä¸ªbatchã€‚
       posprods    = zeros(numdims,Maxnumhid);
       negprods    = zeros(numdims,Maxnumhid);
       
@@ -150,7 +150,7 @@ if restart ==1,
   
   end
  
-   %targets_batch=batchtargets(:,:,1);%%%Gibbs ²ÉÑùµÄ³õÊ¼Öµ¡£
+   %targets_batch=batchtargets(:,:,1);%%%Gibbs é‡‡æ ·çš„åˆå§‹å€¼ã€‚
    if use_gpu
       negtargets_gen = zeros(numcases,numclasses,'gpuArray');
       targets_batch_dis= zeros(numcases,numclasses,'gpuArray');
@@ -178,10 +178,10 @@ for epoch = epoch:maxepoch
        %learning_rate = 0.5;
        learning_rate = max( learning_rate , 0.01);
        epW       = learning_rate;   % Learning rate for weights 
-       ephy      =  learning_rate;   %yÓëhÈ¨Öµ¾ØÕóµÄÑ§Ï°ÂÊ
+       ephy      =  learning_rate;   %yä¸hæƒå€¼çŸ©é˜µçš„å­¦ä¹ ç‡
 
        ephb       = learning_rate;   % Learning rate for biases of hidden units 
-       epyb       = learning_rate;   %±êÇ©yµÄÆ«ÖÃµÄÑ§Ï°ÂÊ
+       epyb       = learning_rate;   %æ ‡ç­¾yçš„åç½®çš„å­¦ä¹ ç‡
        epvb       = learning_rate;
      
     end
@@ -221,7 +221,7 @@ for epoch = epoch:maxepoch
      Minposnumhid = zeros(1,numbatches);
      
    for batch = 1:numbatches,
-      if J >= Maxnumhid -1   %%%%Ôö´ó¡°ÈİÁ¿¡±
+      if J >= Maxnumhid -1   %%%%å¢å¤§â€œå®¹é‡â€
            Maxnumhid = Maxnumhid + 100;
         
            hid_visMax(J+1:Maxnumhid,:)    = 0.0; 
@@ -265,9 +265,9 @@ for epoch = epoch:maxepoch
       bt = linspace(1,1, Maxnumhid );
       
       epsilonW             = epW .* repmat( lr ,1, numdims );   % Learning rate for weights 
-      epsilon_hy           = ephy.* repmat( lr ,1,numclasses );   %yÓëhÈ¨Öµ¾ØÕóµÄÑ§Ï°ÂÊ
+      epsilon_hy           = ephy.* repmat( lr ,1,numclasses );   %yä¸hæƒå€¼çŸ©é˜µçš„å­¦ä¹ ç‡
       epsilonhb            = ephb.* lr';   % Learning rate for biases of hidden units 
-      epsilonyb            = epyb;   %±êÇ©yµÄÆ«ÖÃµÄÑ§Ï°ÂÊ
+      epsilonyb            = epyb;   %æ ‡ç­¾yçš„åç½®çš„å­¦ä¹ ç‡
       epsilonvb            = epvb;
       weightcost(1:J,:)    = WC* repmat( lwc ,1, numdims );
       hycost(1:J,:)        = WC* repmat( lwc , 1, numclasses );
@@ -276,9 +276,9 @@ for epoch = epoch:maxepoch
 
  
 %%%%%%%%% POSITIVE PHASE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-      data = batchdata(:,:,batch);%%%È¡³öÒ»¸öbatchµÄÊı¾İ
-      targets_0 = batchtargets(:,:,batch);%%%È¡³ö-¸öbatchµÄtargetsÏòÁ¿¡£
-  %%%Õı¹ı³Ì£¬´Óp(z|v,y)ÖĞ²ÉÑùµÃµ½z£¬Èôz>J0=10,z=J0+1;%%%
+      data = batchdata(:,:,batch);%%%å–å‡ºä¸€ä¸ªbatchçš„æ•°æ®
+      targets_0 = batchtargets(:,:,batch);%%%å–å‡º-ä¸ªbatchçš„targetså‘é‡ã€‚
+  %%%æ­£è¿‡ç¨‹ï¼Œä»p(z|v,y)ä¸­é‡‡æ ·å¾—åˆ°zï¼Œè‹¥z>J0=10,z=J0+1;%%%
       
       beta = beta0 * bt .* soft_plus(WH * hidbiasesMax ); 
       [~,y_0] = max(targets_0,[],2);
@@ -316,17 +316,17 @@ for epoch = epoch:maxepoch
  
       % poshidprobsMinusDbeta = poshidprobsMinusDbeta.* Pos_numhid4;
 
-      %posprods    = poshidprobs * data;%%%v(0)t1*p(h|v(0)t1)+v(0)t2*p(h|v(0)t2)+...+v(0)tm*p(h|v(0)tM) ÔÚ¶ÔWÇóµ¼Ê±»áÓÃµ½¡£
+      %posprods    = poshidprobs * data;%%%v(0)t1*p(h|v(0)t1)+v(0)t2*p(h|v(0)t2)+...+v(0)tm*p(h|v(0)tM) åœ¨å¯¹Wæ±‚å¯¼æ—¶ä¼šç”¨åˆ°ã€‚
       % posprods_dis    = poshidprobs * data  ;
       posprods_dis   = poshidprobs .*( 1-  S_PzOnvy ) * data   ;
       %batchposhidprobs(:,:,batch)=poshidprobs;
-      % pos_hidy_dis    = poshidprobs * targets_0;%%%¶ÔUÇóµ¼Ê±»áÓÃµ½
+      % pos_hidy_dis    = poshidprobs * targets_0;%%%å¯¹Uæ±‚å¯¼æ—¶ä¼šç”¨åˆ°
       pos_hidy_dis   = poshidprobs .*( 1-  S_PzOnvy ) * targets_0 ;
-      % poshidact_dis   = sum(poshidprobsMinusDbeta , 2).';%%%sumµÄ½á¹ûÊÇÒ»¸öÁĞ Ïò Á¿£¬¼´ËùÓĞÁĞÑÓĞĞÏà¼ÓµÄ½á¹û£¬¼´Ò»¸öbatchÄÚµÄËùÓĞÑù±¾Ïà¼Ó¡£ÔÙ×ªÖÃµÃµ½ÁĞÏòÁ¿¡£¶ÔCÇóµ¼Ê±»áÓÃµ½¡£
+      % poshidact_dis   = sum(poshidprobsMinusDbeta , 2).';%%%sumçš„ç»“æœæ˜¯ä¸€ä¸ªåˆ— å‘ é‡ï¼Œå³æ‰€æœ‰åˆ—å»¶è¡Œç›¸åŠ çš„ç»“æœï¼Œå³ä¸€ä¸ªbatchå†…çš„æ‰€æœ‰æ ·æœ¬ç›¸åŠ ã€‚å†è½¬ç½®å¾—åˆ°åˆ—å‘é‡ã€‚å¯¹Cæ±‚å¯¼æ—¶ä¼šç”¨åˆ°ã€‚
       poshidact_dis   = sum( poshidprobsMinusDbeta .*( 1-  S_PzOnvy ) , 2 ).';
-      posvisact_dis   = sum( data );%%%¶ÔbmÇóµ¼Ê±»áÓÃµ½, ÕâÊÇÒ» ĞĞ Ïò Á¿£¡
-      %posvisact_2 = sum(data.^2);%%%¶ÔbpÇóµ¼Ê±»áÓÃµ½
-      posyact_dis     = sum(targets_0);%%%¶ÔdÇóµ¼Ê±»áÓÃµ½£¬ÕâÊÇÒ» ĞĞ Ïò Á¿
+      posvisact_dis   = sum( data );%%%å¯¹bmæ±‚å¯¼æ—¶ä¼šç”¨åˆ°, è¿™æ˜¯ä¸€ è¡Œ å‘ é‡ï¼
+      %posvisact_2 = sum(data.^2);%%%å¯¹bpæ±‚å¯¼æ—¶ä¼šç”¨åˆ°
+      posyact_dis     = sum(targets_0);%%%å¯¹dæ±‚å¯¼æ—¶ä¼šç”¨åˆ°ï¼Œè¿™æ˜¯ä¸€ è¡Œ å‘ é‡
       
 
       if gen_uselabel
@@ -337,7 +337,7 @@ for epoch = epoch:maxepoch
           posyact_gen = posyact_dis;
       else
           
-          P_z_on_v = P_z( data , hid_visMax ,hidbiasesMax , J , beta ,beta0 ,numcases ); %% Ã»ÓĞÓÃ±êÇ© / without labels for the generative part
+          P_z_on_v = P_z( data , hid_visMax ,hidbiasesMax , J , beta ,beta0 ,numcases ); %% æ²¡æœ‰ç”¨æ ‡ç­¾ / without labels for the generative part
           sum_P_z_on_v = cumsum(P_z_on_v);
           [~, Pos_numhid1hot] = Sample_z (P_z_on_v,numcases,J);
           [~,Pos_numhid_gen] = max(Pos_numhid1hot);
@@ -365,7 +365,7 @@ for epoch = epoch:maxepoch
 
           posprods_gen   = poshidprobs_gen .*( 1-  S_PzOnv ) * data   ;
           poshidact_gen   = sum( poshidprobsMinusDbeta_gen .*( 1-  S_PzOnv ) , 2 ).';
-          posvisact_gen   = sum(data);%%%¶ÔbmÇóµ¼Ê±»áÓÃµ½, ÕâÊÇÒ» ĞĞ Ïò Á¿£¡
+          posvisact_gen   = sum(data);%%%å¯¹bmæ±‚å¯¼æ—¶ä¼šç”¨åˆ°, è¿™æ˜¯ä¸€ è¡Œ å‘ é‡ï¼
           
       end
 
@@ -394,7 +394,7 @@ for epoch = epoch:maxepoch
       %%%%%%% z~p(z|v)%%%%%%%%%%%%%
       
       
-     %%%%%%% h~p(h|v,z)%%%%%%%%%%%%% È¥µôÁËºÍ±êÇ©ÓĞ¹ØµÄÏî
+     %%%%%%% h~p(h|v,z)%%%%%%%%%%%%% å»æ‰äº†å’Œæ ‡ç­¾æœ‰å…³çš„é¡¹
          if use_gpu    
              neg_numhid4 =zeros(Maxnumhid,numcases,'gpuArray');
          else
@@ -408,12 +408,12 @@ for epoch = epoch:maxepoch
              %neghidprobs = 1./(1 + exp(   pagefun(@mtimes, -hid_visMax, negdata') - repmat( hidbiasesMax',1,numcases )));  
              neghidprobs = 1./(1 + exp(  -hid_visMax * negdata'  - repmat( hidbiasesMax',1,numcases )));  
          end
-         neghidprobs = neghidprobs.* neg_numhid4; %%%ÕâÒ»²½ÒªÓÃµ½²ÉÑùµÄz
+         neghidprobs = neghidprobs.* neg_numhid4; %%%è¿™ä¸€æ­¥è¦ç”¨åˆ°é‡‡æ ·çš„z
   
          neghidstates =  round( neghidprobs > rand(Maxnumhid ,numcases) );
   
   
-    %%%%%% v~p(v|h,z)%%%%%%%%%%%%% È¨Öµ²»ÓÃ³Ë2ÁË£¬È¥µôÁËºÍ±êÇ©ÓĞ¹ØµÄÏî
+    %%%%%% v~p(v|h,z)%%%%%%%%%%%%% æƒå€¼ä¸ç”¨ä¹˜2äº†ï¼Œå»æ‰äº†å’Œæ ‡ç­¾æœ‰å…³çš„é¡¹
    
         % negvisprobs =   1./(1 + exp( - pagefun(@mtimes, hid_visMax' ,  neghidstates ) - repmat( visbiases',1,numcases )));      
          negvisprobs =   1./(1 + exp(- hid_visMax'* neghidstates  - repmat( visbiases',1,numcases )));      
@@ -426,7 +426,7 @@ for epoch = epoch:maxepoch
              phi_y_max = max(phi_y,[],2);
              phiy_phiymax = phi_y - repmat(phi_y_max,1,numclasses);
              ln_zy = phi_y_max + log( sum(exp(phiy_phiymax),2) );
-          %%% 2017.01.08 Éú³ÉÊ½²¿·ÖÒ²¼ÓÈë±êÇ©%%%
+          %%% 2017.01.08 ç”Ÿæˆå¼éƒ¨åˆ†ä¹ŸåŠ å…¥æ ‡ç­¾%%%
              negtargetsprobs = exp(phi_y-repmat(ln_zy,1,numclasses));
              % phi_tgt_on_h = exp(neghidstates'*hid_yMax +repmat(ybiases,numcases,1));
              %sum_phi_tonh = sum(phi_tgt_on_h,2);
@@ -471,13 +471,13 @@ for epoch = epoch:maxepoch
 
 %%%%% compute negtive phase of disciminative part %%%%%%
        compute_P_yz_v;
-       PP_y_v = sum( p_zy_on_v ); %%% 1*C*M  %%%´ÓÕâ¸ö¸ÅÂÊ¿ÉÒÔÖ±½Ó²ÉÑù³ö y ºÍ z, ÎÒ±àĞ´µÄ²ÉÑù³ÌĞòµÄĞ§ÂÊÒ²ºÜ¸ß£¬¼¸ºõ°ÑMatlabµÄ¾ØÕóÔËËã¹¦ÄÜ·¢»Óµ½ÁË¼«ÏŞ¡£µ«ÕâĞ©Ñù±¾¼ÆËã½üËÆÌİ¶ÈÊÕÁ²Ì«Âı¡£±ØĞë¸Ä³ÉGibbs²ÉÑùÊÕÁ²»áºÜ¿ì¡£
+       PP_y_v = sum( p_zy_on_v ); %%% 1*C*M  %%%ä»è¿™ä¸ªæ¦‚ç‡å¯ä»¥ç›´æ¥é‡‡æ ·å‡º y å’Œ z, æˆ‘ç¼–å†™çš„é‡‡æ ·ç¨‹åºçš„æ•ˆç‡ä¹Ÿå¾ˆé«˜ï¼Œå‡ ä¹æŠŠMatlabçš„çŸ©é˜µè¿ç®—åŠŸèƒ½å‘æŒ¥åˆ°äº†æé™ã€‚ä½†è¿™äº›æ ·æœ¬è®¡ç®—è¿‘ä¼¼æ¢¯åº¦æ”¶æ•›å¤ªæ…¢ã€‚å¿…é¡»æ”¹æˆGibbsé‡‡æ ·æ”¶æ•›ä¼šå¾ˆå¿«ã€‚
        P_y_v = squeeze(PP_y_v);  %%% C*M
   
-%%%%ÕâĞ©¶¼ÄÜÏë³öÀ´£¬±ØĞëÅå·şÒ»ÏÂ×Ô¼º£¡%%%%
+%%%%è¿™äº›éƒ½èƒ½æƒ³å‡ºæ¥ï¼Œå¿…é¡»ä½©æœä¸€ä¸‹è‡ªå·±ï¼%%%%
        hv_c = repmat(hid_visMax, 1,1,numclasses );  %%%  J * V *C
        if use_gpu
-           hd_c  = pagefun(@mtimes, hv_c, data');  %%%Ö»ÊÊÓÚÓĞGPUÊ± £¬J * M *C
+           hd_c  = pagefun(@mtimes, hv_c, data');  %%%åªé€‚äºæœ‰GPUæ—¶ ï¼ŒJ * M *C
        else
            hd_c = zeros(Maxnumhid,numcases,numclasses);
            for cc = 1:numclasses
@@ -486,7 +486,7 @@ for epoch = epoch:maxepoch
        end
        h_c_d=  permute(hd_c, [1 3 2] );  %%% J * C *M
  
-       %Neg_Ph  = pagefun( @compute_P_h_all_labels,  h_c_d(1:J,:,:),  hid_yMax(1:J,:),  hidbiasesMax(1:J)' ) ;%%%Ò²¿ÉÒÔ°ÑJ»»³É M_nh_gen
+       %Neg_Ph  = pagefun( @compute_P_h_all_labels,  h_c_d(1:J,:,:),  hid_yMax(1:J,:),  hidbiasesMax(1:J)' ) ;%%%ä¹Ÿå¯ä»¥æŠŠJæ¢æˆ M_nh_gen
        e_dyh = bsxfun( @plus,  bsxfun(@plus,h_c_d(1:J,:,:), hid_yMax(1:J,:)  ) , hidbiasesMax(1:J)'  ) ;
        Neg_Ph  = 1./(1+exp(-e_dyh));
   
@@ -500,15 +500,15 @@ for epoch = epoch:maxepoch
 
        Neg_phase_for_multiply = squeeze(  sum(Neg_phase_for_sum,  2)  ); %%% J*M
   
-  %%%%%Ìİ¶ÈµÄ¸ºÏî%%%
+  %%%%%æ¢¯åº¦çš„è´Ÿé¡¹%%%
 
        %Neg_phase_W = pagefun( @mtimes, Neg_phase_for_multiply , data );  %%% J*V
        Neg_phase_W = Neg_phase_for_multiply * data ;  %%% J*V
        Neg_phase_hb =sum(  Neg_phase_for_multiply ,2 );%%% J*1
-       Neg_phase_U = sum( Neg_phase_for_sum, 3 ); %%%²»Öª¶Ô²»¶Ô
+       Neg_phase_U = sum( Neg_phase_for_sum, 3 ); %%%ä¸çŸ¥å¯¹ä¸å¯¹
        Neg_phase_yb = sum(P_y_v, 2).';
 
-   %%%6.17Ìí¼Ó£¬ÓÃ¾ØÕóÔËËã¸ÄĞ´
+   %%%6.17æ·»åŠ ï¼Œç”¨çŸ©é˜µè¿ç®—æ”¹å†™
        if use_gpu
           negprods_dis = zeros(Maxnumhid,numdims,'gpuArray');
           neghidact_dis = zeros(1,Maxnumhid,'gpuArray');
@@ -562,9 +562,9 @@ for epoch = epoch:maxepoch
 
 %%%%%%%%%%%%% reconstructing error %%%%%%%%%%%
       if gen_uselabel
-         err= sum(sum( abs(targets_0 - negtargets_gen)/2 ));%%%ÖØ¹¹Îó²î
+         err= sum(sum( abs(targets_0 - negtargets_gen)/2 ));%%%é‡æ„è¯¯å·®
       else
-         err= sum(sum( abs(data - negdata) ));%%%ÖØ¹¹Îó²î
+         err= sum(sum( abs(data - negdata) ));%%%é‡æ„è¯¯å·®
       end
        errsum = err + errsum;
        %momentum=finalmomentum;
@@ -605,7 +605,7 @@ for epoch = epoch:maxepoch
 
    end
   
-   mean_Mnegnumhid(epoch) = mean(Maxnegnumhid);%%%±ÆËÀÇ¿ÆÈÖ¢
+   mean_Mnegnumhid(epoch) = mean(Maxnegnumhid);%%%é€¼æ­»å¼ºè¿«ç—‡
    mean_Mposnumhid(epoch) = mean(Maxposnumhid);
    mean_minposnumhid(epoch) = mean(Minposnumhid); 
    Max_mean_epoch = max(Meannegnumhid);
