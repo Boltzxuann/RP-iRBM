@@ -32,7 +32,7 @@ if restart ==1,
   initialmomentum  = 0.5;  
   
   G =0;
-  CD = 1;
+  CD = 2;
   label = 1;
   order= 0;discard=0;random=1;
   lr_normal = 0; %%使用哪种学习率
@@ -166,7 +166,6 @@ if restart ==1,
       neg_numhid_gen = ones(1,numcases);
       negDstates = rand(numcases,numdims);%%%start states of the chains
       negdata = 0.3 > negDstates;
-      negdata = gpuArray(round(negdata));
    end
    
 end
@@ -261,7 +260,7 @@ for epoch = epoch:maxepoch
       end
    
       lwc = linspace(1,1, J )';
-      lr = gpuArray.linspace(1,1, Maxnumhid )';
+      lr = linspace(1,1, Maxnumhid )';
       bt = linspace(1,1, Maxnumhid );
       
       epsilonW             = epW .* repmat( lr ,1, numdims );   % Learning rate for weights 
