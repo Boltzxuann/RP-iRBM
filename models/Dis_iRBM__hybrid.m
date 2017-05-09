@@ -194,10 +194,10 @@ for epoch = epoch:maxepoch
          index_d = find (mom(1:numhid)<0.8);
          
          mom(index_d) = mom(index_d) + 0.1;
-         mom(index_m) = mom(index_m) + 0.05;
+         mom(index_m) = mom(index_m) + 0.02;
          mom(index_u) = mom(index_u) + 0.01;
          
-         mom(1:numhid) = min(0.95 ,mom(1:numhid));
+         mom(1:numhid) = min(0.90 ,mom(1:numhid));
          
      end
      
