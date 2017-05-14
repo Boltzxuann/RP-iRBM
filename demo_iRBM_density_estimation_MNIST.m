@@ -6,14 +6,8 @@
 %                         /generalization
 % 2016-2017
 
-clear 
-close all
-addpath('...\...\models')
-addpath('...\...\core_modules');
-addpath('...\...\evaluation');
-addpath('...\...\AIS_RBM');
-addpath('...\...\AIS_iRBM');
 
+initiate
 load BinaryDataMNIST
 %load caltech101_silhouettes_28_split1
 maxepoch= 100; %%% Total epochs of training. It takes about 100 ~ 150 epochs to get the best result.
