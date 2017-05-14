@@ -8,7 +8,6 @@
 % 2016-2017
 
 initiate
-
 load BinaryDataMNIST
 maxepoch= 300; %%% Total epochs of training. It takes about 100 ~ 150 epochs to get the best result.
 stopepochs = 50; %%The epochs to look ahead for stopping
