@@ -1,5 +1,5 @@
-% 本程序用于训练 Dis-iRBM，目标函数是判别与生成的混合目标函数，采用的方法是(P)CD算法。
-% 编者：彭轩
+% 本程序用于训�?Dis-iRBM，目标函数是判别与生成的混合目标函数，采用的方法�?P)CD算法�?
+% 编�?：彭�?
 % 2016-2017
 
 
@@ -8,7 +8,7 @@ if restart ==1,
   epoch=1;
   M_epoch=1;
   
-  %%%%%%超参数%%%%%%%%%
+  %%%%%%超参�?%%%%%%%%
   beta0= 1.01;
   WH = 0/beta0;
   
@@ -16,28 +16,28 @@ if restart ==1,
   p = 1;
   start_lr = 0.1;
   global_lr = 0.1;
-  a = 0.01; %%%控制两部分梯度的比重。/ Propotion of the generative part
+  a = 0.01; %%%控制两部分梯度的比重�? Propotion of the generative part
   gen_uselabel= 1;% use labels for the generative part or not
-  regularization = 'L1'; %%使用哪种正则化约束/which regularization is chosen: 'no','L1' or 'L2'.
+  regularization = 'L1'; %%使用哪种正则化约�?which regularization is chosen: 'no','L1' or 'L2'.
   WC  = 0.00001;  %%%weight decay 参数
   use_RP = 1;  %%% whether use RP training or not
   
   %%%参数的学习率
   epW      = learning_rate;   % Learning rate for weights 
-  ephy      =  learning_rate;   %y与h权值矩阵的学习率
+  ephy      =  learning_rate;   %y与h权�?矩阵的学习率
   ephb       = learning_rate;   % Learning rate for biases of hidden units 
-  epyb       = learning_rate;   %标签y的偏置的学习率
+  epyb       = learning_rate;   %标签y的偏置的学习�?
   epvb       = learning_rate;
   use_mom = 1; %%% whether using momentum or not
-  initialmomentum  = 0.0;  
+  initialmomentum  = 0.5;  
   
   G =0;
   CD = 2;
   label = 1;
   order= 0;discard=0;random=1;
-  lr_normal = 0; %%使用哪种学习率
+  lr_normal = 0; %%使用哪种学习�?
   lr_adaptive=1; adagrad = 1;
-  num_ini = 0;%%按照初始学习率迭代几次
+  num_ini = 0;%%按照初始学习率迭代几�?
   initial = ones(1,Maxnumhid) * num_ini;
   start = 0;
   
@@ -45,7 +45,7 @@ if restart ==1,
   [numcases, numdims, numbatches]=size(batchdata);
 
   
-%%%% 初始化参数 %%%%
+%%%% 初始化参�?%%%%
   max_TstAccy = 0;
   test_epoch = zeros( 2,maxepoch );
   
@@ -81,13 +81,13 @@ if restart ==1,
       LzHb  = zeros(1,Maxnumhid);
       
   end
-  J             = 2;%%%隐单原的起始最大个数。
+  J             = 2;%%%隐单原的起始�?��个数�?
   J_r = 1;
   Max_J_r = 1;
   mean_maxPN_epoch = J; 
   numhid = 0;
   if use_gpu
-      visbiases     = zeros(1,numdims, 'gpuArray');%%%%v的偏置
+      visbiases     = zeros(1,numdims, 'gpuArray');%%%%v的偏�?
       ybiases      = zeros(1,numclasses, 'gpuArray');            %%%标签y的偏置，这里y的维数为10   
       hid_visMax    = 0.0*randn(Maxnumhid,numdims, 'gpuArray');      
       hid_yMax      = 0.0*randn(Maxnumhid,numclasses, 'gpuArray');   
@@ -100,8 +100,8 @@ if restart ==1,
       ybiases_inc    = zeros(1,numclasses, 'gpuArray');
       visbiases_inc  = zeros(1,numdims, 'gpuArray');
       
-      poshidprobs = zeros(numcases,Maxnumhid, 'gpuArray');%%%正阶段h的期望，一次计算一个batch。
-      neghidprobs = zeros(numcases,Maxnumhid, 'gpuArray');%%%负阶段h的期望，一次计算一个batch。
+      poshidprobs = zeros(numcases,Maxnumhid, 'gpuArray');%%%正阶段h的期望，�?��计算�?��batch�?
+      neghidprobs = zeros(numcases,Maxnumhid, 'gpuArray');%%%负阶段h的期望，�?��计算�?��batch�?
       posprods    = zeros(numdims,Maxnumhid, 'gpuArray');
       negprods    = zeros(numdims,Maxnumhid, 'gpuArray');
       
@@ -118,10 +118,10 @@ if restart ==1,
       vb_in_history = zeros(1, numdims, 'gpuArray');
   else
       
-      visbiases     = zeros(1,numdims);%%%%v的偏置
+      visbiases     = zeros(1,numdims);%%%%v的偏�?
       ybiases      = zeros(1,numclasses);            %%%标签y的偏置，这里y的维数为10   
-      hid_visMax    = zeros(Maxnumhid,numdims);       %%%最大的W矩阵,列数为Maxnumhid
-      hid_yMax      = zeros(Maxnumhid,numclasses);    %%%最大的U矩阵，列数为Maxnumhid
+      hid_visMax    = zeros(Maxnumhid,numdims);       %%%�?��的W矩阵,列数为Maxnumhid
+      hid_yMax      = zeros(Maxnumhid,numclasses);    %%%�?��的U矩阵，列数为Maxnumhid
       hidbiasesMax  = zeros(1,Maxnumhid);           %%%h的偏置初始化
       
       hid_visMax_inc  = zeros(Maxnumhid,numdims);
@@ -131,8 +131,8 @@ if restart ==1,
       ybiases_inc    = zeros(1,numclasses);
       visbiases_inc  = zeros(1,numdims);
       
-      poshidprobs = zeros(numcases,Maxnumhid);%%%正阶段h的期望，一次计算一个batch。
-      neghidprobs = zeros(numcases,Maxnumhid);%%%负阶段h的期望，一次计算一个batch。
+      poshidprobs = zeros(numcases,Maxnumhid);%%%正阶段h的期望，�?��计算�?��batch�?
+      neghidprobs = zeros(numcases,Maxnumhid);%%%负阶段h的期望，�?��计算�?��batch�?
       posprods    = zeros(numdims,Maxnumhid);
       negprods    = zeros(numdims,Maxnumhid);
       
@@ -150,7 +150,7 @@ if restart ==1,
   
   end
  
-   %targets_batch=batchtargets(:,:,1);%%%Gibbs 采样的初始值。
+   %targets_batch=batchtargets(:,:,1);%%%Gibbs 采样的初始�?�?
    if use_gpu
       negtargets_gen = zeros(numcases,numclasses,'gpuArray');
       targets_batch_dis= zeros(numcases,numclasses,'gpuArray');
@@ -177,10 +177,10 @@ for epoch = epoch:maxepoch
        %learning_rate = 0.5;
        learning_rate = max( learning_rate , 0.01);
        epW       = learning_rate;   % Learning rate for weights 
-       ephy      =  learning_rate;   %y与h权值矩阵的学习率
+       ephy      =  learning_rate;   %y与h权�?矩阵的学习率
 
        ephb       = learning_rate;   % Learning rate for biases of hidden units 
-       epyb       = learning_rate;   %标签y的偏置的学习率
+       epyb       = learning_rate;   %标签y的偏置的学习�?
        epvb       = learning_rate;
      
     end
@@ -220,7 +220,7 @@ for epoch = epoch:maxepoch
      Minposnumhid = zeros(1,numbatches);
      
    for batch = 1:numbatches,
-      if J >= Maxnumhid -1   %%%%增大“容量”
+      if J >= Maxnumhid -1   %%%%增大“容量�?
            Maxnumhid = Maxnumhid + 100;
         
            hid_visMax(J+1:Maxnumhid,:)    = 0.0; 
@@ -264,9 +264,9 @@ for epoch = epoch:maxepoch
       bt = linspace(1,1, Maxnumhid );
       
       epsilonW             = epW .* repmat( lr ,1, numdims );   % Learning rate for weights 
-      epsilon_hy           = ephy.* repmat( lr ,1,numclasses );   %y与h权值矩阵的学习率
+      epsilon_hy           = ephy.* repmat( lr ,1,numclasses );   %y与h权�?矩阵的学习率
       epsilonhb            = ephb.* lr';   % Learning rate for biases of hidden units 
-      epsilonyb            = epyb;   %标签y的偏置的学习率
+      epsilonyb            = epyb;   %标签y的偏置的学习�?
       epsilonvb            = epvb;
       weightcost(1:J,:)    = WC* repmat( lwc ,1, numdims );
       hycost(1:J,:)        = WC* repmat( lwc , 1, numclasses );
@@ -275,8 +275,8 @@ for epoch = epoch:maxepoch
 
  
 %%%%%%%%% POSITIVE PHASE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-      data = batchdata(:,:,batch);%%%取出一个batch的数据
-      targets_0 = batchtargets(:,:,batch);%%%取出-个batch的targets向量。
+      data = batchdata(:,:,batch);%%%取出�?��batch的数�?
+      targets_0 = batchtargets(:,:,batch);%%%取出-个batch的targets向量�?
   %%%正过程，从p(z|v,y)中采样得到z，若z>J0=10,z=J0+1;%%%
       
       beta = beta0 * bt .* soft_plus(WH * hidbiasesMax ); 
@@ -315,17 +315,17 @@ for epoch = epoch:maxepoch
  
       % poshidprobsMinusDbeta = poshidprobsMinusDbeta.* Pos_numhid4;
 
-      %posprods    = poshidprobs * data;%%%v(0)t1*p(h|v(0)t1)+v(0)t2*p(h|v(0)t2)+...+v(0)tm*p(h|v(0)tM) 在对W求导时会用到。
+      %posprods    = poshidprobs * data;%%%v(0)t1*p(h|v(0)t1)+v(0)t2*p(h|v(0)t2)+...+v(0)tm*p(h|v(0)tM) 在对W求导时会用到�?
       % posprods_dis    = poshidprobs * data  ;
       posprods_dis   = poshidprobs .*( 1-  S_PzOnvy ) * data   ;
       %batchposhidprobs(:,:,batch)=poshidprobs;
       % pos_hidy_dis    = poshidprobs * targets_0;%%%对U求导时会用到
       pos_hidy_dis   = poshidprobs .*( 1-  S_PzOnvy ) * targets_0 ;
-      % poshidact_dis   = sum(poshidprobsMinusDbeta , 2).';%%%sum的结果是一个列 向 量，即所有列延行相加的结果，即一个batch内的所有样本相加。再转置得到列向量。对C求导时会用到。
+      % poshidact_dis   = sum(poshidprobsMinusDbeta , 2).';%%%sum的结果是�?���?�?量，即所有列延行相加的结果，即一个batch内的�?��样本相加。再转置得到列向量�?对C求导时会用到�?
       poshidact_dis   = sum( poshidprobsMinusDbeta .*( 1-  S_PzOnvy ) , 2 ).';
-      posvisact_dis   = sum( data );%%%对bm求导时会用到, 这是一 行 向 量！
+      posvisact_dis   = sum( data );%%%对bm求导时会用到, 这是�?�?�?量！
       %posvisact_2 = sum(data.^2);%%%对bp求导时会用到
-      posyact_dis     = sum(targets_0);%%%对d求导时会用到，这是一 行 向 量
+      posyact_dis     = sum(targets_0);%%%对d求导时会用到，这是一 �?�?�?
       
 
       if gen_uselabel
@@ -336,7 +336,7 @@ for epoch = epoch:maxepoch
           posyact_gen = posyact_dis;
       else
           
-          P_z_on_v = P_z( data , hid_visMax ,hidbiasesMax , J , beta ,beta0 ,numcases ); %% 没有用标签 / without labels for the generative part
+          P_z_on_v = P_z( data , hid_visMax ,hidbiasesMax , J , beta ,beta0 ,numcases ); %% 没有用标�?/ without labels for the generative part
           sum_P_z_on_v = cumsum(P_z_on_v);
           [~, Pos_numhid1hot] = Sample_z (P_z_on_v,numcases,J);
           [~,Pos_numhid_gen] = max(Pos_numhid1hot);
@@ -364,7 +364,7 @@ for epoch = epoch:maxepoch
 
           posprods_gen   = poshidprobs_gen .*( 1-  S_PzOnv ) * data   ;
           poshidact_gen   = sum( poshidprobsMinusDbeta_gen .*( 1-  S_PzOnv ) , 2 ).';
-          posvisact_gen   = sum(data);%%%对bm求导时会用到, 这是一 行 向 量！
+          posvisact_gen   = sum(data);%%%对bm求导时会用到, 这是�?�?�?量！
           
       end
 
@@ -412,7 +412,7 @@ for epoch = epoch:maxepoch
          neghidstates =  round( neghidprobs > rand(Maxnumhid ,numcases) );
   
   
-    %%%%%% v~p(v|h,z)%%%%%%%%%%%%% 权值不用乘2了，去掉了和标签有关的项
+    %%%%%% v~p(v|h,z)%%%%%%%%%%%%% 权�?不用�?了，去掉了和标签有关的项
    
         % negvisprobs =   1./(1 + exp( - pagefun(@mtimes, hid_visMax' ,  neghidstates ) - repmat( visbiases',1,numcases )));      
          negvisprobs =   1./(1 + exp(- hid_visMax'* neghidstates  - repmat( visbiases',1,numcases )));      
@@ -470,13 +470,13 @@ for epoch = epoch:maxepoch
 
 %%%%% compute negtive phase of disciminative part %%%%%%
        compute_P_yz_v;
-       PP_y_v = sum( p_zy_on_v ); %%% 1*C*M  %%%从这个概率可以直接采样出 y 和 z, 我编写的采样程序的效率也很高，几乎把Matlab的矩阵运算功能发挥到了极限。但这些样本计算近似梯度收敛太慢。必须改成Gibbs采样收敛会很快。
+       PP_y_v = sum( p_zy_on_v ); %%% 1*C*M  %%%从这个概率可以直接采样出 y �?z, 我编写的采样程序的效率也很高，几乎把Matlab的矩阵运算功能发挥到了极限�?但这些样本计算近似梯度收敛太慢�?必须改成Gibbs采样收敛会很快�?
        P_y_v = squeeze(PP_y_v);  %%% C*M
   
-%%%%这些都能想出来，必须佩服一下自己！%%%%
+%%%%这些都能想出来，必须佩服�?��自己�?%%%
        hv_c = repmat(hid_visMax, 1,1,numclasses );  %%%  J * V *C
        if use_gpu
-           hd_c  = pagefun(@mtimes, hv_c, data');  %%%只适于有GPU时 ，J * M *C
+           hd_c  = pagefun(@mtimes, hv_c, data');  %%%只�?于有GPU�?，J * M *C
        else
            hd_c = zeros(Maxnumhid,numcases,numclasses);
            for cc = 1:numclasses
@@ -499,12 +499,12 @@ for epoch = epoch:maxepoch
 
        Neg_phase_for_multiply = squeeze(  sum(Neg_phase_for_sum,  2)  ); %%% J*M
   
-  %%%%%梯度的负项%%%
+  %%%%%梯度的负�?%%
 
        %Neg_phase_W = pagefun( @mtimes, Neg_phase_for_multiply , data );  %%% J*V
        Neg_phase_W = Neg_phase_for_multiply * data ;  %%% J*V
        Neg_phase_hb =sum(  Neg_phase_for_multiply ,2 );%%% J*1
-       Neg_phase_U = sum( Neg_phase_for_sum, 3 ); %%%不知对不对
+       Neg_phase_U = sum( Neg_phase_for_sum, 3 ); %%%不知对不�?
        Neg_phase_yb = sum(P_y_v, 2).';
 
    %%%6.17添加，用矩阵运算改写
@@ -604,7 +604,7 @@ for epoch = epoch:maxepoch
 
    end
   
-   mean_Mnegnumhid(epoch) = mean(Maxnegnumhid);%%%逼死强迫症
+   mean_Mnegnumhid(epoch) = mean(Maxnegnumhid);%%%逼死强迫�?
    mean_Mposnumhid(epoch) = mean(Maxposnumhid);
    mean_minposnumhid(epoch) = mean(Minposnumhid); 
    Max_mean_epoch = max(Meannegnumhid);
