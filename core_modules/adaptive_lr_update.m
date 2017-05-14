@@ -70,7 +70,7 @@ if adagrad
    end
    
    
-   n_W = global_lr./ ( sqrt(grad_W_history) + h );%%%可能不对
+   n_W = global_lr./ ( sqrt(grad_W_history) + h );%%%驴脡脛脺虏禄露脭
     n_hb = global_lr./ ( sqrt(grad_hb_history) + h );
     
     if start 
@@ -106,7 +106,7 @@ else %%% If using adadelta
         grad_U_history = p*grad_U_history + (1)*(grad_U).^2;
     end
 
-    n_W = ( sqrt(W_in_history ) + 0)./( sqrt(grad_W_history ) + h );%%%可能不对
+    n_W = ( sqrt(W_in_history ) + 0)./( sqrt(grad_W_history ) + h );%%%驴脡脛脺虏禄露脭
     n_hb = ( sqrt(hb_in_history ) + 0)./ ( sqrt(grad_hb_history ) + h);
     if start 
         n_vb = start_lr;
@@ -177,11 +177,12 @@ if ~isempty( find ( norm_hidvis > maxnorm, 1 ) )
        hid_visMax(index_W,:) = hid_visMax(index_W,:).* maxnorm./repmat( norm_hidvis(index_W),1,numdims );
 end
 %hbMax = gather(hidbiasesMax)   ;   
-% if  ~isempty( find (abs(hidbiasesMax) >maxnorm , 1 ))
-%         hb_onoff =  abs(hbMax)>maxnorm ;
-%         index_hb = find( hb_onoff );
-%         hidbiasesMax(index_hb) = hidbiasesMax(index_hb) .* maxnorm./ abs(hidbiasesMax(index_hb));
-% end
+hbMax = hidbiasesMax(1:J)   ;   
+if  ~isempty( find (abs(hidbiasesMax) >maxnorm , 1 ))
+         hb_onoff =  abs(hbMax)>maxnorm ;
+         index_hb = find( hb_onoff );
+         hidbiasesMax(index_hb) = hidbiasesMax(index_hb) .* maxnorm./ abs(hidbiasesMax(index_hb));
+end
 if label == 1  
        maxnormU = 5;
        hidy1 = hid_yMax(1:J,:);
