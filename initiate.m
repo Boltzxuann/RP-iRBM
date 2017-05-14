@@ -1,7 +1,7 @@
 clear 
 close all
-addpath('...\...\models')
-addpath('...\...\core_modules');
-addpath('...\...\evaluation');
-addpath('...\...\AIS_RBM');
-addpath('...\...\AIS_iRBM');
+addpath('E:\PPDownload\GitHub\RP-iRBM\models')
+addpath('E:\PPDownload\GitHub\RP-iRBM\core_modules');
+addpath('E:\PPDownload\GitHub\RP-iRBM\evaluation');
+addpath('E:\PPDownload\GitHub\RP-iRBM\AIS_RBM');
+addpath('E:\PPDownload\GitHub\RP-iRBM\AIS_iRBM');
