@@ -176,9 +176,10 @@ if ~isempty( find ( norm_hidvis > maxnorm, 1 ) )
        index_W = find ( W_onoff  ) ;
        hid_visMax(index_W,:) = hid_visMax(index_W,:).* maxnorm./repmat( norm_hidvis(index_W),1,numdims );
 end
-%hbMax = gather(hidbiasesMax)   ;   
+%hbMax = gather(hidbiasesMax)   ;  
+maxnormH = 5;
 hbMax = hidbiasesMax(1:J)   ;   
-if  ~isempty( find (abs(hidbiasesMax) >maxnorm , 1 ))
+if  ~isempty( find (abs(hidbiasesMax) >maxnormH , 1 ))
          hb_onoff =  abs(hbMax)>maxnorm ;
          index_hb = find( hb_onoff );
          hidbiasesMax(index_hb) = hidbiasesMax(index_hb) .* maxnorm./ abs(hidbiasesMax(index_hb));
