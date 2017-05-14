@@ -29,7 +29,7 @@ if restart ==1,
   epyb       = learning_rate;   %标签y的偏置的学习率
   epvb       = learning_rate;
   use_mom = 1; %%% whether using momentum or not
-  initialmomentum  = 0.5;  
+  initialmomentum  = 0.0;  
   
   G =0;
   CD = 2;
