@@ -19,7 +19,7 @@ if restart ==1,
   a = 0.01; %%%控制两部分梯度的比重。/ Propotion of the generative part
   gen_uselabel= 1;% use labels for the generative part or not
   regularization = 'L1'; %%使用哪种正则化约束/which regularization is chosen: 'no','L1' or 'L2'.
-  WC  = 0.00005;  %%%weight decay 参数
+  WC  = 0.00001;  %%%weight decay 参数
   use_RP = 1;  %%% whether use RP training or not
   
   %%%参数的学习率
