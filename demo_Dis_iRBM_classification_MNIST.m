@@ -7,13 +7,7 @@
 %                         /generalization
 % 2016-2017
 
-clear 
-close all
-addpath('...\...\models')
-addpath('...\...\core_modules');
-addpath('...\...\evaluation');
-addpath('...\...\AIS_RBM');
-addpath('...\...\AIS_iRBM');
+initiate
 
 load BinaryDataMNIST
 maxepoch= 300; %%% Total epochs of training. It takes about 100 ~ 150 epochs to get the best result.
