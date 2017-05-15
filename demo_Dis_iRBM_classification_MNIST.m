@@ -1,17 +1,15 @@
 
 % 
-% 编写人：彭轩/ Programmed by Xuan Peng
-% 在MNIST上训练Dis-iRBM的示例，采用混合目标函数/A illustration of training Dis-iRBM with
-%                                            /hybrid ojective on MNIST
-% 采用RP训练方法加速学习过程/Using RP to speed up learning and achieve better
-%                         /generalization
+% Programmed by Xuan Peng
+% A illustration of training Dis-iRBM with hybrid ojective on MNIST
+% Using RP to speed up learning and achieve better generalization
 % 2016-2017
 
 initiate
 load BinaryDataMNIST
 maxepoch= 300; %%% Total epochs of training. It takes about 100 ~ 150 epochs to get the best result.
 stopepochs = 50; %%The epochs to look ahead for stopping
-numclasses= 10;%%总共有10类数据
+numclasses= 10;
 Maxnumhid= 100;%%Initial capacity of oRBM
 learning_rate = 1;%%%Ignore it!
 use_valid = 1; %%% Use validation set for training 

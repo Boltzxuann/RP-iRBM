@@ -3,7 +3,7 @@
 % 2016-2017
 
 
-if restart ==1,
+if restart ==1
   restart=0;
   epoch=1;
   M_epoch=1;
@@ -32,7 +32,7 @@ if restart ==1,
   initialmomentum  = 0.5;  
   
   G =0;
-  CD = 2;
+  CD = 1;
   label = 1;
   order= 0;discard=0;random=1;
   lr_normal = 0; %%使用哪种学习�?
@@ -579,13 +579,14 @@ for epoch = epoch:maxepoch
        end
        start= 0;
 
-       if max(Pos_numhid)==J+1;
+       %if max(Pos_numhid)==J+1
+       if max(Pos_numhid)==J+1 || max( neg_numhid_gen) == J+1
            %if length(find(Pos_numhid==J+1)) >numcases*0.1;
            %if ~isempty(find(Pos_numhid==J+1, 1))
            J = J+1;
        end
 
-       if batch == round(numbatches/2);
+       if batch == round(numbatches/2)
            
            figure(1);
            imagesc(hid_visMax(1:J,:));
