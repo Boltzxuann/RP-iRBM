@@ -19,7 +19,8 @@ restart=1;
 global use_gpu
 use_gpu = gpuDeviceCount; 
 Dis_iRBM__hybrid; %%%Main code of learning a Dis-iRBM.
-classification_test;%%% Compute classification error on the test set.
+%classification_test;%%% Compute classification error on the test set.
+Test;
 
 
 

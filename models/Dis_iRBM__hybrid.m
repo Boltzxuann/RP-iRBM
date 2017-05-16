@@ -618,7 +618,8 @@ for epoch = epoch:maxepoch
    h_yMax = gather( hid_yMax );
    hbMax = gather ( hidbiasesMax );
    final  = 0;
-   valid
+   %valid;
+   valid_exact;
    test_epoch(1,epoch) = TestAccuracy;
    test_epoch(2,epoch) = gather(numhid); 
   
