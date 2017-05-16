@@ -31,7 +31,7 @@ if restart ==1
   initialmomentum  = 0.5;  
   
   G =0;
-  CD = 1;
+  CD = 3;
   label = 1;
   order= 0;discard=0;random=1;
   lr_normal = 0; %%
@@ -636,7 +636,7 @@ for epoch = epoch:maxepoch
         M_hidbiasesMax = gather ( hidbiasesMax );
         M_numhid  = gather (  round( mean_Mposnumhid(M_epoch) )  );
         Max_J_r = gather(Max_J_r);
-        save best_Dis_iRBM  M_hid_visMax M_epoch M_hidbiasesMax M_ybiases M_hid_yMax M_numhid max_TstAccy a WC J_r beta0 global_lr regularization gen_uselabel use_mom
+        save best_Dis_iRBM  M_hid_visMax M_epoch M_hidbiasesMax M_ybiases M_hid_yMax M_numhid max_TstAccy a WC J_r M_J beta0 global_lr regularization gen_uselabel use_mom
    %     save parameters_midtime;
         %save parametersZZZZZZZZZZZZ
 
