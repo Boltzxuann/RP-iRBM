@@ -31,7 +31,7 @@ if restart ==1
   initialmomentum  = 0.5;  
   
   G =0;
-  CD = 2;
+  CD = 1;
   label = 1;
   order= 0;discard=0;random=1;
   lr_normal = 0; %%
@@ -332,7 +332,7 @@ for epoch = epoch:maxepoch
           posyact_gen = posyact_dis;
       else
           
-          P_z_on_v = P_z( data , hid_visMax ,hidbiasesMax , J , beta ,beta0 ,numcases ); %% 没有用标�?/ without labels for the generative part
+          P_z_on_v = P_z( data , hid_visMax ,hidbiasesMax , J , beta ,beta0 ,numcases ); %% æ²¡æç¨æ ç­?/ without labels for the generative part
           sum_P_z_on_v = cumsum(P_z_on_v);
           [~, Pos_numhid1hot] = Sample_z (P_z_on_v,numcases,J);
           [~,Pos_numhid_gen] = max(Pos_numhid1hot);
@@ -360,7 +360,7 @@ for epoch = epoch:maxepoch
 
           posprods_gen   = poshidprobs_gen .*( 1-  S_PzOnv ) * data   ;
           poshidact_gen   = sum( poshidprobsMinusDbeta_gen .*( 1-  S_PzOnv ) , 2 ).';
-          posvisact_gen   = sum(data);%%%对bm求导时会用到, 这是�?�?�?量！
+          posvisact_gen   = sum(data);%%%å¯¹bmæ±å¯¼æ¶ä¼ç¨å°, è¿æ¯ä¸?è¡?å?éï¼
           
       end
 
@@ -556,9 +556,9 @@ for epoch = epoch:maxepoch
 
 %%%%%%%%%%%%% Reconstructing error %%%%%%%%%%%
       if gen_uselabel
-         err= sum(sum( abs(targets_0 - negtargets_gen)/2 ));%%%重构误差
+         err= sum(sum( abs(targets_0 - negtargets_gen)/2 ));%%%éæè¯¯å·®
       else
-         err= sum(sum( abs(data - negdata) ));%%%重构误差
+         err= sum(sum( abs(data - negdata) ));%%%éæè¯¯å·®
       end
        errsum = err + errsum;
        %momentum=finalmomentum;
