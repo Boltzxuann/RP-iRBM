@@ -13,20 +13,20 @@ totnum=size(digitdata,1);%%%px:total number of test digits
 fprintf(1, 'Size of the training dataset= %5d \n', totnum);
 
 %rand('state',0); %so we know the permutation of the training data
-randomorder=randperm(totnum);%%%µÃµ½Ò»¸öËùÓĞÊı¾İµÄËæ»úÅÅĞò
-%batchsize = 100;%%%batch´óĞ¡
+randomorder=randperm(totnum);%%%å¾—åˆ°ä¸€ä¸ªæ‰€æœ‰æ•°æ®çš„éšæœºæ’åº
+%batchsize = 100;%%%batchå¤§å°
 numbatches= floor( totnum/batchsize );
-numdims  =  size(digitdata,2);%%%Ã¿¸öÊı¾İµÄÎ¬Êı
+numdims  =  size(digitdata,2);%%%æ¯ä¸ªæ•°æ®çš„ç»´æ•°
 
-batchdata = zeros(batchsize, numdims, numbatches);%%%°ÑËùÓĞÊı¾İ×ª»»³ÉÈô¸Ébatches,ÈıÎ¬¾ØÕó£¬Ã¿Ò»¡°²ã¡±ÎªÒ»¸öbatchµÄÊı¾İ¡£
+batchdata = zeros(batchsize, numdims, numbatches);%%%æŠŠæ‰€æœ‰æ•°æ®è½¬æ¢æˆè‹¥å¹²batches,ä¸‰ç»´çŸ©é˜µï¼Œæ¯ä¸€â€œå±‚â€ä¸ºä¸€ä¸ªbatchçš„æ•°æ®ã€‚
 batchtargets = zeros(batchsize, numclasses, numbatches);
 
 for b=1:numbatches
-  batchdata(:,:,b) = digitdata(randomorder(1+(b-1)*batchsize:b*batchsize), :);%%%°ÑÊı¾İ°´ÕÕÇ°ÃæµÄËæ»úÅÅĞò·ÖÅä¸øµÚb¸öbatch¡£
+  batchdata(:,:,b) = digitdata(randomorder(1+(b-1)*batchsize:b*batchsize), :);%%%æŠŠæ•°æ®æŒ‰ç…§å‰é¢çš„éšæœºæ’åºåˆ†é…ç»™ç¬¬bä¸ªbatchã€‚
   batchtargets(:,:,b) = targets(randomorder(1+(b-1)*batchsize:b*batchsize), :);
 end;
 clear digitdata targets;
-%%%%%ÏÂÃæÊÇ¶Ô²âÊÔÊı¾İ½øĞĞÍ¬ÑùµÄ²Ù×÷
+%%%%%ä¸‹é¢æ˜¯å¯¹æµ‹è¯•æ•°æ®è¿›è¡ŒåŒæ ·çš„æ“ä½œ
 if use_valid == 1
      digitdata=Bdata_train(50001:60000,:);
      targets=train_targets(50001:60000,:);
@@ -48,8 +48,8 @@ testbatchdata = zeros(testbatchsize, numdims, numbatches);
 testbatchtargets = zeros(testbatchsize, numclasses, numbatches);
 
 for b=1:numbatches
-  testbatchdata(:,:,b) = digitdata(randomorder(1+(b-1)*batchsize:b*batchsize), :);
-  testbatchtargets(:,:,b) = targets(randomorder(1+(b-1)*batchsize:b*batchsize), :);
+  testbatchdata(:,:,b) = digitdata(randomorder(1+(b-1)*testbatchsize:b*testbatchsize), :);
+  testbatchtargets(:,:,b) = targets(randomorder(1+(b-1)*testbatchsize:b*testbatchsize), :);
 end;
 clear digitdata targets;
 
