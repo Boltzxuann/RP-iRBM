@@ -34,9 +34,9 @@ if restart ==1
   CD = 3;
   label = 1;
   order= 0;discard=0;random=1;
-  lr_normal = 0; %%
+  lr_normal = 0; 
   lr_adaptive=1; adagrad = 1;
-  num_ini = 0;%%
+  num_ini = 0;
   initial = ones(1,Maxnumhid) * num_ini;
   start = inf; %%% The learning of parameters not related to hidden units can be slower.
   
