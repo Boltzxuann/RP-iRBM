@@ -38,10 +38,14 @@ if restart ==1
   lr_adaptive=1; adagrad = 1;
   num_ini = 0;%%
   initial = ones(1,Maxnumhid) * num_ini;
-  start = 10;
+  start = inf; %%% The learning of parameters not related to hidden units can be slower.
   
   makebatches_mnist;
   [numcases, numdims, numbatches]=size(batchdata);
+  if use_gpu
+      batchdata=gpuArray(batchdata);
+      batchtargets=gpuArray(batchtargets);
+  end
 
   
 %%%% Initiate the parameters %%%%
@@ -184,7 +188,6 @@ for epoch = epoch:maxepoch
      
     end
         
-     
 %      lr(1:mean_maxPN_epoch) = lr(1:mean_maxPN_epoch)*0.99;
 %      lr = max(lr,0.01);
 
@@ -192,6 +195,7 @@ for epoch = epoch:maxepoch
     [numcases, numdims, numbatches]=size(batchdata);
     if use_gpu
         batchdata=gpuArray(batchdata);
+        batchtargets = gpuArray(batchtargets);
     end
 
     fprintf(1,'epoch %d\r',epoch); 
@@ -343,15 +347,15 @@ for epoch = epoch:maxepoch
 
           posprods_gen   = poshidprobs_gen .*( 1-  S_PzOnv ) * data   ;
           poshidact_gen   = sum( poshidprobsMinusDbeta_gen .*( 1-  S_PzOnv ) , 2 ).';
-          posvisact_gen   = sum(data);%%%å¯¹bmæ±å¯¼æ¶ä¼ç¨å°, è¿æ¯ä¸?è¡?å?éï¼
+          posvisact_gen   = sum(data);%%%
           
       end
 
 %%%%%%%% negtive phase of generative part%%%%%%%%%%
-      negtargets_gen = batchtargets(:,:,batch);
-      negdata = data;
-      %neg_numhid_gen = Pos_numhid_gen;
-
+     if epoch >0 %%CD or PCD
+        negtargets_gen = batchtargets(:,:,batch);
+        negdata = data;
+     end
      for cditer=1:CD
      %%%%%%% z~p(z|v)%%%%%%%%%%%%%
 
@@ -555,7 +559,6 @@ for epoch = epoch:maxepoch
        else
            adaptive_lr_update;
        end
-       start= start-1;
 
        %if max(Pos_numhid)==J+1
        if max(Pos_numhid)==J+1 || max( neg_numhid_gen) == J+1

@@ -71,18 +71,20 @@ if adagrad
    
    
    n_W = global_lr./ ( sqrt(grad_W_history) + h );%%%¿ÉÄÜ²»¶Ô
-    n_hb = global_lr./ ( sqrt(grad_hb_history) + h );
+   n_hb = global_lr./ ( sqrt(grad_hb_history) + h );
     
-    if start 
+    if start >0
         n_vb = start_lr;
+        start= start-1;
     else
         n_vb = global_lr./ ( sqrt(grad_vb_history) + h );
     end
     
     if label == 1
         
-        if start 
+        if start >0
             n_yb = start_lr ;
+            start= start-1;
         else
             n_yb = global_lr./( sqrt(grad_yb_history) + h );
         end
@@ -94,7 +96,7 @@ if adagrad
         n_W(index_initial,:)= start_lr;
         n_U(index_initial,:)= start_lr;
         n_hb(index_initial)= start_lr;
-        initial(index_initial)= 0;
+        initial(index_initial)= initial(index_initial)-1;
     end 
 else %%% If using adadelta
     grad_W_history = p*grad_W_history + (1)*(grad_W).^2;
@@ -108,16 +110,18 @@ else %%% If using adadelta
 
     n_W = ( sqrt(W_in_history ) + 0)./( sqrt(grad_W_history ) + h );%%%¿ÉÄÜ²»¶Ô
     n_hb = ( sqrt(hb_in_history ) + 0)./ ( sqrt(grad_hb_history ) + h);
-    if start 
+    if start >0
         n_vb = start_lr;
+        start= start-1;
     else
         n_vb = ( sqrt(vb_in_history) + 0  )./( sqrt(grad_vb_history) + h  ) ; 
     end
     
     if label == 1
         
-        if start 
+        if start >0
             n_yb = start_lr ;
+            start= start-1;
         else
             n_yb =  ( sqrt(yb_in_history) + 0 )./ ( sqrt(grad_yb_history) + h ) ;
         end
@@ -128,7 +132,7 @@ else %%% If using adadelta
         n_W(index_initial,:)= start_lr;
         n_U(index_initial,:)= start_lr;
         n_hb(index_initial)= start_lr;
-        initial(index_initial)= 0;
+        initial(index_initial)= initial(index_initial)-1;
     end  
 end
 
