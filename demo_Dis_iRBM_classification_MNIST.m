@@ -14,7 +14,7 @@ Maxnumhid= 100;%%Initial capacity of oRBM
 learning_rate = 1;%%%Ignore it!
 use_valid = 1; %%% Use validation set for training 
 batchsize = 100;
-testbatchsize = 100;
+testbatchsize = 500;
 restart=1;
 global use_gpu
 use_gpu = gpuDeviceCount; 

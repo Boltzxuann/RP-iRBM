@@ -3,6 +3,7 @@ use_valid=0;
 makebatches_mnist;
 numbatches_valid=size(testbatchdata,3);
 correct = zeros(1,numbatches_valid);
+beta = beta0 * soft_plus(WH * M_hidbiasesMax ); 
 for tt= 1:numbatches_valid
     data_val = testbatchdata(:,:,tt);
     targets_val = testbatchtargets(:,:,tt);

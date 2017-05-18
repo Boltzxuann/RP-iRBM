@@ -38,7 +38,7 @@ if restart ==1
   lr_adaptive=1; adagrad = 1;
   num_ini = 0;%%
   initial = ones(1,Maxnumhid) * num_ini;
-  start = 0;
+  start = 10;
   
   makebatches_mnist;
   [numcases, numdims, numbatches]=size(batchdata);
@@ -183,25 +183,8 @@ for epoch = epoch:maxepoch
        epvb       = learning_rate;
      
     end
+        
      
-     if use_mom
-         momentum = momentum + 0.05; %% momentums for visbiases and ybiases
-         momentum = min(0.9 ,momentum);
-         
-         index_u = find (mom(1:numhid)>=0.9); %% momentums for weights and hidden biases
-         index_m = find ( mom(1:numhid)>=0.8 .* mom(1:numhid)<0.9);
-         index_d = find (mom(1:numhid)<0.8);
-         
-         mom(index_d) = mom(index_d) + 0.1;
-         mom(index_m) = mom(index_m) + 0.02;
-         mom(index_u) = mom(index_u) + 0.01;
-         
-         mom(1:numhid) = min(0.90 ,mom(1:numhid));
-         
-     end
-     
-     
-%    end
 %      lr(1:mean_maxPN_epoch) = lr(1:mean_maxPN_epoch)*0.99;
 %      lr = max(lr,0.01);
 
@@ -572,7 +555,7 @@ for epoch = epoch:maxepoch
        else
            adaptive_lr_update;
        end
-       start= 0;
+       start= start-1;
 
        %if max(Pos_numhid)==J+1
        if max(Pos_numhid)==J+1 || max( neg_numhid_gen) == J+1
@@ -599,7 +582,8 @@ for epoch = epoch:maxepoch
        Minposnumhid(batch) = gather( min(M_pnh) );
 
    end
-  
+   
+
    mean_Mnegnumhid(epoch) = mean(Maxnegnumhid);
    mean_Mposnumhid(epoch) = mean(Maxposnumhid);
    mean_minposnumhid(epoch) = mean(Minposnumhid); 
@@ -611,6 +595,24 @@ for epoch = epoch:maxepoch
    fprintf(1, 'epoch %4i error %6.1f  \n', epoch, errsum); 
   
    numhid  = gather (  round( mean_Mposnumhid(epoch) )  );
+   
+    if use_mom
+         momentum = momentum + 0.05; %% momentums for visbiases and ybiases
+         momentum = min(0.9 ,momentum);
+         
+         index_u = find (mom(1:numhid)>=0.9); %% momentums for weights and hidden biases
+         index_m = find ( mom(1:numhid)>=0.8 .* mom(1:numhid)<0.9);
+         index_d = find (mom(1:numhid)<0.8);
+         
+         mom(index_d) = mom(index_d) + 0.1;
+         mom(index_m) = mom(index_m) + 0.01;
+         mom(index_u) = mom(index_u) + 0.001;
+         
+         mom(1:numhid) = min(0.90 ,mom(1:numhid));
+         
+    end
+  
+   
 
    h_vMax = gather( hid_visMax );
    yb = gather( ybiases );
@@ -636,7 +638,7 @@ for epoch = epoch:maxepoch
         M_hidbiasesMax = gather ( hidbiasesMax );
         M_numhid  = gather (  round( mean_Mposnumhid(M_epoch) )  );
         Max_J_r = gather(Max_J_r);
-        save best_Dis_iRBM  M_hid_visMax M_epoch M_hidbiasesMax M_ybiases M_hid_yMax M_numhid max_TstAccy a WC J_r M_J beta0 global_lr regularization gen_uselabel use_mom
+        save best_Dis_iRBM  M_hid_visMax M_epoch M_hidbiasesMax M_ybiases M_hid_yMax M_numhid max_TstAccy a WC J_r M_J beta0 WH global_lr regularization gen_uselabel use_mom
    %     save parameters_midtime;
         %save parametersZZZZZZZZZZZZ
 
@@ -651,7 +653,7 @@ for epoch = epoch:maxepoch
     plot(test_epoch(1,1:epoch));
     xlabel('epoch');
     ylabel('validation accuracy');
-    fprintf(1, 'epoch %4i , maximum number of z %4i , \n test accuracy %6.4f  \n', epoch, J ,TestAccuracy);
+    fprintf(1, 'epoch %4i , maximum number of z %4i , \n validation accuracy %6.4f  \n', epoch, J ,TestAccuracy);
     pause(2);
  
 end;
