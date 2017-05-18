@@ -41,8 +41,8 @@ testbatchdata = zeros(testbatchsize, numdims, numbatches);
 %testbatchtargets = zeros(testbatchsize, numclasses, numbatches);
 
 for b=1:numbatches
-  testbatchdata(:,:,b) = digitdata(randomorder(1+(b-1)*batchsize:b*batchsize), :);
-  %testbatchtargets(:,:,b) = targets(randomorder(1+(b-1)*batchsize:b*batchsize), :);
+  testbatchdata(:,:,b) = digitdata(randomorder(1+(b-1)*testbatchsize:b*testbatchsize), :);
+  %testbatchtargets(:,:,b) = targets(randomorder(1+(b-1)*testbatchsize:b*testbatchsize), :);
 end;
 clear digitdata targets;
 
