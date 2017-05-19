@@ -167,7 +167,7 @@ if label == 1
       hid_yMax   = hid_yMax   + hid_yMax_inc;
 end
    
-    
+   
 %%% maxnorm 
 %Constraining weights in a sphere.
 maxnorm = 10;
@@ -181,6 +181,7 @@ if ~isempty( find ( norm_hidvis > maxnorm, 1 ) )
        hid_visMax(index_W,:) = hid_visMax(index_W,:).* maxnorm./repmat( norm_hidvis(index_W),1,numdims );
 end
 
+
 % maxnormH = 10;
 % hbMax = hidbiasesMax(1:J)   ;   
 % if  ~isempty( find (abs(hidbiasesMax) >maxnormH , 1 ))
@@ -188,6 +189,7 @@ end
 %          index_hb = find( hb_onoff );
 %          hidbiasesMax(index_hb) = hidbiasesMax(index_hb) .* maxnormH./ abs(hidbiasesMax(index_hb));
 % end
+
 if label == 1  
        maxnormU = 5;
        hidy1 = hid_yMax(1:J,:);
