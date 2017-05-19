@@ -28,7 +28,7 @@ if restart ==1
   epyb       = learning_rate;   
   epvb       = learning_rate;
   use_mom = 1; %%% Whether using momentum or not
-  initialmomentum  = 0.5;  
+  initialmomentum  = 0.0;  
   
   G =0;
   CD = 3;
