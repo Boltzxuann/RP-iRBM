@@ -186,7 +186,7 @@ hbMax = hidbiasesMax(1:J)   ;
 if  ~isempty( find (abs(hidbiasesMax) >maxnormH , 1 ))
          hb_onoff =  abs(hbMax)>maxnormH ;
          index_hb = find( hb_onoff );
-         hidbiasesMax(index_hb) = hidbiasesMax(index_hb) .* maxnorm./ abs(hidbiasesMax(index_hb));
+         hidbiasesMax(index_hb) = hidbiasesMax(index_hb) .* maxnormH./ abs(hidbiasesMax(index_hb));
 end
 if label == 1  
        maxnormU = 5;
