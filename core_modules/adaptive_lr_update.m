@@ -180,7 +180,7 @@ if ~isempty( find ( norm_hidvis > maxnorm, 1 ) )
        index_W = find ( W_onoff  ) ;
        hid_visMax(index_W,:) = hid_visMax(index_W,:).* maxnorm./repmat( norm_hidvis(index_W),1,numdims );
 end
-%hbMax = gather(hidbiasesMax)   ;  
+
 % maxnormH = 10;
 % hbMax = hidbiasesMax(1:J)   ;   
 % if  ~isempty( find (abs(hidbiasesMax) >maxnormH , 1 ))
