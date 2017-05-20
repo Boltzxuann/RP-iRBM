@@ -49,7 +49,7 @@ if restart ==1
 
   
 %%%% Initiate the parameters %%%%
-  max_TstAccy = 0;
+  max_ValAccy = 0;
   test_epoch = zeros( 2,maxepoch );
   
   mom = initialmomentum * ones( Maxnumhid,1 );
@@ -629,10 +629,10 @@ for epoch = epoch:maxepoch
    test_epoch(2,epoch) = gather(numhid); 
   
 
-  if max_TstAccy <= TestAccuracy && epoch < (M_epoch + stopepochs)
+  if max_ValAccy <= TestAccuracy && epoch < (M_epoch + stopepochs)
  
      
-        max_TstAccy = TestAccuracy;
+        max_ValAccy = TestAccuracy;
         M_hid_visMax = gather( hid_visMax );
         M_epoch = gather( epoch );
         M_J = J;
@@ -641,11 +641,11 @@ for epoch = epoch:maxepoch
         M_hidbiasesMax = gather ( hidbiasesMax );
         M_numhid  = gather (  round( mean_Mposnumhid(M_epoch) )  );
         Max_J_r = gather(Max_J_r);
-        save best_Dis_iRBM  M_hid_visMax M_epoch M_hidbiasesMax M_ybiases M_hid_yMax M_numhid max_TstAccy a WC J_r M_J beta0 WH global_lr regularization gen_uselabel use_mom
+        save best_Dis_iRBM  M_hid_visMax M_epoch M_hidbiasesMax M_ybiases M_hid_yMax M_numhid max_ValAccy a WC J_r M_J beta0 WH global_lr regularization gen_uselabel use_mom
    %     save parameters_midtime;
         %save parametersZZZZZZZZZZZZ
 
-   elseif max_TstAccy > TestAccuracy && epoch < (M_epoch + stopepochs)
+   elseif max_ValAccy > TestAccuracy && epoch < (M_epoch + stopepochs)
            
           
    else
