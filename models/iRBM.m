@@ -5,13 +5,13 @@
 
 if restart ==1
     restart=0;
-    %%%%%% 超参数/hyper parameters%%%%%
+    %%%%%%Hyper parameters%%%%%
     beta0 = 1.01;WH = 0/beta0;  
     epW      = 1;   % Learning rate for weights (old ,now useless, same below)
     epvb     = 1;   % Learning rate for biases of visible units 
     ephb     = 1;   % Learning rate for biases of hidden units 
     
-    regularization = 'L1'; %%使用哪种正则化约束/which regularization is chosen
+    regularization = 'L1'; %%Which regularization is chosen
     WC  = 0.0001;
     use_RP = 1;
     h = 1e-10;
@@ -20,11 +20,11 @@ if restart ==1
     CD= 10;  
     
     global_lr = 0.05;
-    Num_inter_initial_lr = 1; %%按照初始学习率迭代的次数。
+    Num_inter_initial_lr = 1; %%
     initial = Num_inter_initial_lr*ones(1,Maxnumhid);
     start = 1;
     
-    lr_normal = 0; %%使用哪种学习率
+    lr_normal = 0; %%
     lr_adaptive=1; adagrad = 1;
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
@@ -37,7 +37,7 @@ if restart ==1
        batchdata = gpuArray(batchdata);
     end
     
-    Maxnumhid = 100;%%%初始容量/initial capacity of oRBM
+    Maxnumhid = 100;%%%Initial capacity of oRBM
     order = 0;
     label = 0;
     discard=0;random=1;  
@@ -71,26 +71,25 @@ if restart ==1
         
     end
   
-    initialmomentum  = 0.0;  
+    initialmomentum  = 0.5;  
     mom = initialmomentum * ones( Maxnumhid,1 );
     %finalmomentum    = 0.0;
     momentum=initialmomentum;
 
     lr = 1*ones( Maxnumhid,1 );
 
-    
 % Initializing symmetric weights and biases. 
     if use_gpu
         %numclasses =10;
-        visbiases     = zeros(1,numdims,'gpuArray');%%%%v的偏置
-        %ybiases      = zeros(1,numclasses ,'gpuArray');            %%%标签y的偏置，这里y的维数为10
+        visbiases     = zeros(1,numdims,'gpuArray');%%%
+        %ybiases      = zeros(1,numclasses ,'gpuArray');            %%%
    
-        hid_visMax    = zeros(Maxnumhid,numdims ,'gpuArray');       %%%最大的W矩阵,列数为Maxnumhid
-        %hid_yMax      = zeros(Maxnumhid,numclasses ,'gpuArray');    %%%最大的U矩阵，列数为Maxnumhid
-        hidbiasesMax  = -0*ones(1,Maxnumhid ,'gpuArray');           %%%h的偏置初始化  
+        hid_visMax    = zeros(Maxnumhid,numdims ,'gpuArray');       %%%
+        %hid_yMax      = zeros(Maxnumhid,numclasses ,'gpuArray');    %%%
+        hidbiasesMax  = -0*ones(1,Maxnumhid ,'gpuArray');           %%%
        
-        poshidprobs = zeros(numcases,Maxnumhid ,'gpuArray');%%%正阶段h的期望，一次计算一个batch。
-        neghidprobs = zeros(numcases,Maxnumhid ,'gpuArray');%%%负阶段h的期望，一次计算一个batch。
+        poshidprobs = zeros(numcases,Maxnumhid ,'gpuArray');%%%
+        neghidprobs = zeros(numcases,Maxnumhid ,'gpuArray');%%%
         posprods    = zeros(numdims,Maxnumhid ,'gpuArray');
         negprods    = zeros(numdims,Maxnumhid ,'gpuArray');
   
@@ -121,15 +120,15 @@ if restart ==1
         end
     else
         %numclasses =10;
-        visbiases     = zeros(1,numdims);%%%%v的偏置
-        %ybiases      = zeros(1,numclasses);            %%%标签y的偏置，这里y的维数为10
+        visbiases     = zeros(1,numdims);%%%
+        %ybiases      = zeros(1,numclasses);            %%%
    
-        hid_visMax    = zeros(Maxnumhid,numdims);       %%%最大的W矩阵,列数为Maxnumhid
-        %hid_yMax      = zeros(Maxnumhid,numclasses);    %%%最大的U矩阵，列数为Maxnumhid
-        hidbiasesMax  = -0*ones(1,Maxnumhid);           %%%h的偏置初始化  
+        hid_visMax    = zeros(Maxnumhid,numdims);       %%%
+        %hid_yMax      = zeros(Maxnumhid,numclasses);    %%%
+        hidbiasesMax  = -0*ones(1,Maxnumhid);           %%%
        
-        poshidprobs = zeros(numcases,Maxnumhid);%%%正阶段h的期望，一次计算一个batch。
-        neghidprobs = zeros(numcases,Maxnumhid);%%%负阶段h的期望，一次计算一个batch。
+        poshidprobs = zeros(numcases,Maxnumhid);%%%
+        neghidprobs = zeros(numcases,Maxnumhid);%%%
         posprods    = zeros(numdims,Maxnumhid);
         negprods    = zeros(numdims,Maxnumhid);
   
@@ -199,10 +198,10 @@ for epoch = epoch:maxepoch
         learning_rate = 0.5/( epoch/50+1 );
         learning_rate = max( learning_rate , 0.001);
         epW      = learning_rate;   % Learning rate for weights 
-        ephy      =  learning_rate;   %y与h权值矩阵的学习率
+        ephy      =  learning_rate;   %
 
         ephb       = learning_rate;   % Learning rate for biases of hidden units 
-        epyb       = learning_rate;   %标签y的偏置的学习率
+        epyb       = learning_rate;   %
         epvb       = learning_rate;
     
      end
@@ -222,7 +221,7 @@ for epoch = epoch:maxepoch
         %train =1;
         %discard_hids;
         
-     if J >= Maxnumhid -1   %%%%增大“容量”/grow the "capacity" of oRBM if necessary
+     if J >= Maxnumhid -1   %%%Grow the "capacity" of oRBM if necessary
         Maxnumhid = Maxnumhid + 100;
         
         
@@ -285,9 +284,9 @@ for epoch = epoch:maxepoch
        end
 
      epsilonW     = epW .* repmat( lr ,1, numdims );   % Learning rate for weights 
-     %epsilon_hy     =  ephy.* repmat( lr ,1,numclasses );   %y与h权值矩阵的学习率
+     %epsilon_hy     =  ephy.* repmat( lr ,1,numclasses );   
      epsilonhb       = ephb.* lr';   % Learning rate for biases of hidden units 
-     %epsilonyb       =epyb;   %标签y的偏置的学习率
+     %epsilonyb       =epyb;   
      epsilonvb       = epvb;
      weightcost(1:J,:) =  WC* repmat( lwc ,1, numdims );     hycost(1:J,:) =  WC* repmat( lwc , 1, numclasses );
      %fprintf(1,'epoch %d batch %d\r',epoch,batch); 
@@ -298,7 +297,7 @@ for epoch = epoch:maxepoch
 
     %data = data > rand(numcases,numdims,'gpuArray');  
     data = ( batchdata(:,:,batch));
-  %%%正过程，从p(z|v)中采样得到z，若z>J0=10,z=J0+1;%%% 注意！权值要乘2以补偿上层向下的权值！    hidbias = 1*hidbiasesMax;
+    hidbias = 1*hidbiasesMax;
     beta = beta0 *bt.* soft_plus(WH * hidbias );  
     P_z_on_v = P_z( data , hid_visMax ,hidbiasesMax , J , beta ,beta0 ,numcases ); %%%compute P(z|v) 
     sum_P_z_on_v = cumsum(P_z_on_v);
@@ -311,7 +310,7 @@ for epoch = epoch:maxepoch
     [~,M_Pnhs] = max(P_z_on_v);
     M_Pnh = max(M_Pnhs);
     %M_Pnh = max(Pos_numhid_gen);
-   %%%采样完毕%%%
+   
     if use_gpu
         S_PzOnvy = zeros(Maxnumhid,numcases,'gpuArray');        Pos_MaxNh =zeros(Maxnumhid,numcases,'gpuArray');
         Pos_numhid4 =zeros(Maxnumhid,numcases,'gpuArray');
@@ -341,7 +340,7 @@ for epoch = epoch:maxepoch
     %posprods    = pagefun(@mtimes, poshidprobs , data ); 
     %poshidact   = sum(poshidprobsMinusDbeta , 2).';
     %posprods    = pagefun(@mtimes, poshidprobs.*( 1-  S_PzOnvy ) , data ); 
-    posprods    = poshidprobs.*( 1-  S_PzOnvy ) * data   ; %%%用GPU时可能会报错
+    posprods    = poshidprobs.*( 1-  S_PzOnvy ) * data   ; %%%
     poshidact   = sum(poshidprobsMinusDbeta.*( 1-  S_PzOnvy ) , 2).'; 
     posvisact = sum(data);
   
@@ -368,7 +367,7 @@ for epoch = epoch:maxepoch
            neg_numhid4 =zeros(Maxnumhid,numcases);
        end
        neg_numhid4(1:J+1,:)= Neg_numhidmask;
-       neghidprobs = 1./(  1 + exp( bsxfun(@minus, -1* hid_visMax* negdata' , hidbias' ) )  ); %%%用GPU时可能会报错   
+       neghidprobs = 1./(  1 + exp( bsxfun(@minus, -1* hid_visMax* negdata' , hidbias' ) )  ); %%%
        %neghidprobs =  1./(   1 + exp( bsxfun( @minus, pagefun( @mtimes, -1*hid_visMax , negdata' ) , hidbias') )  );
   
        neghidprobs = neghidprobs.* neg_numhid4;
@@ -380,8 +379,8 @@ for epoch = epoch:maxepoch
        neghidstates = round(neghidstates);
        %neghidstates = gather(neghidstates);
        
-   %%%%%%% v~p(v|h,z)%%%%%%%%%%%%% 权值不用乘2了，去掉了和标签有关的项
-       negvisprobs =   1./(   1 + exp( bsxfun(@minus,- hid_visMax'* neghidstates , visbiases' ) )  ); %%%用GPU时可能会报错        
+   %%%%%%% v~p(v|h,z)%%%%%%%%%%%%% 
+       negvisprobs =   1./(   1 + exp( bsxfun(@minus,- hid_visMax'* neghidstates , visbiases' ) )  ); %%%     
        %negvisprobs =   1./(1 + exp(  pagefun(@mtimes, - hid_visMax', neghidstates ) - repmat( visbiases',1,numcases ))   );   
        if use_gpu
            negdata = negvisprobs > rand(numdims , numcases, 'gpuArray');
@@ -389,7 +388,7 @@ for epoch = epoch:maxepoch
            negdata = negvisprobs > rand(numdims , numcases);
        end
        negdata = negdata';
-       negdata = round(negdata);%%%GPU不认逻辑变量！
+       negdata = round(negdata);%%%
 
     end
     if use_gpu
@@ -403,7 +402,7 @@ for epoch = epoch:maxepoch
     neg_MaxNh(1:J,:)= 1;
     s_negPzONvy(1:J,:) = sum_P_z_on_v_neg(1:J,:);
     %negdata = gather(negdata); 
-    neghidprobs = 1./(   1 + exp( bsxfun(@minus, -1* hid_visMax* negdata' , hidbias') )   );   %%%用GPU时可能会报错   
+    neghidprobs = 1./(   1 + exp( bsxfun(@minus, -1* hid_visMax* negdata' , hidbias') )   );   %%%
     %neghidprobs =  1./(   1 + exp( bsxfun( @minus, pagefun( @mtimes, -1*hid_visMax , negdata' ) , hidbias') )  );
    
    
@@ -421,7 +420,7 @@ for epoch = epoch:maxepoch
  %   neghidact = sum(neghidprobsMinusDbeta,2).';
     negvisact = sum(negdata); 
     %negprods  = pagefun(@mtimes, neghidprobs.*( 1- s_negPzONvy ) , negdata );
-    negprods  = neghidprobs.*( 1- s_negPzONvy ) * negdata;%%%%%%用GPU时可能会报错  
+    negprods  = neghidprobs.*( 1- s_negPzONvy ) * negdata;%%%%%
     neghidact =  sum(neghidprobsMinusDbeta.*( 1- s_negPzONvy ) ,2).';
  %  negvisact = sum(negdata); 
   
@@ -438,12 +437,11 @@ for epoch = epoch:maxepoch
            adaptive_lr_update;
 
        end
-  
-    start = 0;
+
 %     %if M_Pnh ==J+1;
        %if length(find(Pos_numhid_gen==J+1))>numcases/5
-       if ~isempty(find(Pos_numhid_gen==J+1, 1))
-       %if ~isempty( find( (Pos_numhid_gen==J+1).*(neg_numhid_gen==J+1), 1 ) )
+       %if ~isempty(find(Pos_numhid_gen==J+1, 1))
+       if ~isempty( find( (Pos_numhid_gen==J+1).*(neg_numhid_gen==J+1), 1 ) )
           J = J+1;
 
        end
@@ -466,7 +464,7 @@ for epoch = epoch:maxepoch
      
       
    end
-   mean_Mnegnumhid(epoch) = mean(Maxnegnumhid);%%%逼死强迫症
+   mean_Mnegnumhid(epoch) = mean(Maxnegnumhid);%%%
    Max_mean_new = max(Meannegnumhid);
    mean_mean_epoch(epoch) = mean(Meannegnumhid);
    mean_Mposnumhid(epoch) = mean(Maxposnumhid);
