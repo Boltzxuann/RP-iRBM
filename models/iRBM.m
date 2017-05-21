@@ -209,12 +209,12 @@ for epoch = epoch:maxepoch
 %       if epoch >1
 %          train =1; discard = 1;
 %          discard_hids;
+%       end
 
      Maxnegnumhid = zeros(1,numbatches);
      Meannegnumhid = zeros(1,numbatches); 
      Maxposnumhid = zeros(1,numbatches);
      Minposnumhid = zeros(1,numbatches);
-
 
   for batch = 1:numbatches
      
