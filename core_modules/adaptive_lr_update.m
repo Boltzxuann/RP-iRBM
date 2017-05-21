@@ -112,6 +112,7 @@ else %%% If using adadelta
     n_W = ( sqrt(W_in_history ) + 0)./( sqrt(grad_W_history ) + h );%%%¿ÉÄÜ²»¶Ô
     n_hb = ( sqrt(hb_in_history ) + 0)./ ( sqrt(grad_hb_history ) + h);
     %n_hb = start_lr;
+
     if start >0
         n_vb = start_lr;
         start= start-1;
