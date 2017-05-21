@@ -38,7 +38,7 @@ if restart ==1
   lr_adaptive=1; adagrad = 1;
   num_ini = 0;
   initial = ones(1,Maxnumhid) * num_ini;
-  start = inf; %%% The learning of parameters not related to hidden units can be slower.
+  start = 1; %%% The learning of parameters not related to hidden units can be slower.
   
   makebatches_mnist;
   [numcases, numdims, numbatches]=size(batchdata);
