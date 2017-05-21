@@ -72,6 +72,7 @@ if adagrad
    
    n_W = global_lr./ ( sqrt(grad_W_history) + h );%%%¿ÉÄÜ²»¶Ô
    n_hb = global_lr./ ( sqrt(grad_hb_history) + h );
+   %n_hb = start_lr;
     
     if start >0
         n_vb = start_lr;
@@ -110,6 +111,7 @@ else %%% If using adadelta
 
     n_W = ( sqrt(W_in_history ) + 0)./( sqrt(grad_W_history ) + h );%%%¿ÉÄÜ²»¶Ô
     n_hb = ( sqrt(hb_in_history ) + 0)./ ( sqrt(grad_hb_history ) + h);
+    %n_hb = start_lr;
     if start >0
         n_vb = start_lr;
         start= start-1;
@@ -166,8 +168,8 @@ if label == 1
       ybiases = ybiases + ybiases_inc;
       hid_yMax   = hid_yMax   + hid_yMax_inc;
 end
-   
-    
+
+
 %%% maxnorm 
 %Constraining weights in a sphere.
 maxnorm = 10;
