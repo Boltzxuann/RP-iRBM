@@ -20,7 +20,7 @@ if restart ==1
     CD= 10;  
     
     global_lr = 0.05;
-    Num_inter_initial_lr = 1; %%
+    Num_inter_initial_lr = 0; %%
     initial = Num_inter_initial_lr*ones(1,Maxnumhid);
     start = 1;
     
