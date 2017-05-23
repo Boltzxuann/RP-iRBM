@@ -561,7 +561,7 @@ for epoch = epoch:maxepoch
        end
 
        %if max(Pos_numhid)==J+1
-       if max(Pos_numhid)==J+1 || max( neg_numhid_gen) == J+1
+       if max(Pos_numhid)==J+1 && max( neg_numhid_gen) == J+1
            %if length(find(Pos_numhid==J+1)) >numcases*0.1;
            %if ~isempty(find(Pos_numhid==J+1, 1))
            J = J+1;
