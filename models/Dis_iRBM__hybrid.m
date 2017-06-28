@@ -259,7 +259,12 @@ for epoch = epoch:maxepoch
       weightcost(1:J,:)    = WC* repmat( lwc ,1, numdims );
       hycost(1:J,:)        = WC* repmat( lwc , 1, numclasses );
 
-      fprintf(1,'epoch %d batch %d z %d \r',epoch, batch, J); 
+      if epoch ==1
+          eff_nh = J;
+      else
+          eff_nh = round(  mean_Mposnumhid(epoch-1) );
+      end
+      fprintf(1,'epoch %d batch %d z %d effective hids %d \r',epoch, batch, J, eff_nh); 
 
  
 %%%%%%%%% POSITIVE PHASE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
