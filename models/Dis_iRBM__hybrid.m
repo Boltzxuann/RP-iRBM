@@ -262,7 +262,7 @@ for epoch = epoch:maxepoch
       if epoch ==1
           eff_nh = J;
       else
-          eff_nh = round(  mean_Mposnumhid(epoch-1) );
+          eff_nh = length(hbMax);
       end
       fprintf(1,'epoch %d batch %d z %d effective hids %d \r',epoch, batch, J, eff_nh); 
 
@@ -655,7 +655,8 @@ for epoch = epoch:maxepoch
         M_ybiases = gather( ybiases );
         M_hid_yMax = gather( h_yMax );
         M_hidbiasesMax = gather ( hbMax );
-        M_numhid  = gather (  round( mean_Mposnumhid(M_epoch) )  );
+        %M_numhid  = gather (  round( mean_Mposnumhid(M_epoch) )  );
+        M_numhid = length(hbMax);
         Max_J_r = gather(Max_J_r);
         save best_Dis_iRBM  M_hid_visMax M_epoch M_hidbiasesMax M_ybiases M_hid_yMax M_numhid max_ValAccy a WC J_r M_J beta0 WH global_lr regularization gen_uselabel use_mom
    %     save parameters_midtime;
