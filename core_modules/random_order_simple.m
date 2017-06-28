@@ -36,16 +36,20 @@ end
         J_r = 1;
     else
         if epoch < 11
-            J_r = round(0.8*J);
+            J_r = round(0.9*J);
             %J_r = round(  mean( mean_mean_epoch(epoch-1) ) );
         else
             if epoch < 12
                 J_r = 1;
             else
                 %J_r = round(0.8 * mean( mean_Mposnumhid(11:epoch-1) ));
-                 J_r = round(  mean( mean_mean_epoch(epoch-10 :epoch-1) ) )-10;
-                 if epoch > 50
-                     J_r = round(  mean( mean_mean_epoch( round( epoch*0.8 ):epoch-1) ) )-10;
+                 if mean_mean_epoch(epoch-1) < 100  
+                     J_r = round(  0.9*mean( mean_mean_epoch(epoch-10 :epoch-1) ) );
+                 else 
+                     J_r = round(  mean( mean_mean_epoch(epoch-10 :epoch-1) ) )-10;
+                     if epoch > 50
+                         J_r = round(  mean( mean_mean_epoch( round( epoch*0.8 ):epoch-1) ) )-10;
+                     end                     
                  end
                 %J_r = round( ( mean_mean_epoch(epoch-1) ) )-10;
             end          

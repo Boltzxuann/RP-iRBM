@@ -21,19 +21,22 @@ if restart ==1
   regularization = 'L1'; %%Which regularization is chosen: 'no','L1' or 'L2'.
   WC  = 0.00005;  %%%Weight decay 
   use_RP = 1;  %%% Whether use RP training or not
-  
+  discard = 1;%%%Discard useless hids
   epW      = learning_rate;   % Learning rate for weights 
   ephy      =  learning_rate;   
   ephb       = learning_rate;   
   epyb       = learning_rate;   
   epvb       = learning_rate;
   use_mom = 1; %%% Whether using momentum or not
-  initialmomentum  = 0.0;  
+  if use_mom
+      initialmomentum  = 0.0;
+  else
+      initialmomentum  = 0.5;
+  end
   
   G =0;
   CD = 3;
   label = 1;
-  order= 0;discard=0;random=1;
   lr_normal = 0; 
   lr_adaptive=1; adagrad = 1;
   num_ini = 0;
@@ -88,7 +91,6 @@ if restart ==1
   J_r = 1;
   Max_J_r = 1;
   mean_maxPN_epoch = J; 
-  numhid = 0;
   if use_gpu
       visbiases     = zeros(1,numdims, 'gpuArray');%%%%
       ybiases      = zeros(1,numclasses, 'gpuArray');            %%% 
@@ -597,21 +599,21 @@ for epoch = epoch:maxepoch
   
    fprintf(1, 'epoch %4i error %6.1f  \n', epoch, errsum); 
   
-   numhid  = gather (  round( mean_Mposnumhid(epoch) )  );
+   numh  = gather (  round( mean_Mposnumhid(epoch) )  );
    
     if use_mom
          momentum = momentum + 0.05; %% momentums for visbiases and ybiases
          momentum = min(0.9 ,momentum);
          
-         index_u = find (mom(1:numhid)>=0.9); %% momentums for weights and hidden biases
-         index_m = find ( mom(1:numhid)>=0.8 .* mom(1:numhid)<0.9);
-         index_d = find (mom(1:numhid)<0.8);
+         index_u = find (mom(1:numh)>=0.9); %% momentums for weights and hidden biases
+         index_m = find ( mom(1:numh)>=0.8 .* mom(1:numh)<0.9);
+         index_d = find (mom(1:numh)<0.8);
          
          mom(index_d) = mom(index_d) + 0.1;
          mom(index_m) = mom(index_m) + 0.01;
          mom(index_u) = mom(index_u) + 0.001;
          
-         mom(1:numhid) = min(0.90 ,mom(1:numhid));
+         mom(1:numh) = min(0.90 ,mom(1:numh));
          
     end
   
@@ -622,11 +624,18 @@ for epoch = epoch:maxepoch
    vb= gather ( visbiases );
    h_yMax = gather( hid_yMax );
    hbMax = gather ( hidbiasesMax );
+   if discard
+      h_vMax = gather( vishid' );
+      yb = gather( ybiases );
+      vb= gather ( visbiases );
+      h_yMax = gather( labhid' );
+      hbMax = gather ( hidbiases);
+   end
    final  = 0;
    %valid;
    valid_exact;
    test_epoch(1,epoch) = TestAccuracy;
-   test_epoch(2,epoch) = gather(numhid); 
+   test_epoch(2,epoch) = gather(numh); 
   
 
   if max_ValAccy <= TestAccuracy && epoch < (M_epoch + stopepochs)
