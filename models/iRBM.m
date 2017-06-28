@@ -12,7 +12,7 @@ if restart ==1
     ephb     = 1;   % Learning rate for biases of hidden units 
     
     regularization = 'L1'; %%Which regularization is chosen
-    WC  = 0.0001;
+    WC  = 0.0005;
     use_RP = 1;
     h = 1e-10;
     p=1;
@@ -31,6 +31,7 @@ if restart ==1
     
     use_valid = 1;
     makebatches_mnist;
+    discard = 1;%%discard useless hids
     %makebatches;
     [numcases, numdims, numbatches]=size(batchdata);
     if use_gpu
@@ -40,7 +41,6 @@ if restart ==1
     Maxnumhid = 100;%%%Initial capacity of oRBM
     order = 0;
     label = 0;
-    discard=0;random=1;  
     J=2;
     J_r = 1;
     numhid=0;
@@ -481,8 +481,12 @@ for epoch = epoch:maxepoch
        vh = gather( hid_visMax(1:numh , :).'); 
        hb = gather( hidbiasesMax(1:numh));  
        vb = gather(visbiases);
-%      train = 0;
-%      discard_hids
+       if discard
+           discard_hids_simple;
+           vh = gather(vishid); 
+           hb = gather( hidbiases);  
+           vb = gather(visbiases);
+       end
        save fullmnistvh vh vb hb epoch numh errsum J_r beta0
        if use_gpu==0
            batchdata = gather(batchdata);
