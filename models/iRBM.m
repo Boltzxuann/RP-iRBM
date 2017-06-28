@@ -478,7 +478,14 @@ for epoch = epoch:maxepoch
    min_maxPN_epoch = min(Maxposnumhid); 
 
    fprintf(1, 'epoch %4i error %6.1f  \n', epoch, errsum); 
-
+   numh = gather (round(  mean_Mposnumhid(epoch) )) ;
+   if discard
+       discard_hids_simple;
+       vh = gather(vishid); 
+       hb = gather( hidbiases);  
+       vb = gather(visbiases);
+       numh = length(hb);
+   end
    if rem (epoch,50)==0
        %numhid = round(  min( mean_Mnegnumhid(epoch-9:epoch) ) ); 
        %numhid = round(  min( mean_Mposnumhid(epoch-9:epoch) ) ); 
