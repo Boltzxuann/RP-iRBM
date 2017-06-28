@@ -641,7 +641,8 @@ for epoch = epoch:maxepoch
    %valid;
    valid_exact;
    test_epoch(1,epoch) = TestAccuracy;
-   test_epoch(2,epoch) = gather(numh); 
+   %test_epoch(2,epoch) = gather(numh); 
+   test_epoch(2,epoch) = eff_nh; 
   
 
   if max_ValAccy <= TestAccuracy && epoch < (M_epoch + stopepochs)
