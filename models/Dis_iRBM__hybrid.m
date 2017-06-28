@@ -630,6 +630,7 @@ for epoch = epoch:maxepoch
    h_yMax = gather( hid_yMax );
    hbMax = gather ( hidbiasesMax );
    if discard
+       discard_hids_simple;
       h_vMax = gather( vishid' );
       yb = gather( ybiases );
       vb= gather ( visbiases );

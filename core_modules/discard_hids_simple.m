@@ -1,4 +1,8 @@
-
+if epoch ==1
+    numhid=J;
+else
+    numhid = numh;
+end
 hidvis1 = hid_visMax(1:numhid,:);
 norm_hidvis = sqrt(  sum (hidvis1.^2, 2)  ) ;
 mean_norm = mean( norm_hidvis );
