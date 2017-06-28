@@ -21,7 +21,7 @@ if restart ==1
   regularization = 'L1'; %%Which regularization is chosen: 'no','L1' or 'L2'.
   WC  = 0.00005;  %%%Weight decay 
   use_RP = 1;  %%% Whether use RP training or not
-  discard = 1;%%%Discard useless hids
+  discard = 0;%%%Discard useless hids
   epW      = learning_rate;   % Learning rate for weights 
   ephy      =  learning_rate;   
   ephb       = learning_rate;   
@@ -630,7 +630,7 @@ for epoch = epoch:maxepoch
    h_yMax = gather( hid_yMax );
    hbMax = gather ( hidbiasesMax );
    if discard
-       discard_hids_simple;
+      discard_hids_simple;
       h_vMax = gather( vishid' );
       yb = gather( ybiases );
       vb= gather ( visbiases );
@@ -648,12 +648,13 @@ for epoch = epoch:maxepoch
  
      
         max_ValAccy = TestAccuracy;
-        M_hid_visMax = gather( hid_visMax );
+        M_hid_visMax = gather( h_vMax );
         M_epoch = gather( epoch );
-        M_J = J;
+        %M_J = J;
+        M_J = length(hbMax);
         M_ybiases = gather( ybiases );
-        M_hid_yMax = gather( hid_yMax );
-        M_hidbiasesMax = gather ( hidbiasesMax );
+        M_hid_yMax = gather( h_yMax );
+        M_hidbiasesMax = gather ( hbMax );
         M_numhid  = gather (  round( mean_Mposnumhid(M_epoch) )  );
         Max_J_r = gather(Max_J_r);
         save best_Dis_iRBM  M_hid_visMax M_epoch M_hidbiasesMax M_ybiases M_hid_yMax M_numhid max_ValAccy a WC J_r M_J beta0 WH global_lr regularization gen_uselabel use_mom

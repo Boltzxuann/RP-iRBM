@@ -293,7 +293,7 @@ for epoch = epoch:maxepoch
      if epoch ==1
          eff_nh = J;
      else
-         eff_nh = round(  mean_Mposnumhid(epoch-1) );
+         eff_nh = length(hidbiases);
      end
      fprintf(1,'epoch %d batch %d z %d effective hids %d \r',epoch, batch, J, eff_nh); 
 
@@ -491,6 +491,7 @@ for epoch = epoch:maxepoch
            vh = gather(vishid); 
            hb = gather( hidbiases);  
            vb = gather(visbiases);
+           numh = length(hb);
        end
        save fullmnistvh vh vb hb epoch numh errsum J_r beta0
        if use_gpu==0
