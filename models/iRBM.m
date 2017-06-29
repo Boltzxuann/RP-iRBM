@@ -12,7 +12,7 @@ if restart ==1
     ephb     = 1;   % Learning rate for biases of hidden units 
     
     regularization = 'L1'; %%Which regularization is chosen
-    WC  = 0.0005;
+    WC  = 0.0001;
     use_RP = 1;
     h = 1e-10;
     p=1;
