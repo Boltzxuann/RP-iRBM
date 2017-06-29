@@ -46,8 +46,8 @@ end
                  if mean_mean_epoch(epoch-1) < 100  
                      J_r = round(  0.9*mean( mean_mean_epoch(epoch-10 :epoch-1) ) );
                  else 
-                     J_r = min ( round(0.9*mean_mean_epoch(later)) , round( mean( mean_mean_epoch(epoch-10 :epoch-1) ) )-10 );
-                     if epoch > 50
+                     J_r = min ( round( mean( mean_mean_epoch(later :epoch-1) ) )-10 );
+                     if epoch > later+10
                          J_r = round(  mean( mean_mean_epoch( round( epoch*0.8 ):epoch-1) ) )-10;
                      end                     
                  end
