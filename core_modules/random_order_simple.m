@@ -1,7 +1,7 @@
 
 % Random permutation of hidden units and their corresponding parameters.
-
-if  epoch == 11 && batch == 1
+later =11;
+if  epoch == later && batch == 1
     hidvis1 = hid_visMax(1:J,:);
     norm_hidvis = sqrt(  sum (hidvis1.^2, 2)  ) ;
     mean_norm = mean( norm_hidvis );
@@ -35,18 +35,18 @@ end
     if epoch < 1
         J_r = 1;
     else
-        if epoch < 11
+        if epoch < later
             J_r = round(0.9*J);
             %J_r = round(  mean( mean_mean_epoch(epoch-1) ) );
         else
-            if epoch < 12
+            if epoch == later
                 J_r = 1;
             else
                 %J_r = round(0.8 * mean( mean_Mposnumhid(11:epoch-1) ));
                  if mean_mean_epoch(epoch-1) < 100  
                      J_r = round(  0.9*mean( mean_mean_epoch(epoch-10 :epoch-1) ) );
                  else 
-                     J_r = min ( round(0.9*mean_mean_epoch(11)) , round( mean( mean_mean_epoch(epoch-10 :epoch-1) ) )-10 );
+                     J_r = min ( round(0.9*mean_mean_epoch(later)) , round( mean( mean_mean_epoch(epoch-10 :epoch-1) ) )-10 );
                      if epoch > 50
                          J_r = round(  mean( mean_mean_epoch( round( epoch*0.8 ):epoch-1) ) )-10;
                      end                     
