@@ -205,6 +205,7 @@ for epoch = epoch:maxepoch
      Maxnegnumhid = zeros(1,numbatches);
      Maxposnumhid = zeros(1,numbatches);
      Meannegnumhid = zeros(1,numbatches);
+     Meanposnumhid = zeros(1,numbatches);
      Minposnumhid = zeros(1,numbatches);
      
    for batch = 1:numbatches
@@ -589,6 +590,7 @@ for epoch = epoch:maxepoch
        Meannegnumhid(batch) = gather( mean(neg_numhid_gen) );
      
        Maxposnumhid(batch) = gather( M_pnh );
+       Meanposnumhid(batch)= gather( mean(Pos_numhid) );
        Minposnumhid(batch) = gather( min(M_pnh) );
 
    end
@@ -598,7 +600,7 @@ for epoch = epoch:maxepoch
    mean_Mposnumhid(epoch) = mean(Maxposnumhid);
    mean_minposnumhid(epoch) = mean(Minposnumhid); 
    Max_mean_epoch = max(Meannegnumhid);
-   mean_mean_epoch(epoch) = mean(Meannegnumhid);
+   mean_mean_epoch(epoch) = mean(Meanposnumhid);
    mean_maxPN_epoch = round( mean_Mposnumhid(epoch) ); 
    min_maxPN_epoch = min(Maxposnumhid); 
   
@@ -624,18 +626,18 @@ for epoch = epoch:maxepoch
   
    
 
-   h_vMax = gather( hid_visMax );
+   h_vMax = gather( hid_visMax(1:J,:) );
    yb = gather( ybiases );
    vb= gather ( visbiases );
    h_yMax = gather( hid_yMax );
-   hbMax = gather ( hidbiasesMax );
+   hbMax = gather ( hidbiasesMax(1:J) );
    if discard
       discard_hids_simple;
       h_vMax = gather( vishid' );
       yb = gather( ybiases );
       vb= gather ( visbiases );
       h_yMax = gather( labhid' );
-      hbMax = gather ( hidbiases);
+      hbMax = gather ( hidbiases );
    end
    final  = 0;
    %valid;

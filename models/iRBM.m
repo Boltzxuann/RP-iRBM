@@ -214,6 +214,7 @@ for epoch = epoch:maxepoch
      Maxnegnumhid = zeros(1,numbatches);
      Meannegnumhid = zeros(1,numbatches); 
      Maxposnumhid = zeros(1,numbatches);
+     Meanposnumhid = zeros(1,numbatches);
      Minposnumhid = zeros(1,numbatches);
 
   for batch = 1:numbatches
@@ -464,6 +465,7 @@ for epoch = epoch:maxepoch
      neg_numhid_gen = gather(neg_numhid_gen);
      Maxposnumhid(batch) = gather( M_Pnh );
      Maxnegnumhid(batch) = max(neg_numhid_gen);
+     Meanposnumhid(batch)= gather( mean(Pos_numhid_gen) );
      Meannegnumhid(batch) = mean(neg_numhid_gen);
      Minposnumhid(batch) = gather( min(Pos_numhid_gen) );
      
@@ -471,7 +473,7 @@ for epoch = epoch:maxepoch
    end
    mean_Mnegnumhid(epoch) = mean(Maxnegnumhid);%%%
    Max_mean_new = max(Meannegnumhid);
-   mean_mean_epoch(epoch) = mean(Meannegnumhid);
+   mean_mean_epoch(epoch) = mean(Meanposnumhid);
    mean_Mposnumhid(epoch) = mean(Maxposnumhid);
    mean_minposnumhid(epoch) = mean(Minposnumhid); 
    mean_maxPN_epoch = round( mean_Mposnumhid(epoch) ); 
