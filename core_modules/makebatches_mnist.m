@@ -1,4 +1,4 @@
-ridx = randperm(60000);
+
 if use_valid == 1
       digitdata=Bdata_train(ridx(1:50000),:);
       targets=train_targets(ridx(1:50000),:);

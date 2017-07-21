@@ -8,13 +8,14 @@
 initiate
 load BinaryDataMNIST
 maxepoch= 300; %%% Total epochs of training. It takes about 100 ~ 150 epochs to get the best result.
-stopepochs = 50; %%The epochs to look ahead for stopping
+stopepochs = 50; %%The number of epochs to look ahead for stopping
 numclasses= 10;
 Maxnumhid= 100;%%Initial capacity of oRBM
 learning_rate = 1;%%%Ignore it!
 use_valid = 1; %%% Use validation set for training 
 batchsize = 100;
 testbatchsize = 500;
+ridx = randperm(60000);%%% Random permutate the training examples
 restart=1;
 global use_gpu
 use_gpu = gpuDeviceCount; 
