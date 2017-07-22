@@ -408,7 +408,7 @@ for epoch = epoch:maxepoch
         % negvisprobs =   1./(1 + exp( - pagefun(@mtimes, hid_visMax' ,  neghidstates ) - repmat( visbiases',1,numcases )));      
          negvisprobs =   1./(1 + exp(- hid_visMax'* neghidstates  - repmat( visbiases',1,numcases )));      
          negdata = negvisprobs > rand(numdims , numcases);
-         negdata = round ( negdata.');
+         negdata = real ( negdata.');
   
          if gen_uselabel
              phi_y = neghidstates'*hid_yMax +repmat(ybiases,numcases,1);
@@ -434,6 +434,17 @@ for epoch = epoch:maxepoch
              negtargets_3(:,2:numclasses)=negtargets_2(:,1:numclasses-1);
              negtargets_gen = negtargets_1.*negtargets_3;
          end
+         
+ %%%%%%%%%%%%% Reconstructing error %%%%%%%%%%%
+        if cditer == 1
+          if gen_uselabel
+             err= sum(sum( abs(targets_0 - negtargets_gen)/2 ));%%%éæè¯¯å·®
+          else
+             err= sum(sum( abs(data - negdata) ));%%%éæè¯¯å·®
+          end
+          errsum = err + errsum;   
+        end
+         
      end
      if gen_uselabel %%% if ever use labels for the generative part 
          neghidprobs = 1./(1 + exp(- hid_visMax* negdata' - hid_yMax* negtargets_gen .' - repmat(hidbiasesMax',1,numcases )));   
@@ -548,17 +559,6 @@ for epoch = epoch:maxepoch
           
       end
           
-
-%%%%%%%%%%%%% Reconstructing error %%%%%%%%%%%
-      if gen_uselabel
-         err= sum(sum( abs(targets_0 - negtargets_gen)/2 ));%%%éæè¯¯å·®
-      else
-         err= sum(sum( abs(data - negdata) ));%%%éæè¯¯å·®
-      end
-       errsum = err + errsum;
-       %momentum=finalmomentum;
-
-
 %%%%%%%%% UPDATE WEIGHTS AND BIASES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
        if lr_normal
@@ -583,7 +583,10 @@ for epoch = epoch:maxepoch
            imagesc(hid_yMax(1:J,:)); 
            figure(3);
            dispims(negdata',28,28) ;
+           figure(4);
+           dispims(hid_visMax(1:round(J/2),:)',28,28) ;
            drawnow
+           
        end
   
        Maxnegnumhid(batch) = gather( max(neg_numhid_gen) );
@@ -661,7 +664,8 @@ for epoch = epoch:maxepoch
         %M_numhid  = gather (  round( mean_Mposnumhid(M_epoch) )  );
         M_numhid = length(hbMax);
         Max_J_r = gather(Max_J_r);
-        save best_Dis_iRBM  M_hid_visMax M_epoch M_hidbiasesMax M_ybiases M_hid_yMax M_numhid max_ValAccy a WC J_r M_J beta0 WH global_lr regularization gen_uselabel use_mom
+        save best_Dis_iRBM  M_hid_visMax M_epoch M_hidbiasesMax M_ybiases M_hid_yMax ...
+             M_numhid max_ValAccy a WC J_r M_J beta0 WH global_lr regularization gen_uselabel use_mom
    %     save parameters_midtime;
         %save parametersZZZZZZZZZZZZ
 
@@ -672,7 +676,7 @@ for epoch = epoch:maxepoch
        break
    end
     
-    figure (4);
+    figure (5);
     plot(test_epoch(1,1:epoch));
     xlabel('epoch');
     ylabel('validation accuracy');
