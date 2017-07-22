@@ -18,7 +18,7 @@ if restart ==1
     p=1;
     start_lr = 0.05;
     CD= 10;  
-    
+    PCD = 1;
     global_lr = 0.05;
     Num_inter_initial_lr = 0; %%
     initial = Num_inter_initial_lr*ones(1,Maxnumhid);
@@ -351,7 +351,9 @@ for epoch = epoch:maxepoch
     posvisact = sum(data);
   
 %%%%%%%%% END OF POSITIVE PHASE  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    %negdata = batchdata(:,:,batch);
+    if PCD == 0
+        negdata = batchdata(:,:,batch);
+    end
 %%%%% START NEGATIVE PHASE  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     for cditer=1:CD
    %%%%%%% z~p(z|v)%%%%%%%%%%%%%
@@ -395,7 +397,10 @@ for epoch = epoch:maxepoch
        end
        negdata = negdata';
        negdata = round(negdata);%%%
-
+       if cditer == 1 && PCD == 0
+         err= sum(sum( (data-negdata).^2 ));
+         errsum = err + errsum;  
+       end
     end
     if use_gpu
         neg_MaxNh =zeros(Maxnumhid,numcases,'gpuArray');
@@ -431,8 +436,7 @@ for epoch = epoch:maxepoch
  %  negvisact = sum(negdata); 
   
 %%%%%%%%% END OF NEGATIVE PHASE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    err= sum(sum( (data-negdata).^2 ));
-    errsum = err + errsum;  
+
 
 %%%%%%%%% UPDATE WEIGHTS AND BIASES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
