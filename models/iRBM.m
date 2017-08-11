@@ -144,7 +144,7 @@ if restart ==1
            grad_yb_history = zeros(1, numclasses);
            grad_U_history = zeros(Maxnumhid, numclasses);
            grad_vb_history = zeros(1, numdims);
-           %initial_lr = 0*h;
+           initial_lr = 0*h;
            W_in_history = zeros(Maxnumhid , numdims);
            hb_in_history = zeros(1,Maxnumhid);
            yb_in_history = zeros(1, numclasses);
