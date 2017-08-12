@@ -43,7 +43,8 @@ if restart ==1
   initial = ones(1,Maxnumhid) * num_ini;
   start = 1; %%% The learning of parameters not related to hidden units can be slower.
   
-  makebatches_mnist;
+  %makebatches_mnist;
+  makebatches;
   [numcases, numdims, numbatches]=size(batchdata);
   if use_gpu
       batchdata=gpuArray(batchdata);
@@ -193,7 +194,8 @@ for epoch = epoch:maxepoch
 %      lr(1:mean_maxPN_epoch) = lr(1:mean_maxPN_epoch)*0.99;
 %      lr = max(lr,0.01);
 
-    makebatches_mnist;
+    %makebatches_mnist;
+    makebatches;
     [numcases, numdims, numbatches]=size(batchdata);
     if use_gpu
         batchdata=gpuArray(batchdata);

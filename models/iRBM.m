@@ -30,9 +30,9 @@ if restart ==1
     
     
     use_valid = 1;
-    makebatches_mnist;
+    %makebatches_mnist;
     discard = 1;%%discard useless hids
-    %makebatches;
+    makebatches;
     [numcases, numdims, numbatches]=size(batchdata);
     if use_gpu
        batchdata = gpuArray(batchdata);
@@ -185,8 +185,8 @@ end
  
 for epoch = epoch:maxepoch
        
-     makebatches_mnist; 
-     %makebatches;
+     %makebatches_mnist; 
+     makebatches;
      [numcases numdims numbatches]=size(batchdata);
      if use_gpu
          batchdata = gpuArray(batchdata);
