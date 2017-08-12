@@ -19,7 +19,7 @@ if restart ==1
   a = 0.01; %%Propotion of the generative part
   gen_uselabel= 1;% Use labels for the generative part or not
   regularization = 'L1'; %%Which regularization is chosen: 'no','L1' or 'L2'.
-  WC  = 0.00005;  %%%Weight decay 
+  WC  = 0.0001;  %%%Weight decay 
   use_RP = 1;  %%% Whether use RP training or not
   discard = 0;%%%Discard useless hids
   epW      = learning_rate;   % Learning rate for weights 
