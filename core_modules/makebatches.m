@@ -4,7 +4,7 @@ if use_valid == 1
     targets = Train_targets;
 else
     digitdata=train_data;
-    targets=train_targets;         
+    targets=Train_targets;         
 end
 
 totnum=size(digitdata,1);%%%px:total number of test digits
