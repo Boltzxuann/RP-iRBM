@@ -3,15 +3,9 @@
 % 2016-2017
 
 
-if restart ==1
-  restart=0;
-  epoch=1;
-  M_epoch=1;
-  
   %%%%%%Hyper parameters%%%%%%%%
   beta0= 1.01;
-  WH = 0/beta0;
-  
+  WH = 0/beta0;  
   h = 1e-10;
   p = 1;
   start_lr = 0.1;
@@ -19,7 +13,7 @@ if restart ==1
   a = 0.01; %%Propotion of the generative part
   gen_uselabel= 1;% Use labels for the generative part or not
   regularization = 'L1'; %%Which regularization is chosen: 'no','L1' or 'L2'.
-  WC  = 0.0001;  %%%Weight decay 
+  WC  = 0.00005;  %%%Weight decay 
   use_RP = 1;  %%% Whether use RP training or not
   discard = 0;%%%Discard useless hids
   epW      = learning_rate;   % Learning rate for weights 
@@ -28,21 +22,17 @@ if restart ==1
   epyb       = learning_rate;   
   epvb       = learning_rate;
   use_mom = 1; %%% Whether using momentum or not
-  if use_mom
-      initialmomentum  = 0.0;
-  else
-      initialmomentum  = 0.5;
-  end
-  
   G =0;
   CD = 3;
   label = 1;
   lr_normal = 0; 
   lr_adaptive=1; adagrad = 1;
-  num_ini = 0;
-  initial = ones(1,Maxnumhid) * num_ini;
-  start = 1; %%% The learning of parameters not related to hidden units can be slower.
   
+%%%% Initiate the parameters %%%%  
+if restart ==1
+  restart=0;
+  epoch=1;
+  M_epoch=1;
   %makebatches_mnist;
   makebatches;
   [numcases, numdims, numbatches]=size(batchdata);
@@ -50,15 +40,20 @@ if restart ==1
       batchdata=gpuArray(batchdata);
       batchtargets=gpuArray(batchtargets);
   end
-
   
-%%%% Initiate the parameters %%%%
   max_ValAccy = 0;
   test_epoch = zeros( 2,maxepoch );
-  
+  if use_mom
+      initialmomentum  = 0.0;
+  else
+      initialmomentum  = 0.5;
+  end
   mom = initialmomentum * ones( Maxnumhid,1 );
-  lr = 1*ones( Maxnumhid,1 );
   momentum=initialmomentum;
+  lr = 1*ones( Maxnumhid,1 );
+  num_ini = 10;%%% Use normal lr for first n steps. 
+  initial = ones(1,Maxnumhid) * num_ini;
+  start = 1; %%% The learning of parameters not related to hidden units can be slower.
   
   if use_gpu
       weightcost= zeros(Maxnumhid,numdims,'gpuArray');

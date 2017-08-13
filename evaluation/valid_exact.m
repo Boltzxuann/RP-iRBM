@@ -16,4 +16,4 @@ for tt= 1:numbatches_valid
     
     
 end
-TestAccuracy=sum(correct)/10000;
+TestAccuracy=sum(correct)/ncases_val;

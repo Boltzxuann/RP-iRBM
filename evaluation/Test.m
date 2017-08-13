@@ -1,6 +1,7 @@
 
 use_valid=0;
-makebatches_mnist;
+%makebatches_mnist;
+makebatches;
 numbatches_valid=size(testbatchdata,3);
 correct = zeros(1,numbatches_valid);
 beta = beta0 * soft_plus(WH * M_hidbiasesMax ); 
@@ -19,5 +20,5 @@ for tt= 1:numbatches_valid
     
     
 end
-TestAccuracy=sum(correct)/10000;
+TestAccuracy=sum(correct)/ncases_test;
 fprintf(1, 'Classification error on test set: %6.4f  \n', 1-TestAccuracy);

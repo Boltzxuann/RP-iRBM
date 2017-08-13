@@ -3,7 +3,7 @@ if use_valid == 1
     digitdata = train_data;
     targets = Train_targets;
 else
-    digitdata=Bdata_train;
+    digitdata=train_data;
     targets=train_targets;         
 end
 
