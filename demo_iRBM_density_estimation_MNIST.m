@@ -20,6 +20,7 @@ ridx = randperm(60000);%%% Shuffle the training examples
 ncases_train = 50000;
 train_data = Bdata_train(ridx(1:ncases_train),:);
 val_data = Bdata_train(ridx(ncases_train+1:end),:);
+test_data = Bdata_test;
 Train_targets = train_targets(ridx(1:ncases_train),:);
 Val_targets = train_targets(ridx(ncases_train+1:end),:);
 

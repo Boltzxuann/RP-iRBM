@@ -19,15 +19,10 @@ if restart ==1
     start_lr = 0.05;
     CD= 10;  
     PCD = 1;
-    global_lr = 0.05;
-    Num_inter_initial_lr = 0; %%
-    initial = Num_inter_initial_lr*ones(1,Maxnumhid);
-    start = 1;
-    
+    global_lr = 0.05;   
     lr_normal = 0; %%
     lr_adaptive=1; adagrad = 1;
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    
     
     use_valid = 1;
     %makebatches_mnist;
@@ -75,9 +70,10 @@ if restart ==1
     mom = initialmomentum * ones( Maxnumhid,1 );
     %finalmomentum    = 0.0;
     momentum=initialmomentum;
-
     lr = 1*ones( Maxnumhid,1 );
-
+    Num_inter_initial_lr = 0; %%% Use normal lr for first n steps. 
+    initial = Num_inter_initial_lr*ones(1,Maxnumhid);
+    start = 1;
 % Initializing symmetric weights and biases. 
     if use_gpu
         %numclasses =10;
