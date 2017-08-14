@@ -6,36 +6,42 @@
 % 2016-2017
 
 initiate
-load BinaryDataMNIST
+load caltech101_silhouettes_28_split1
 maxepoch= 300; %%% Total epochs of training. It takes about 100 ~ 150 epochs to get the best result.
 stopepochs = inf; %%The number of epochs to look ahead for stopping
-numclasses= 10;
+numclasses= 101;
 Maxnumhid= 100;%%Initial capacity of oRBM
 learning_rate = 1;%%%Ignore it!
 use_valid = 1; %%% Use validation set for training 
-batchsize = 200;
-testbatchsize = 100;
-ridx = randperm(60000);%%% Shuffle the training examples
-ncases_train = 50000;
-ncases_val = 10000;
-ncases_test = 10000;
-train_data = Bdata_train(ridx(1:ncases_train),:);
-val_data = Bdata_train(ridx(ncases_train+1:end),:);
-test_data = Bdata_test;
-Train_targets = train_targets(ridx(1:ncases_train),:);
-Val_targets = train_targets(ridx(ncases_train+1:end),:);
+batchsize = 100;
+testbatchsize = 50;
+ncases_train = 4100;
+ncases_val = 2264;
+ncases_test = 2307;
+Train_targets = zeros(ncases_train,numclasses);
+Val_targets = zeros(ncases_val,numclasses);
+test_targets = zeros(ncases_test,numclasses);
+for nn = 1:ncases_train
+    Train_targets(nn,train_labels(nn)) = 1;
+end
+for nn = 1:ncases_val
+    Val_targets(nn,val_labels(nn)) = 1;
+end
+for nn = 1:ncases_test
+    test_targets(nn,test_labels(nn)) = 1;
+end
 
   %%%%%%Hyper parameters%%%%%%%%
   beta0= 1.01;
   WH = 0/beta0;  
   h = 1e-10;
   p = 1;
-  start_lr = 0.1;
-  global_lr = 0.1;
+  start_lr = 0.02;
+  global_lr = 0.02;
   a = 0.01; %%Propotion of the generative part
   gen_uselabel= 1;% Use labels for the generative part or not
   regularization = 'L1'; %%Which regularization is chosen: 'no','L1' or 'L2'.
-  WC  = 0.00005;  %%%Weight decay 
+  WC  = 0.001;  %%%Weight decay 
   use_RP = 1;  %%% Whether use RP training or not
   discard = 0;%%%Discard useless hids
   epW      = learning_rate;   % Learning rate for weights 
@@ -43,14 +49,14 @@ Val_targets = train_targets(ridx(ncases_train+1:end),:);
   ephb       = learning_rate;   
   epyb       = learning_rate;   
   epvb       = learning_rate;
-  use_mom = 1; %%% Whether using momentum or not
+  use_mom = 0; %%% Whether using momentum or not
   G =0;
   CD = 3;
   label = 1;
   lr_normal = 0; 
   lr_adaptive=1; adagrad = 1;
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+  
 restart=1;
 global use_gpu
 use_gpu = gpuDeviceCount; 

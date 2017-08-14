@@ -1,32 +1,6 @@
 %Training the Dis-iRBM
 
 % 2016-2017
-
-
-  %%%%%%Hyper parameters%%%%%%%%
-  beta0= 1.01;
-  WH = 0/beta0;  
-  h = 1e-10;
-  p = 1;
-  start_lr = 0.1;
-  global_lr = 0.1;
-  a = 0.01; %%Propotion of the generative part
-  gen_uselabel= 1;% Use labels for the generative part or not
-  regularization = 'L1'; %%Which regularization is chosen: 'no','L1' or 'L2'.
-  WC  = 0.00005;  %%%Weight decay 
-  use_RP = 1;  %%% Whether use RP training or not
-  discard = 0;%%%Discard useless hids
-  epW      = learning_rate;   % Learning rate for weights 
-  ephy      =  learning_rate;   
-  ephb       = learning_rate;   
-  epyb       = learning_rate;   
-  epvb       = learning_rate;
-  use_mom = 1; %%% Whether using momentum or not
-  G =0;
-  CD = 3;
-  label = 1;
-  lr_normal = 0; 
-  lr_adaptive=1; adagrad = 1;
   
 %%%% Initiate the parameters %%%%  
 if restart ==1
@@ -51,7 +25,7 @@ if restart ==1
   mom = initialmomentum * ones( Maxnumhid,1 );
   momentum=initialmomentum;
   lr = 1*ones( Maxnumhid,1 );
-  num_ini = 10;%%% Use normal lr for first n steps. 
+  num_ini = 0;%%% Use normal lr for first n steps. 
   initial = ones(1,Maxnumhid) * num_ini;
   start = 1; %%% The learning of parameters not related to hidden units can be slower.
   
@@ -260,7 +234,7 @@ for epoch = epoch:maxepoch
       if epoch ==1
           eff_nh = J;
       else
-          eff_nh = length(hbMax);
+          eff_nh = numh;%length(hbMax);
       end
       fprintf(1,'epoch %d batch %d z %d effective hids %d \r',epoch, batch, J, eff_nh); 
 
@@ -658,8 +632,8 @@ for epoch = epoch:maxepoch
         M_ybiases = gather( ybiases );
         M_hid_yMax = gather( h_yMax );
         M_hidbiasesMax = gather ( hbMax );
-        %M_numhid  = gather (  round( mean_Mposnumhid(M_epoch) )  );
-        M_numhid = length(hbMax);
+        M_numhid  = gather (  round( mean_Mposnumhid(M_epoch) )  );
+        %M_numhid = length(hbMax);
         Max_J_r = gather(Max_J_r);
         save best_Dis_iRBM  M_hid_visMax M_epoch M_hidbiasesMax M_ybiases M_hid_yMax ...
              M_numhid max_ValAccy a WC J_r M_J beta0 WH global_lr regularization gen_uselabel use_mom

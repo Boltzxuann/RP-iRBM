@@ -5,26 +5,6 @@
 
 if restart ==1
     restart=0;
-    %%%%%%Hyper parameters%%%%%
-    beta0 = 1.01;WH = 0/beta0;  
-    epW      = 1;   % Learning rate for weights (old ,now useless, same below)
-    epvb     = 1;   % Learning rate for biases of visible units 
-    ephb     = 1;   % Learning rate for biases of hidden units 
-    
-    regularization = 'L1'; %%Which regularization is chosen
-    WC  = 0.0001;
-    use_RP = 1;
-    h = 1e-10;
-    p=1;
-    start_lr = 0.05;
-    CD= 10;  
-    PCD = 1;
-    global_lr = 0.05;   
-    lr_normal = 0; %%
-    lr_adaptive=1; adagrad = 1;
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    
-    use_valid = 1;
     %makebatches_mnist;
     discard = 1;%%discard useless hids
     makebatches;
@@ -71,7 +51,7 @@ if restart ==1
     %finalmomentum    = 0.0;
     momentum=initialmomentum;
     lr = 1*ones( Maxnumhid,1 );
-    Num_inter_initial_lr = 0; %%% Use normal lr for first n steps. 
+    Num_inter_initial_lr = 10; %%% Use normal lr for the first n steps. 
     initial = Num_inter_initial_lr*ones(1,Maxnumhid);
     start = 1;
 % Initializing symmetric weights and biases. 
@@ -290,7 +270,11 @@ for epoch = epoch:maxepoch
      if epoch ==1
          eff_nh = J;
      else
-         eff_nh = length(hidbiases);
+         if discard
+             eff_nh = length(hidbiases);
+         else  
+             eff_nh =numh;
+         end
      end
      fprintf(1,'epoch %d batch %d z %d effective hids %d \r',epoch, batch, J, eff_nh); 
 
@@ -490,7 +474,7 @@ for epoch = epoch:maxepoch
        vb = gather(visbiases);
        numh = length(hb);
    end
-   if rem (epoch,50)==0
+   if rem (epoch,100)==0
        %numhid = round(  min( mean_Mnegnumhid(epoch-9:epoch) ) ); 
        %numhid = round(  min( mean_Mposnumhid(epoch-9:epoch) ) ); 
        numh = gather (round(  mean_Mposnumhid(epoch) )) ;

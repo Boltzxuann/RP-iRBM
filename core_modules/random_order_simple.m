@@ -48,7 +48,8 @@ end
                  else 
                      J_r =  round( mean( mean_mean_epoch(later :epoch-1) ) )-10 ;
                      if epoch > later+10
-                         J_r = round(  mean( mean_mean_epoch( round( epoch*0.8 ):epoch-1) ) )-10;
+                         J_r =  min(  round(  mean( mean_mean_epoch( round( epoch*0.8 ):epoch-1) ) )-10 ,...
+                                       round(0.9*J) );  %%% Encourage a safe distance between J and avarage activate number.
                      end                     
                  end
                 %J_r = round( ( mean_mean_epoch(epoch-1) ) )-10;
