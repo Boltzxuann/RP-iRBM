@@ -25,7 +25,7 @@ if restart ==1
   mom = initialmomentum * ones( Maxnumhid,1 );
   momentum=initialmomentum;
   lr = 1*ones( Maxnumhid,1 );
-  num_ini = 0;%%% Use normal lr for first n steps. 
+  num_ini = 10;%%% Use normal lr for first n steps. 
   initial = ones(1,Maxnumhid) * num_ini;
   start = 1; %%% The learning of parameters not related to hidden units can be slower.
   
