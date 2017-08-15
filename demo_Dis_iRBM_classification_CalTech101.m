@@ -36,8 +36,8 @@ end
   WH = 0/beta0;  
   h = 1e-10;
   p = 1;
-  start_lr = 0.02;
-  global_lr = 0.02;
+  start_lr = 0.01;
+  global_lr = 0.01;
   a = 0.01; %%Propotion of the generative part
   gen_uselabel= 1;% Use labels for the generative part or not
   regularization = 'L1'; %%Which regularization is chosen: 'no','L1' or 'L2'.
