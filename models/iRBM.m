@@ -276,7 +276,7 @@ for epoch = epoch:maxepoch
              eff_nh =numh;
          end
      end
-     fprintf(1,'epoch %d batch %d z %d effective hids %d \r',epoch, batch, J, eff_nh); 
+     fprintf(1,'epoch %d batch %d z %d effective hids %d Mt %d\r',epoch, batch, J, eff_nh, J_r); 
 
      visbias = repmat(visbiases,numcases,1);
 %%%%%%%%% START POSITIVE PHASE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
