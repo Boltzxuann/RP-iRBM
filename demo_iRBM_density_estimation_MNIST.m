@@ -8,8 +8,7 @@
 
 initiate
 load BinaryDataMNIST
-%load caltech101_silhouettes_28_split1
-maxepoch= 100; %%% 
+maxepoch= 301; %%% 
 numclasses= 10;%%
 Maxnumhid= 100;%%Initial capacity of oRBM
 learning_rate = 1;%%%Ignore it!
@@ -32,7 +31,7 @@ ephb     = 1;   % Learning rate for biases of hidden units
 regularization = 'L1'; %%Which regularization is chosen
 WC  = 0.0001;
 use_RP = 1;
-h = 1e-10;
+h = 1e-4; %%%Parameter sqrt(e) in ADAGRAD to avoid dividing 0.
 p=1;
 start_lr = 0.05;
 CD= 10;  

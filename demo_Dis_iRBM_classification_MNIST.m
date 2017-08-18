@@ -28,7 +28,7 @@ Val_targets = train_targets(ridx(ncases_train+1:end),:);
   %%%%%%Hyper parameters%%%%%%%%
   beta0= 1.01;
   WH = 0/beta0;  
-  h = 1e-10;
+  h = 1e-10;%%%Parameter sqrt(e) in ADAGRAD to avoid dividing 0.
   p = 1;
   start_lr = 0.1;
   global_lr = 0.1;
