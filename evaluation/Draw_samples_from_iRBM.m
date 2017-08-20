@@ -21,9 +21,9 @@ for   tt = tt : numsteps
      
      P_z_on_v_neg = P_z( negdata , vh' , hb , numh , beta ,beta0, numcases );  %%% P(z|v)
      
-     [Neg_numhidmask, Neg_numhid1hot] = Sample_z (P_z_on_v_neg,numcases,numh); %%% z~P(z|v)
-     
-     neghidprobs = 1./(  1 + exp( bsxfun(@minus, - vh'* negdata' , hb' ) )  ).*Neg_numhidmask(1:numh,:); %%%P(h|v,z)
+     %[Neg_numhidmask, Neg_numhid1hot] = Sample_z (P_z_on_v_neg,numcases,numh); %%% z~P(z|v)
+     %neghidprobs = 1./(  1 + exp( bsxfun(@minus, - vh'* negdata' , hb' ) )  ).*Neg_numhidmask(1:numh,:); %%%P(h|v,z)
+     neghidprobs = 1./(  1 + exp( bsxfun(@minus, - vh'* negdata' , hb' ) )  ).*(1-cumsum(P_z_on_v_neg(1:numh,:) )); %%%P(h|v)
      
      neghidstates =  neghidprobs > rand(numh ,numcases); %%% h~P(h|v,z)
      neghidstates = real(neghidstates);

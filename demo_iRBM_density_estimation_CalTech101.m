@@ -9,7 +9,7 @@
 initiate
 
 load caltech101_silhouettes_28_split1
-maxepoch= 301; %%% 
+maxepoch= 101; %%% 
 numclasses= 101;%%
 Maxnumhid= 100;%%Initial capacity of oRBM
 learning_rate = 1;%%%Ignore it!

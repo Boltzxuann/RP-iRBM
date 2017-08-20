@@ -1,7 +1,7 @@
 
 % Random permutation of hidden units and their corresponding parameters.
 later =11;
-if  epoch == later && batch == 1
+if  0%epoch == later && batch == 1
     hidvis1 = hid_visMax(1:J,:);
     norm_hidvis = sqrt(  sum (hidvis1.^2, 2)  ) ;
     mean_norm = mean( norm_hidvis );

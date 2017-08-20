@@ -8,7 +8,7 @@
 
 initiate
 load BinaryDataMNIST
-maxepoch= 301; %%% 
+maxepoch= 101; %%% 
 numclasses= 10;%%
 Maxnumhid= 100;%%Initial capacity of oRBM
 learning_rate = 1;%%%Ignore it!
