@@ -7,7 +7,7 @@
 
 initiate
 load caltech101_silhouettes_28_split1
-maxepoch= 300; %%% Total epochs of training. It takes about 100 ~ 150 epochs to get the best result.
+maxepoch= 200; %%% Total epochs of training. It takes about 100 ~ 150 epochs to get the best result.
 stopepochs = inf; %%The number of epochs to look ahead for stopping
 numclasses= 101;
 Maxnumhid= 100;%%Initial capacity of oRBM
