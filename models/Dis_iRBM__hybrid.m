@@ -350,14 +350,14 @@ for epoch = epoch:maxepoch
          [Neg_numhidmask, Neg_numhid1hot] = Sample_z (P_z_on_vy_neg,numcases,J);
          [~,neg_numhid_gen] = max(Neg_numhid1hot); 
          M_nh_gen = max(neg_numhid_gen);
-         neg_MaxNh =zeros(Maxnumhid,numcases);
-         neg_MaxNh(1: J,:)= 1;
-         if use_gpu
-             s_negPzONvy = zeros(Maxnumhid,numcases,'gpuArray');
-         else
-             s_negPzONvy = zeros(Maxnumhid,numcases);
-         end
-         s_negPzONvy(1:J,:) = sum_P_z_on_vy_neg(1:J,:);
+%          neg_MaxNh =zeros(Maxnumhid,numcases);
+%          neg_MaxNh(1: J,:)= 1;
+%          if use_gpu
+%              s_negPzONvy = zeros(Maxnumhid,numcases,'gpuArray');
+%          else
+%              s_negPzONvy = zeros(Maxnumhid,numcases);
+%          end
+%          s_negPzONvy(1:J,:) = sum_P_z_on_vy_neg(1:J,:);
    
       %%%%%%% z~p(z|v)%%%%%%%%%%%%%
       
