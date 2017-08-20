@@ -1,6 +1,13 @@
-%Training the Dis-iRBM
-
+%Training the Dis-iRBM with Hybrid objective
+%By Xuan Peng
 % 2016-2017
+%
+%
+% 20/8/2017  Modified the Gibbs sampling procedure, p(h|v) was directly used to sample
+%            h from v .
+
+
+
   
 %%%% Initiate the parameters %%%%  
 if restart ==1
@@ -331,7 +338,7 @@ for epoch = epoch:maxepoch
       end
 
 %%%%%%%% negtive phase of generative part%%%%%%%%%%
-     if epoch >0 %%CD or PCD
+     if 1 %%CD or PCD
         negtargets_gen = batchtargets(:,:,batch);
         negdata = data;
      end
@@ -369,9 +376,16 @@ for epoch = epoch:maxepoch
              %neghidprobs = 1./(1 + exp(   pagefun(@mtimes, -hid_visMax, negdata') - repmat( hidbiasesMax',1,numcases )));  
              neghidprobs = 1./(1 + exp(  -hid_visMax * negdata'  - repmat( hidbiasesMax',1,numcases )));  
          end
-         neghidprobs = neghidprobs.* neg_numhid4; %%%
+       if use_gpu
+           S_Pz_neg = ones(Maxnumhid,numcases,'gpuArray');
+       else
+           S_Pz_neg = ones(Maxnumhid,numcases);
+       end
+       S_Pz_neg(1:J,:) =  sum_P_z_on_vy_neg(1:J,:);
+       neghidprobs = neghidprobs.* (1-S_Pz_neg); %%% Compute p(v|h) directly.
+       %neghidprobs = neghidprobs.* neg_numhid4; %%%
   
-         neghidstates =  round( neghidprobs > rand(Maxnumhid ,numcases) );
+       neghidstates =  round( neghidprobs > rand(Maxnumhid ,numcases) );
   
   
     %%%%%% v~p(v|h,z)%%%%%%%%%%%%% 
@@ -417,6 +431,18 @@ for epoch = epoch:maxepoch
         end
          
      end
+    if use_gpu
+        neg_MaxNh =zeros(Maxnumhid,numcases,'gpuArray');
+        s_negPzONvy = zeros(Maxnumhid,numcases,'gpuArray');
+    else
+        neg_MaxNh =zeros(Maxnumhid,numcases);
+        s_negPzONvy = zeros(Maxnumhid,numcases);
+    end
+    P_z_on_vy_neg = P_z( negdata , hid_visMax ,hidbiasesMax , J , beta ,beta0, numcases , gen_uselabel , negtargets_gen, hid_yMax ); 
+    sum_P_z_on_v_neg = cumsum(P_z_on_vy_neg);
+    neg_MaxNh(1:J,:)= 1;
+    s_negPzONvy(1:J,:) = sum_P_z_on_v_neg(1:J,:);     
+     
      if gen_uselabel %%% if ever use labels for the generative part 
          neghidprobs = 1./(1 + exp(- hid_visMax* negdata' - hid_yMax* negtargets_gen .' - repmat(hidbiasesMax',1,numcases )));   
      else

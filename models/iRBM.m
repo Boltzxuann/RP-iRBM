@@ -2,6 +2,12 @@
 % Training the iRBM with random permutation of hidden units.
 % Code provided by Xuan Peng
 % 2016-2017
+%
+%
+% 20/8/2017  Modified the Gibbs sampling procedure, p(h|v) was directly used to sample
+%            h from v .
+
+
 
 if restart ==1
     restart=0;
@@ -298,7 +304,8 @@ for epoch = epoch:maxepoch
     %M_Pnh = max(Pos_numhid_gen);
    
     if use_gpu
-        S_PzOnvy = zeros(Maxnumhid,numcases,'gpuArray');        Pos_MaxNh =zeros(Maxnumhid,numcases,'gpuArray');
+        S_PzOnvy = zeros(Maxnumhid,numcases,'gpuArray');        
+        Pos_MaxNh =zeros(Maxnumhid,numcases,'gpuArray');
         Pos_numhid4 =zeros(Maxnumhid,numcases,'gpuArray');
     else 
         S_PzOnvy = zeros(Maxnumhid,numcases);
@@ -358,7 +365,15 @@ for epoch = epoch:maxepoch
        neghidprobs = 1./(  1 + exp( bsxfun(@minus, -1* hid_visMax* negdata' , hidbias' ) )  ); %%%
        %neghidprobs =  1./(   1 + exp( bsxfun( @minus, pagefun( @mtimes, -1*hid_visMax , negdata' ) , hidbias') )  );
   
-       neghidprobs = neghidprobs.* neg_numhid4;
+       %neghidprobs = neghidprobs.* neg_numhid4;
+       
+       if use_gpu
+           S_Pz_neg = ones(Maxnumhid,numcases,'gpuArray');
+       else
+           S_Pz_neg = ones(Maxnumhid,numcases);
+       end
+       S_Pz_neg(1:J,:) =  sum_P_z_on_v_neg(1:J,:);
+       neghidprobs = neghidprobs.* (1-S_Pz_neg); %%% Compute p(v|h) directly.
        if use_gpu
            neghidstates =  neghidprobs > rand(Maxnumhid ,numcases,'gpuArray');
        else
@@ -389,7 +404,8 @@ for epoch = epoch:maxepoch
         neg_MaxNh =zeros(Maxnumhid,numcases);
         s_negPzONvy = zeros(Maxnumhid,numcases);
     end
-  
+    P_z_on_v_neg = P_z( negdata , hid_visMax ,hidbiasesMax , J , beta ,beta0, numcases ); 
+    sum_P_z_on_v_neg = cumsum(P_z_on_v_neg);
     neg_MaxNh(1:J,:)= 1;
     s_negPzONvy(1:J,:) = sum_P_z_on_v_neg(1:J,:);
     %negdata = gather(negdata); 
