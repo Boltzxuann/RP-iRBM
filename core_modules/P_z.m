@@ -8,9 +8,9 @@ global use_gpu
 %use_gpu = gpuDeviceCount;
 if nargin<8
     
-    [ ln_z , phi_vyz , phi_max] = minus_free_energy( v , hv , hb , J ,beta , beta0 , numcases ); %计算-F(v)及-F(z|v) / compute -F(v) and -F(z|v)
+    [ ln_z , phi_vyz , phi_max] = negative_free_energy( v , hv , hb , J ,beta , beta0 , numcases ); %计算-F(v)及-F(z|v) / compute -F(v) and -F(z|v)
 else
-    [ ln_z , phi_vyz , phi_max] = minus_free_energy( v , hv , hb , J ,beta , beta0 , numcases , use_label , y , hy); %计算-F(v)及-F(z|v) / compute -F(v) and -F(z|v)
+    [ ln_z , phi_vyz , phi_max] = negative_free_energy( v , hv , hb , J ,beta , beta0 , numcases , use_label , y , hy); %计算-F(v)及-F(z|v) / compute -F(v) and -F(z|v)
 end
 
 if use_gpu
