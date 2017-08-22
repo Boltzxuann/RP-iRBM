@@ -682,12 +682,14 @@ for epoch = epoch:maxepoch
     xlabel('epoch');
     if use_valid
         ylabel('validation accuracy');
+        fprintf(1, 'epoch %4i , maximum number of z %4i , \n validation accuracy %6.4f  \n', epoch, J ,TestAccuracy);
     else
         ylabel('training accuracy');
+        fprintf(1, 'epoch %4i , maximum number of z %4i , \n training accuracy %6.4f  \n', epoch, J ,TestAccuracy);
     end
 %     hold on;
 %     plot(T_epoch(1:epoch),'r');
-    fprintf(1, 'epoch %4i , maximum number of z %4i , \n validation accuracy %6.4f  \n', epoch, J ,TestAccuracy);
+    
     pause(2);
  
 end;
