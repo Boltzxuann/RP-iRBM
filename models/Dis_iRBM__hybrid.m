@@ -666,7 +666,7 @@ for epoch = epoch:maxepoch
         %M_numhid = length(hbMax);
         Max_J_r = gather(Max_J_r);
         save best_Dis_iRBM  M_hid_visMax M_epoch M_hidbiasesMax M_ybiases M_hid_yMax ...
-             M_numhid max_ValAccy a WC J_r M_J beta0 WH global_lr regularization gen_uselabel use_mom
+             M_numhid a WC J_r M_J beta0 WH global_lr regularization gen_uselabel use_mom
    %     save parameters_midtime;
         %save parametersZZZZZZZZZZZZ
 
@@ -677,15 +677,18 @@ for epoch = epoch:maxepoch
        break
    end
     
-    figure (5);
-    plot(test_epoch(1,1:epoch));
-    xlabel('epoch');
     if use_valid
+        figure (5);
+        plot(test_epoch(1,1:epoch));
+        xlabel('epoch');
         ylabel('validation accuracy');
         fprintf(1, 'epoch %4i , maximum number of z %4i , \n validation accuracy %6.4f  \n', epoch, J ,TestAccuracy);
     else
-        ylabel('training accuracy');
-        fprintf(1, 'epoch %4i , maximum number of z %4i , \n training accuracy %6.4f  \n', epoch, J ,TestAccuracy);
+        figure (5);
+        plot( (1-test_epoch(1,1:epoch))*ncases_train );
+        xlabel('epoch');
+        ylabel('training error');
+        fprintf(1, 'epoch %4i , maximum number of z %4i , \n training error %4i  \n', epoch, J ,(1-TestAccuracy)*ncases_train);
     end
 %     hold on;
 %     plot(T_epoch(1:epoch),'r');
