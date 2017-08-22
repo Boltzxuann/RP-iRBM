@@ -641,12 +641,16 @@ for epoch = epoch:maxepoch
    end
    final  = 0;
    %valid;
-   valid_exact;
+   if use_valid
+       valid_exact; %%Validation error
+   else
+       error_exact; %%Training error
+   end
    test_epoch(1,epoch) = TestAccuracy;
    %test_epoch(2,epoch) = gather(numh); 
    test_epoch(2,epoch) = eff_nh; 
-  
-
+   %Test_midtime;
+   %T_epoch(epoch) = TA;
   if max_ValAccy <= TestAccuracy && epoch < (M_epoch + stopepochs)
  
      
@@ -676,7 +680,13 @@ for epoch = epoch:maxepoch
     figure (5);
     plot(test_epoch(1,1:epoch));
     xlabel('epoch');
-    ylabel('validation accuracy');
+    if use_valid
+        ylabel('validation accuracy');
+    else
+        ylabel('training accuracy');
+    end
+%     hold on;
+%     plot(T_epoch(1:epoch),'r');
     fprintf(1, 'epoch %4i , maximum number of z %4i , \n validation accuracy %6.4f  \n', epoch, J ,TestAccuracy);
     pause(2);
  
