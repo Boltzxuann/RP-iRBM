@@ -688,7 +688,7 @@ for epoch = epoch:maxepoch
         plot( (1-test_epoch(1,1:epoch))*ncases_train );
         xlabel('epoch');
         ylabel('training error');
-        fprintf(1, 'epoch %4i , maximum number of z %4i , \n training error %4i  \n', epoch, J ,(1-TestAccuracy)*ncases_train);
+        fprintf(1, 'epoch %4i , maximum number of z %4i , \n training error %4i  \n', epoch, J ,round((1-TestAccuracy)*ncases_train));
     end
 %     hold on;
 %     plot(T_epoch(1:epoch),'r');
