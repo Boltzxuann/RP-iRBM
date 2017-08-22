@@ -7,17 +7,17 @@
 
 initiate
 load BinaryDataMNIST
-maxepoch= 300; %%% Total epochs of training. It takes about 100 ~ 150 epochs to get the best result.
+maxepoch= 200; %%% Total epochs of training. It takes about 100 ~ 150 epochs to get the best result.
 stopepochs = inf; %%The number of epochs to look ahead for stopping
 numclasses= 10;
 Maxnumhid= 100;%%Initial capacity of oRBM
 learning_rate = 1;%%%Ignore it!
-use_valid = 1; %%% Use validation set for training 
+use_valid = 0; %%% Use validation set for training or not
 batchsize = 200;
 testbatchsize = 100;
 ridx = randperm(60000);%%% Shuffle the training examples
-ncases_train = 50000;
-ncases_val = 10000;
+ncases_train = 60000;
+ncases_val = 60000-ncases_train;
 ncases_test = 10000;
 train_data = Bdata_train(ridx(1:ncases_train),:);
 val_data = Bdata_train(ridx(ncases_train+1:end),:);
