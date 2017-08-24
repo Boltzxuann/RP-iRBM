@@ -394,7 +394,7 @@ for epoch = epoch:maxepoch
        %neghidprobs = neghidprobs.* neg_numhid4; %%%
   
        neghidstates =  round( neghidprobs > rand(Maxnumhid ,numcases) );
-  
+       neghidstates = neghidstates.* neg_numhid4;%%% z is still needed.
   
     %%%%%% v~p(v|h,z)%%%%%%%%%%%%% 
    

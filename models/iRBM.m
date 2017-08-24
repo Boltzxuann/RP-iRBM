@@ -381,7 +381,7 @@ for epoch = epoch:maxepoch
        end
        neghidstates = round(neghidstates);
        %neghidstates = gather(neghidstates);
-       
+       neghidstates = neghidstates.* neg_numhid4;%%% z is still needed.
    %%%%%%% v~p(v|h,z)%%%%%%%%%%%%% 
        negvisprobs =   1./(   1 + exp( bsxfun(@minus,- hid_visMax'* neghidstates , visbiases' ) )  ); %%%     
        %negvisprobs =   1./(1 + exp(  pagefun(@mtimes, - hid_visMax', neghidstates ) - repmat( visbiases',1,numcases ))   );   
