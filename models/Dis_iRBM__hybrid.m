@@ -264,12 +264,14 @@ for epoch = epoch:maxepoch
 
       sum_P_z_on_vy = cumsum(P_z_on_vy);
       if use_gpu
-          S_PzOnvy = zeros(Maxnumhid,numcases,'gpuArray');
+          Pos_MaxNh =zeros(Maxnumhid,numcases,'gpuArray');
+          S_PzOnvy = ones(Maxnumhid,numcases,'gpuArray');
       else
-          S_PzOnvy = zeros(Maxnumhid,numcases);
+          Pos_MaxNh =zeros(Maxnumhid,numcases);
+          S_PzOnvy = ones(Maxnumhid,numcases);
       end
       S_PzOnvy(1:J,:) = sum_P_z_on_vy(1:J,:);
-      Pos_MaxNh =zeros(Maxnumhid,numcases);
+      
       Pos_MaxNh(1:J,:)= 1;
 
 %      Pos_numhid4 =zeros(Maxnumhid,numcases);
@@ -277,22 +279,24 @@ for epoch = epoch:maxepoch
       %poshidprobs = 1./(  1 + exp(  - pagefun(@mtimes,hid_visMax  ,data')  -  pagefun(@mtimes,hid_yMax,targets_0')  - repmat( hidbiasesMax',1,numcases ) )  );
       poshidprobs = 1./(  1 + exp(  - hid_visMax * data' -  hid_yMax * targets_0' - repmat( hidbiasesMax',1,numcases ) )  );
       % poshidprobs = poshidprobs.*Pos_numhid4;
-      poshidprobs = poshidprobs.* Pos_MaxNh;
+      %poshidprobs = poshidprobs.* Pos_MaxNh;
+      poshidprobs = poshidprobs.* (1-S_PzOnvy);%%%Directly compute p(h|v,y)
 
 %      Dbeta_h =    1 * WH * beta0 * 1./(1+ exp(-WH * repmat( hidbiasesMax',1,numcases ) )) .*Pos_numhid4;
-      Dbeta_h =    1 * WH * beta0 * 1./(1+ exp(-WH * repmat( hidbiasesMax',1,numcases ) )) .*Pos_MaxNh;
+      %Dbeta_h =    1 * WH * beta0 * 1./(1+ exp(-WH * repmat( hidbiasesMax',1,numcases ) )) .*Pos_MaxNh;
+      Dbeta_h =    1 * WH * beta0 * 1./(1+ exp(-WH * repmat( hidbiasesMax',1,numcases ) )) .* (1-S_PzOnvy);
       poshidprobsMinusDbeta = ( poshidprobs-  Dbeta_h);
  
       % poshidprobsMinusDbeta = poshidprobsMinusDbeta.* Pos_numhid4;
 
       %posprods    = poshidprobs * data;%%%v(0)t1*p(h|v(0)t1)+v(0)t2*p(h|v(0)t2)+...+v(0)tm*p(h|v(0)tM) 
-      % posprods_dis    = poshidprobs * data  ;
-      posprods_dis   = poshidprobs .*( 1-  S_PzOnvy ) * data   ;
+      posprods_dis    = poshidprobs * data  ;
+      %posprods_dis   = poshidprobs .*( 1-  S_PzOnvy ) * data   ;
       %batchposhidprobs(:,:,batch)=poshidprobs;
-      % pos_hidy_dis    = poshidprobs * targets_0;%%%
-      pos_hidy_dis   = poshidprobs .*( 1-  S_PzOnvy ) * targets_0 ;
-      % poshidact_dis   = sum(poshidprobsMinusDbeta , 2).';%%%
-      poshidact_dis   = sum( poshidprobsMinusDbeta .*( 1-  S_PzOnvy ) , 2 ).';
+      pos_hidy_dis    = poshidprobs * targets_0;%%%
+      %pos_hidy_dis   = poshidprobs .*( 1-  S_PzOnvy ) * targets_0 ;
+      poshidact_dis   = sum(poshidprobsMinusDbeta , 2).';%%%
+      %poshidact_dis   = sum( poshidprobsMinusDbeta .*( 1-  S_PzOnvy ) , 2 ).';
       posvisact_dis   = sum( data );%%%
       %posvisact_2 = sum(data.^2);%%%
       posyact_dis     = sum(targets_0);%%%
@@ -310,29 +314,33 @@ for epoch = epoch:maxepoch
           [~, Pos_numhid1hot] = Sample_z (P_z_on_v,numcases,J);
           [~,Pos_numhid_gen] = max(Pos_numhid1hot);
           M_pnh_gen=max(Pos_numhid_gen);
-
-          Pos_MaxNh =zeros(Maxnumhid,numcases);
-          Pos_MaxNh(1:J,:)= 1;
+         
           if use_gpu
-              S_PzOnv = zeros(Maxnumhid,numcases,'gpuArray');
+              Pos_MaxNh =zeros(Maxnumhid,numcases,'gpuArray');
+              S_PzOnv = ones(Maxnumhid,numcases,'gpuArray');
           else
-              S_PzOnv = zeros(Maxnumhid,numcases);
+              Pos_MaxNh =zeros(Maxnumhid,numcases);         
+              S_PzOnv = ones(Maxnumhid,numcases);
           end
+          Pos_MaxNh(1:J,:)= 1;
           S_PzOnv(1:J,:) = sum_P_z_on_v(1:J,:);
   
           %poshidprobs_gen = 1./(1 + exp(-pagefun(@mtimes,hid_visMax  ,data') - repmat( hidbiasesMax',1,numcases )));
           poshidprobs_gen = 1./(1 + exp(-hid_visMax * data' - repmat( hidbiasesMax',1,numcases )));
          % poshidprobs = poshidprobs.*Pos_numhid4;
-          poshidprobs_gen = poshidprobs_gen.*Pos_MaxNh;
-
+          %poshidprobs_gen = poshidprobs_gen.*Pos_MaxNh;
+          poshidprobs = poshidprobs.* (1-S_PzOnv);%%%Directly compute p(h|v)
           %  Dbeta_h =    1 * WH * beta0 * 1./(1+ exp(-WH * repmat( hidbiasesMax',1,numcases ) )) .*Pos_numhid4;
-          Dbeta_h =    1 * WH * beta0 * 1./(1+ exp(-WH * repmat( hidbiasesMax',1,numcases ) )) .*Pos_MaxNh;
+          %Dbeta_h =    1 * WH * beta0 * 1./(1+ exp(-WH * repmat( hidbiasesMax',1,numcases ) )) .*Pos_MaxNh;
+          Dbeta_h =    1 * WH * beta0 * 1./(1+ exp(-WH * repmat( hidbiasesMax',1,numcases ) )) .* (1-S_PzOnv);
           poshidprobsMinusDbeta_gen = (poshidprobs_gen -  Dbeta_h);
  
           % poshidprobsMinusDbeta = poshidprobsMinusDbeta.* Pos_numhid4;
 
-          posprods_gen   = poshidprobs_gen .*( 1-  S_PzOnv ) * data   ;
-          poshidact_gen   = sum( poshidprobsMinusDbeta_gen .*( 1-  S_PzOnv ) , 2 ).';
+%           posprods_gen   = poshidprobs_gen .*( 1-  S_PzOnv ) * data   ;
+%           poshidact_gen   = sum( poshidprobsMinusDbeta_gen .*( 1-  S_PzOnv ) , 2 ).';
+          posprods_gen   = poshidprobs_gen * data   ;
+          poshidact_gen   = sum( poshidprobsMinusDbeta_gen , 2 ).';
           posvisact_gen   = sum(data);%%%
           
       end
@@ -353,9 +361,9 @@ for epoch = epoch:maxepoch
 %          neg_MaxNh =zeros(Maxnumhid,numcases);
 %          neg_MaxNh(1: J,:)= 1;
 %          if use_gpu
-%              s_negPzONvy = zeros(Maxnumhid,numcases,'gpuArray');
+%              s_negPzONvy = ones(Maxnumhid,numcases,'gpuArray');
 %          else
-%              s_negPzONvy = zeros(Maxnumhid,numcases);
+%              s_negPzONvy = ones(Maxnumhid,numcases);
 %          end
 %          s_negPzONvy(1:J,:) = sum_P_z_on_vy_neg(1:J,:);
    
@@ -433,10 +441,10 @@ for epoch = epoch:maxepoch
      end
     if use_gpu
         neg_MaxNh =zeros(Maxnumhid,numcases,'gpuArray');
-        s_negPzONvy = zeros(Maxnumhid,numcases,'gpuArray');
+        s_negPzONvy = ones(Maxnumhid,numcases,'gpuArray');
     else
         neg_MaxNh =zeros(Maxnumhid,numcases);
-        s_negPzONvy = zeros(Maxnumhid,numcases);
+        s_negPzONvy = ones(Maxnumhid,numcases);
     end
     P_z_on_vy_neg = P_z( negdata , hid_visMax ,hidbiasesMax , J , beta ,beta0, numcases , gen_uselabel , negtargets_gen, hid_yMax ); 
     sum_P_z_on_v_neg = cumsum(P_z_on_vy_neg);
@@ -450,18 +458,22 @@ for epoch = epoch:maxepoch
      end
      %   neghidprobs = 1./(1 + exp(   pagefun(@mtimes, -hid_visMax, negdata') +  pagefun(@mtimes ,- hid_yMax , negtargets_gen .') - repmat( hidbiasesMax',1,numcases ))); 
         %neghidprobs = 1./(1 + exp(   pagefun(@mtimes, -hid_visMax, negdata') - repmat( hidbiasesMax',1,numcases )));  
-     neghidprobs = neghidprobs.* neg_MaxNh;
-      
-     Dbeta_h =    1 * WH * beta0 * 1./(1+ exp(-WH * repmat( hidbiasesMax',1,numcases ) )).* neg_MaxNh;
+     %neghidprobs = neghidprobs.* neg_MaxNh;
+     neghidprobs = neghidprobs.* (1-s_negPzONvy);
+     %Dbeta_h =    1 * WH * beta0 * 1./(1+ exp(-WH * repmat( hidbiasesMax',1,numcases ) )).* neg_MaxNh;
+     Dbeta_h =    1 * WH * beta0 * 1./(1+ exp(-WH * repmat( hidbiasesMax',1,numcases ) )).* (1-s_negPzONvy);
      neghidprobsMinusDbeta = neghidprobs-  Dbeta_h;
     
-     negprods_gen    = neghidprobs .*( 1- s_negPzONvy ) * negdata ;
-     neghidact_gen   = sum( neghidprobsMinusDbeta.*( 1- s_negPzONvy )  ,2 ).';    
+%      negprods_gen    = neghidprobs .*( 1- s_negPzONvy ) * negdata ;
+%      neghidact_gen   = sum( neghidprobsMinusDbeta.*( 1- s_negPzONvy )  ,2 ).'; 
+     negprods_gen    = neghidprobs * negdata ;
+     neghidact_gen   = sum( neghidprobsMinusDbeta  ,2 ).';  
      negvisact_gen = sum(negdata); 
        
     if gen_uselabel
        negyact_gen = sum(negtargets_gen);
-       neg_hidy_gen    = neghidprobs.*( 1- s_negPzONvy ) * negtargets_gen;
+       %neg_hidy_gen    = neghidprobs.*( 1- s_negPzONvy ) * negtargets_gen;
+       neg_hidy_gen    = neghidprobs * negtargets_gen;
     end
   
 %      negyact = sum(negtargets);
