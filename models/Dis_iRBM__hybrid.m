@@ -390,11 +390,11 @@ for epoch = epoch:maxepoch
            S_Pz_neg = ones(Maxnumhid,numcases);
        end
        S_Pz_neg(1:J,:) =  sum_P_z_on_vy_neg(1:J,:);
-       neghidprobs = neghidprobs.* (1-S_Pz_neg); %%% Compute p(v|h) directly.
-       %neghidprobs = neghidprobs.* neg_numhid4; %%%
+       %neghidprobs = neghidprobs.* (1-S_Pz_neg); %%% Compute p(v|h) directly.
+       neghidprobs = neghidprobs.* neg_numhid4; %%%
   
        neghidstates =  round( neghidprobs > rand(Maxnumhid ,numcases) );
-       neghidstates = neghidstates.* neg_numhid4;%%% z is still needed.
+       %neghidstates = neghidstates.* neg_numhid4;%%% z is still needed.
   
     %%%%%% v~p(v|h,z)%%%%%%%%%%%%% 
    

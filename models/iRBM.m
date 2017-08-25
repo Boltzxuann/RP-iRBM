@@ -373,7 +373,8 @@ for epoch = epoch:maxepoch
            S_Pz_neg = ones(Maxnumhid,numcases);
        end
        S_Pz_neg(1:J,:) =  sum_P_z_on_v_neg(1:J,:);
-       neghidprobs = neghidprobs.* (1-S_Pz_neg); %%% Compute p(v|h) directly.
+       %neghidprobs = neghidprobs.* (1-S_Pz_neg); %%% Compute p(h|v) directly.
+       neghidprobs = neghidprobs.*  neg_numhid4;
        if use_gpu
            neghidstates =  neghidprobs > rand(Maxnumhid ,numcases,'gpuArray');
        else
@@ -381,7 +382,7 @@ for epoch = epoch:maxepoch
        end
        neghidstates = round(neghidstates);
        %neghidstates = gather(neghidstates);
-       neghidstates = neghidstates.* neg_numhid4;%%% z is still needed.
+       %neghidstates = neghidstates.* neg_numhid4;%%% z is still needed.
    %%%%%%% v~p(v|h,z)%%%%%%%%%%%%% 
        negvisprobs =   1./(   1 + exp( bsxfun(@minus,- hid_visMax'* neghidstates , visbiases' ) )  ); %%%     
        %negvisprobs =   1./(1 + exp(  pagefun(@mtimes, - hid_visMax', neghidstates ) - repmat( visbiases',1,numcases ))   );   
