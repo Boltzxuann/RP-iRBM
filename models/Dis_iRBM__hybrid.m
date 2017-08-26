@@ -661,8 +661,8 @@ for epoch = epoch:maxepoch
    test_epoch(1,epoch) = TestAccuracy;
    %test_epoch(2,epoch) = gather(numh); 
    test_epoch(2,epoch) = eff_nh; 
-   %Test_midtime;
-   %T_epoch(epoch) = TA;
+   Test_midtime;
+   T_epoch(epoch) = TA;
   if max_ValAccy <= TestAccuracy && epoch < (M_epoch + stopepochs)
  
      
@@ -691,20 +691,24 @@ for epoch = epoch:maxepoch
     
     if use_valid
         figure (5);
-        plot(test_epoch(1,1:epoch));
+        plot(test_epoch(1,1:epoch),'g');
         xlabel('epoch');
-        ylabel('validation accuracy');
+        ylabel('Accuracy');
         fprintf(1, 'epoch %4i , maximum number of z %4i , \n validation accuracy %6.4f  \n', epoch, J ,TestAccuracy);
+        hold on;
+        plot(T_epoch(1:epoch),'r');
+        legend('Validation accuracy','Testing accuracy','Location','NorthEastOutside')        
     else
         figure (5);
         plot( (1-test_epoch(1,1:epoch))*ncases_train );
         xlabel('epoch');
-        ylabel('training error');
-        fprintf(1, 'epoch %4i , maximum number of z %4i , \n training error %4i  \n', epoch, J ,round((1-TestAccuracy)*ncases_train));
+        ylabel('Accuracy');
+        fprintf(1, 'epoch %4i , maximum number of z %4i , \n training accuracy %4i  \n', epoch, J ,TestAccuracy);    
+        hold on;
+        plot(T_epoch(1:epoch),'r');
+        legend('Training accuracy','Testing accuracy','Location','NorthEastOutside')
     end
-%     hold on;
-%     plot(T_epoch(1:epoch),'r');
-    
+
     pause(2);
  
 end;
