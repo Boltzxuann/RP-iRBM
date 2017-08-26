@@ -12,7 +12,8 @@ stopepochs = inf; %%The number of epochs to look ahead for stopping
 numclasses= 10;
 Maxnumhid= 100;%%Initial capacity of oRBM
 learning_rate = 1;%%%Ignore it!
-use_valid = 1; %%% Use validation set for training or not
+V=1;
+use_valid = V; %%% Use validation set for training or not
 batchsize = 200;
 testbatchsize = 100;
 %rand('state',0);

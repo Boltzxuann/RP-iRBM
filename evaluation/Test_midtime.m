@@ -1,5 +1,5 @@
 
-%use_valid=0;
+use_valid=0;
 %makebatches_mnist;
 makebatches;
 numbatches_valid=size(testbatchdata,3);
@@ -21,6 +21,6 @@ for tt= 1:numbatches_valid
     
     
 end
-%use_valid =1;
+use_valid = V;
 TA=sum(correct)/ncases_test;
 fprintf(1, 'Classification error on test set: %6.4f  \n', 1-TA);
