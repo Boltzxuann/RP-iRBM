@@ -15,7 +15,7 @@ learning_rate = 1;%%%Ignore it!
 use_valid = 1; %%% Use validation set for training or not
 batchsize = 200;
 testbatchsize = 100;
-rand('state',0);
+%rand('state',0);
 ridx = randperm(60000);%%% Shuffle the training examples
 ncases_train = 50000;
 ncases_val = 60000-ncases_train;
