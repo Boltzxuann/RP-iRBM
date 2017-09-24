@@ -9,6 +9,8 @@ Potentially, a mixing of infinite many iRBMs with different permutations of the 
 
 The original iRBM is also modified to be capable of carrying out discriminative training(Discriminative iRBM).
 
+For more details, please see our paper at Arxiv. https://arxiv.org/abs/1709.03239
+
 ## Dependencies
 
 Matlab 2016a or higher.
