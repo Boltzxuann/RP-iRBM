@@ -32,12 +32,12 @@ if  0%epoch == later && batch == 1
 end
 
 %%Set the regrouping rate M_t
-    if epoch < 1
+    if epoch < 2
         J_r = 1;
     else
         if epoch < later
             J_r = round(0.9*J);
-            %J_r = round(  mean( mean_mean_epoch(epoch-1) ) );
+            %J_r = round(  0.9*mean( mean_mean_epoch(epoch-1) ) );
         else
             if epoch == later
                 J_r = 1;

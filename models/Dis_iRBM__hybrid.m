@@ -3,8 +3,7 @@
 % 2016-2017
 %
 %
-% 20/8/2017  Modified the Gibbs sampling procedure, p(h|v) was directly used to sample
-%            h from v .
+
 
 
 
@@ -630,7 +629,7 @@ for epoch = epoch:maxepoch
          
          mom(index_d) = mom(index_d) + 0.1;
          mom(index_m) = mom(index_m) + 0.01;
-         mom(index_u) = mom(index_u) + 0.001;
+         mom(index_u) = mom(index_u) + 0.005;
          
          mom(1:numh) = min(0.90 ,mom(1:numh));
          
@@ -700,13 +699,13 @@ for epoch = epoch:maxepoch
         legend('Validation accuracy','Testing accuracy','Location','NorthEastOutside')        
     else
         figure (5);
-        plot( (1-test_epoch(1,1:epoch))*ncases_train );
+        plot( (1-test_epoch(1,1:epoch))*1 ,'g' );
         xlabel('epoch');
         ylabel('Accuracy');
-        fprintf(1, 'epoch %4i , maximum number of z %4i , \n training accuracy %4i  \n', epoch, J ,TestAccuracy);    
+        fprintf(1, 'epoch %4i , maximum number of z %4i , \n training accuracy %6.4f  \n', epoch, J ,TestAccuracy);    
         hold on;
-        plot(T_epoch(1:epoch),'r');
-        legend('Training accuracy','Testing accuracy','Location','NorthEastOutside')
+        plot((1-T_epoch(1:epoch))*1,'r');
+        legend('Training error','Testing error','Location','NorthEastOutside')
     end
 
     pause(2);
