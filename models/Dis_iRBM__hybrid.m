@@ -592,7 +592,7 @@ for epoch = epoch:maxepoch
            figure(3);
            dispims(negdata',28,28) ;
            figure(4);
-           dispims(hid_visMax(1:round(J_r),:)',28,28) ;
+           dispims(hid_visMax(1:round(J),:)',28,28) ;
            drawnow
            
        end
@@ -627,11 +627,11 @@ for epoch = epoch:maxepoch
          index_m = find ( mom(1:numh)>=0.8 .* mom(1:numh)<0.9);
          index_d = find (mom(1:numh)<0.8);
          
-         mom(index_d) = mom(index_d) + 0.1;
-         mom(index_m) = mom(index_m) + 0.01;
-         mom(index_u) = mom(index_u) + 0.005;
+         mom(index_d) = mom(index_d) + mom_inc;
+         mom(index_m) = mom(index_m) + 0.2*mom_inc;
+         mom(index_u) = mom(index_u) + 0.1*mom_inc;
          
-         mom(1:numh) = min(0.90 ,mom(1:numh));
+         mom(1:numh) = min(0.99 ,mom(1:numh));
          
     end
   

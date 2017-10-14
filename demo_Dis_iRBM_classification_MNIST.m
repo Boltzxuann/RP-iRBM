@@ -46,6 +46,7 @@ Val_targets = train_targets(ridx(ncases_train+1:end),:);
   epyb       = learning_rate;   
   epvb       = learning_rate;
   use_mom = 1; %%% Whether using momentum or not
+  mom_inc=0.1;
   G =0;
   CD = 3;
   label = 1;

@@ -460,7 +460,7 @@ for epoch = epoch:maxepoch
        figure(3);   
        imagesc(hid_visMax(1:J,:));    
        figure(4); 
-       dispims(negdata',28,28);
+       dispims(negdata,28,28);
        figure(5);
        dispims(hid_visMax(1:round(J_r),:)',28,28) ;
        drawnow

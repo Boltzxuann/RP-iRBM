@@ -51,6 +51,7 @@ end
   epyb       = learning_rate;   
   epvb       = learning_rate;
   use_mom = 0; %%% Whether using momentum or not
+  mom_inc=0.03;
   G =0;
   CD = 3;
   label = 1;
