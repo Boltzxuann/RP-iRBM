@@ -624,14 +624,14 @@ for epoch = epoch:maxepoch
          momentum = min(0.9 ,momentum);
          
          index_u = find (mom(1:numh)>=0.9); %% momentums for weights and hidden biases
-         index_m = find ( mom(1:numh)>=0.8 .* mom(1:numh)<0.9);
+         index_m = find ( (mom(1:numh)>=0.8) .* (mom(1:numh)<0.9) );
          index_d = find (mom(1:numh)<0.8);
          
          mom(index_d) = mom(index_d) + mom_inc;
          mom(index_m) = mom(index_m) + 0.2*mom_inc;
          mom(index_u) = mom(index_u) + 0.1*mom_inc;
          
-         mom(1:numh) = min(0.99 ,mom(1:numh));
+         mom(1:numh) = min(0.90 ,mom(1:numh));
          
     end
   
