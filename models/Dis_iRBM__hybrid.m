@@ -609,6 +609,7 @@ for epoch = epoch:maxepoch
 
    mean_Mnegnumhid(epoch) = mean(Maxnegnumhid);
    mean_Mposnumhid(epoch) = mean(Maxposnumhid);
+   max_Mposnumhid(epoch) = max(Maxposnumhid);
    mean_minposnumhid(epoch) = mean(Minposnumhid); 
    Max_mean_epoch = max(Meannegnumhid);
    mean_mean_epoch(epoch) = mean(Meanposnumhid);
@@ -617,7 +618,8 @@ for epoch = epoch:maxepoch
   
    fprintf(1, 'epoch %4i error %6.1f  \n', epoch, errsum); 
   
-   numh  = gather (  round( mean_Mposnumhid(epoch) )  );
+   %numh  = gather (  round( mean_Mposnumhid(epoch) )  );
+   numh  = gather (  round( max_Mposnumhid(epoch) )  );
    
     if use_mom
          momentum = momentum + 0.05; %% momentums for visbiases and ybiases
@@ -649,6 +651,7 @@ for epoch = epoch:maxepoch
       vb= gather ( visbiases );
       h_yMax = gather( labhid' );
       hbMax = gather ( hidbiases );
+      numh=size(h_vMax,1);
    end
    final  = 0;
    %valid;
@@ -673,8 +676,8 @@ for epoch = epoch:maxepoch
         M_ybiases = gather( ybiases );
         M_hid_yMax = gather( h_yMax );
         M_hidbiasesMax = gather ( hbMax );
-        M_numhid  = gather (  round( mean_Mposnumhid(M_epoch) )  );
-        %M_numhid = length(hbMax);
+        M_numhid  = numh;
+        %M_numhid = size(h_vMax,1);
         Max_J_r = gather(Max_J_r);
         save best_Dis_iRBM  M_hid_visMax M_epoch M_hidbiasesMax M_ybiases M_hid_yMax ...
              M_numhid a WC J_r M_J beta0 WH global_lr regularization gen_uselabel use_mom
