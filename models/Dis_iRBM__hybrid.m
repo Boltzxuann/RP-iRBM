@@ -242,7 +242,7 @@ for epoch = epoch:maxepoch
       else
           eff_nh = numh;%length(hbMax);
       end
-      fprintf(1,'epoch %d batch %d z %d effective hids %d \r',epoch, batch, J, eff_nh); 
+%       fprintf(1,'epoch %d batch %d z %d effective hids %d \r',epoch, batch, J, eff_nh); 
 
  
 %%%%%%%%% POSITIVE PHASE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -594,6 +594,8 @@ for epoch = epoch:maxepoch
            figure(4);
            dispims(hid_visMax(1:round(J),:)',28,28) ;
            drawnow
+           fprintf(1,'epoch %d batch %d z %d effective hids %d \r',epoch, batch, J, eff_nh); 
+
            
        end
   
@@ -633,7 +635,7 @@ for epoch = epoch:maxepoch
          mom(index_m) = mom(index_m) + 0.2*mom_inc;
          mom(index_u) = mom(index_u) + 0.1*mom_inc;
          
-         mom(1:numh) = min(0.90 ,mom(1:numh));
+         mom(1:numh) = min(0.85 ,mom(1:numh));
          
     end
   
