@@ -23,11 +23,6 @@ if restart ==1
   
   max_ValAccy = 0;
   test_epoch = zeros( 2,maxepoch );
-  if use_mom
-      initialmomentum  = 0.0;
-  else
-      initialmomentum  = 0.5;
-  end
   mom = initialmomentum * ones( Maxnumhid,1 );
   momentum=initialmomentum;
   lr = 1*ones( Maxnumhid,1 );
@@ -625,7 +620,7 @@ for epoch = epoch:maxepoch
    
     if use_mom
          momentum = momentum + 0.05; %% momentums for visbiases and ybiases
-         momentum = min(0.9 ,momentum);
+         momentum = min(finalmomentum ,momentum);
          
          index_u = find (mom(1:numh)>=0.9); %% momentums for weights and hidden biases
          index_m = find ( (mom(1:numh)>=0.8) .* (mom(1:numh)<0.9) );
@@ -635,7 +630,7 @@ for epoch = epoch:maxepoch
          mom(index_m) = mom(index_m) + 0.2*mom_inc;
          mom(index_u) = mom(index_u) + 0.1*mom_inc;
          
-         mom(1:numh) = min(0.85 ,mom(1:numh));
+         mom(1:numh) = min(finalmomentum ,mom(1:numh));
          
     end
   
