@@ -14,7 +14,7 @@ Maxnumhid= 100;%%Initial capacity of oRBM
 learning_rate = 1;%%%Ignore it!
 V=1;
 use_valid = V; %%% Use validation set for training or not
-batchsize = 200;
+batchsize = 100;
 testbatchsize = 100;
 %rand('state',0);
 ridx = randperm(60000);%%% Shuffle the training examples
@@ -46,7 +46,7 @@ Val_targets = train_targets(ridx(ncases_train+1:end),:);
   epyb       = learning_rate;   
   epvb       = learning_rate;
   use_mom = 1; %%% Whether using momentum or not
-  mom_inc=0.1;
+  mom_inc=0.05;
   G =0;
   CD = 3;
   label = 1;
