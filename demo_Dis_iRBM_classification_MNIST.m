@@ -39,7 +39,7 @@ Val_targets = train_targets(ridx(ncases_train+1:end),:);
   regularization = 'L1'; %%Which regularization is chosen: 'no','L1' or 'L2'.
   WC  = 0.00005;  %%%Weight decay 
   use_RP = 1;  %%% Whether use RP training or not
-  discard = 0;%%%Discard useless hids
+  discard = 1;%%%Discard useless hids
   epW      = learning_rate;   % Learning rate for weights 
   ephy      =  learning_rate;   
   ephb       = learning_rate;   
@@ -51,8 +51,8 @@ Val_targets = train_targets(ridx(ncases_train+1:end),:);
   else
       initialmomentum  = 0.5;
   end
-  finalmomentum = 0.8;
-  mom_inc=0.05;
+  finalmomentum = 0.9;
+  mom_inc=0.1;
   G =0;
   CD = 3;
   label = 1;
