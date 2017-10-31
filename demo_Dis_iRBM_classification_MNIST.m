@@ -14,7 +14,7 @@ Maxnumhid= 100;%%Initial capacity of oRBM
 learning_rate = 1;%%%Ignore it!
 V=1;
 use_valid = V; %%% Use validation set for training or not
-batchsize = 100;
+batchsize = 200;
 testbatchsize = 100;
 %rand('state',0);
 ridx = randperm(60000);%%% Shuffle the training examples
