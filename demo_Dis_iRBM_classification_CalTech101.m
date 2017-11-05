@@ -1,7 +1,7 @@
 
 % 
 % Programmed by Xuan Peng
-% A illustration of training Dis-iRBM with hybrid ojective on MNIST
+% A illustration of training Dis-iRBM with hybrid ojective on CalTech101
 % Using RP to speed up learning and achieve better generalization
 % 2016-2017
 
@@ -51,6 +51,12 @@ end
   epyb       = learning_rate;   
   epvb       = learning_rate;
   use_mom = 0; %%% Whether using momentum or not
+  if use_mom
+      initialmomentum  = 0.0;
+  else
+      initialmomentum  = 0.5;
+  end
+  finalmomentum = 0.9;
   mom_inc=0.03;
   G =0;
   CD = 3;
